@@ -71,12 +71,12 @@
                       <label>จำนวนตึกทั้งหมด : </label>
                       <label class="font-bold text-amber-500 px-2 py-1 rounded-md">{{ posSummary.totalBuildingCount ||
                         0
-                        }}</label>
+                      }}</label>
                     </div>
                     <div>
                       <label>ห้องว่างทั้งหมด : </label>
                       <label class="font-bold text-amber-500 px-2 py-1 rounded-md">{{ getTotalAvailableRooms()
-                        }}</label>
+                      }}</label>
                     </div>
 
                     <!-- จำนวนห้องที่จองกับ Sleep Gun ตอนนี้ อันนี้เก็บไว้ก่อนยังไม่ต้องเขียนข้อมูลเชื่อมดาต้าเบส
@@ -104,20 +104,20 @@
                                 posSummary.totalBuildingCount
                                 ||
                                 0
-                                }}</label>
+                              }}</label>
                             </div>
                             <div>
                               <label>จำนวนห้องพักทั้งหมด : </label>
                               <label class="font-bold text-amber-300 px-2 py-1 rounded-md">{{ posSummary.totalRoomCount
                                 ||
                                 0
-                                }}</label>
+                              }}</label>
                             </div>
                             <div>
                               <label>โควต้าห้องพัก Sleep Gun :</label>
                               <label class="font-bold text-amber-300 px-2 py-1 rounded-md">{{
                                 posSummary.totalRoomCountSleepGun || 0
-                                }}</label>
+                              }}</label>
                             </div>
                           </div>
                         </div>
@@ -229,7 +229,7 @@
                         <div class="w-2/4 space-x-4">
                           <span class="text-sm text-gray-600">จำนวนห้อง: {{ getRoomsInFloor(selectedBuilding._id,
                             floor.name)
-                            }} ห้อง</span>
+                          }} ห้อง</span>
                           <span class="text-sm text-gray-600">ห้องว่างเเต่ละชั้น: {{
                             getAvailableRoomsInFloor(selectedBuilding._id,
                               floor.name) }}</span>
@@ -319,7 +319,7 @@
                                 <Tooltip position="bottom">
                                   <template #trigger>
                                     <button class="px-2 py-2 rounded-full shadow-md">
-                                      <img src="/imgHotel/warn.png" alt="info" class="w-4 h-4"></img>
+                                      <img src="/imgHotel/warn.png" alt="info" class="w-4 h-4"/>
                                     </button>
                                   </template>
 
@@ -535,9 +535,14 @@
             </div>
           </div>
         </div>
+
+
+
       </div>
     </template>
   </TemplateEmployee>
+
+
 
 
   <!-- วิธีการชำระเงิน -->
@@ -595,7 +600,7 @@
                     </div>
                     <div class="flex flex-col text-sm text-stone-500 mt-2 space-y-1 px-4">
                       <label>ประเภทห้อง: {{ room.typeRoom?.mainName || room.typeRoom }} {{ room.typeRoom?.name || ''
-                        }}</label>
+                      }}</label>
                       <label>พัดลม/แอร์: {{ room.air || 'ไม่มีแอร์' }}</label>
                       <label>ค่ามัดจำ: {{ room.deposit?.toLocaleString() || 0 }} THB</label>
                       <label>ค่าเตียงเพิ่ม: {{ room.extraBedPrice?.toLocaleString() || 0 }} THB</label>
@@ -693,6 +698,115 @@
       </div>
     </div>
   </div>
+
+
+  <!-- เเสดงรายการเข้าพัก -->
+  <div v-if="showCheckInSummaryPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] flex flex-col mx-4 overflow-y-auto">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h2 class="text-lg font-bold">รายการเข้าพัก</h2>
+      </div>
+
+      <div class="px-4 pb-8">
+        <div class="flex justify-end items-end flex-col mb-4">
+          <label>Order Check-in ID: {{ }} CIN-202508-001</label>
+          <label>OrderAll : {{ }} 12</label>
+        </div>
+        <div class="flex flex-col">
+          <label>วันที่ {{ }} เวลา {{ }}</label>
+          <label>ผู้ให้บริการ {{ }} ตำเเหน่ง {{ }}</label>
+        </div>
+
+        <div class="my-4">
+          <hr class="border" />
+        </div>
+
+        <div>
+          <div class="flex justify-center items-center flex-col mb-4 font-bold text-lg">
+            <label>ผู้ใช้บริการ(ลูกค้า) ชื่อ{{ }} - นามสกุล{{ }}</label>
+            <label>หมายเลขห้องพัก {{ }}</label>
+          </div>
+
+
+          <div>
+            <label class="font-bold">ราคาห้องพัก </label>
+            <div class="px-6">
+              <label>ราคาห้อง base : {{ }}</label>
+              <label>ราคา serviceCharge : {{ }}</label>
+              <label>ราคา vat : {{ }}</label>
+            </div>
+           <div>
+             <label>ราคารวมทั้งหมด : {{ }}</label>
+           </div>
+          </div>
+
+          <div>
+            <label class="font-bold">บริการเสริม</label>
+            <div class="px-6">
+              <label>เตียงเสริม : {{ }} เตียง</label>
+              <div>
+                <label>ราคาเตียงเสริม/คืน {{ }} บาท : ราคาเตียงรวมกับราคาวันที่พัก {{ }} บาท </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold">ค่ามัดจำ</label>
+            <div class="px-6">
+              <label>ค่ามัดจำ/ห้อง {{ }} บาท : รวมราคามัดจำทั้งหมด {{ }} บาท</label>
+            </div>
+          </div>
+
+          <div class="flex justify-end items-end mt-10">
+            <label class="text-green-600 font-bold">ราคารวมทั้งหมด : {{ }}</label>
+          </div>
+        </div>
+
+        <div class="my-2">
+          <hr class="border" />
+        </div>
+
+        <div class="flex justify-center items-center ">
+          <label class="text-lg">รับกุญเเจห้องพร้อมเข้าใช้งานที่พัก</label>
+        </div>
+
+        <div class="flex justify-center items-center mt-8">
+          <button class="bg-red-500 text-white font=-bold px-4 py-2 rounded-lg hover:bg-red-600">เสร็จสิ้น</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ออกใบเสร็จ -->
+  <div v-if="showReceiptPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] flex flex-col mx-4 overflow-y-auto">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h2 class="text-lg font-bold">สลิปเงิน</h2>
+      </div>
+
+      <div>
+        <div class="flex flex-col justify-center items-center my-4 space-y-4 w-full lg:px-12 px-4">
+          <button
+            class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md  hover:bg-blue-500 transition w-full ">
+            สลิป
+          </button>
+          <button
+            class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md hover:bg-blue-500 transition w-full">
+            ใบเสร็จ
+          </button>
+          <button
+            class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md hover:bg-blue-500 transition w-full">
+            ใบเสร็จกำกับภาษี
+          </button>
+
+          <button  @click="skipReceipt"
+            class="text-stone-400 hover:text-red-600 underline underline-offset-2 lg:text-sm">ข้ามการทำการนี้</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -1078,9 +1192,23 @@ const hasSearchResults = computed(() => {
 
 // ตัวแปรสำหรับ popup การชำระเงิน
 const showPaymentPopup = ref(false);
+const showReceiptPopup = ref(false);
 const paymentData = ref(null);
+const showCheckInSummaryPopup = ref(false);
 const selectedPaymentMethod = ref('');
 const tossagunPhone = ref('');
+
+
+const skipReceipt = () => {
+  showReceiptPopup.value = false;
+  showCheckInSummaryPopup.value = true;
+};
+
+const closeCheckInSummaryModal = () => {
+  showCheckInSummaryPopup.value = false;
+};
+
+
 
 // ฟังก์ชันสำหรับดึงห้องตามตึกและชั้น (รวมฟิลเตอร์ตามประเภทการค้นหา)
 const getRoomsByBuildingAndFloor = (buildingId, floorName) => {
@@ -1113,6 +1241,8 @@ const getRoomsByBuildingAndFloor = (buildingId, floorName) => {
 
   return filteredRooms;
 };
+
+
 
 // ฟังก์ชันสำหรับนับจำนวนห้องในแต่ละชั้น (รวมฟิลเตอร์ตามประเภทการค้นหา)
 const getRoomsInFloor = (buildingId, floorName) => {
@@ -1593,13 +1723,19 @@ const processPayment = async () => {
       data: paymentData.value
     });
 
-    alert('การชำระเงินสำเร็จ!');
-    closePaymentModal();
+    // ปิด popup ชำระเงิน และเปิด popup ออกใบเสร็จ
+    showPaymentPopup.value = false;
+    showReceiptPopup.value = true;
 
   } catch (error) {
     console.error('Error processing payment:', error);
     alert(`เกิดข้อผิดพลาดในการชำระเงิน: ${error.message}`);
   }
+};
+
+
+const closeReceiptModal = () => {
+  showReceiptPopup.value = false;
 };
 
 

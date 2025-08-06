@@ -134,6 +134,74 @@
                 <hr class="border" />
               </div>
 
+              <!-- FIXME: -->
+              <div>
+                <div class="flex justify-between items-center">
+                  <div>
+                    <label>ยืนยันตัวตน</label>
+                  </div>
+                  <div v-if="!isEditIden">
+                    <button class="bg-red-400 hover:bg-red-300 px-3 py-2 rounded-lg text-white"
+                      @click="startEditIden">แก้ไข</button>
+                  </div>
+                </div>
+
+                <div v-if="isEditIden" class="flex justify-between  flex-col md:flex-row  items-center mt-3">
+
+                  <div>
+                    <div class="flex space-x-5 items-center">
+                      <div>
+                        <input type="radio" id="idenNumber" name="idenNumber" value="idCard" v-model="selectType" />
+                        <label for="iden">บัตรประชาชน</label>
+                      </div>
+                      <div>
+                        <input type="radio" id="visaNumber" name="visaNumber" value="visa" v-model="selectType" />
+                        <label for="visa">หนังสือเดินทาง</label>
+                      </div>
+                    </div>
+
+                    <div v-if="selectType === 'idCard'" class="bg-blue-50 border border-blue-300 rounded-lg p-4 mt-2">
+                      <label class="text-lg font-semibold">
+                        บัตรประชาชน
+                      </label>
+                      <div>
+                        <label>หมายเลขบัตรประชาชน :</label>
+                        <input type="text" v-model="idenNumber" class="border rounded-lg py-2 px-4"
+                          placeholder="1234567890123" />
+                      </div>
+                      <div>
+                        <label>อัพโหลดรูปบัตรประชาชน</label>
+                        <input type="file" class="mt-2" />
+                      </div>
+                    </div>
+
+                    <div v-if="selectType === 'visa'" class="bg-amber-50 border border-amber-300 rounded-lg p-4 mt-2">
+                      <label class="text-lg font-semibold">
+                        วีซ่า
+                      </label>
+                      <div>
+                        <label>หมายเลขวีซ่า :</label>
+                        <input type="text" v-model="visaNumber" class="border rounded-lg py-2 px-4"
+                          placeholder="1234567890123" />
+                      </div>
+                      <div>
+                        <label>อัพโหลดรูปวีซ่า</label>
+                        <input type="file" class="mt-2" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-x-3 text-white">
+                    <button class="bg-stone-400 hover:bg-stone-300 px-3 py-2 rounded-lg"
+                      @click="cancelEditIden">ยกเลิก</button>
+                    <button class="bg-blue-500 hover:bg-blue-400 px-3 py-2 rounded-lg" @click="saveIden">บันทึก</button>
+                  </div>
+                </div>
+              </div>
+              <div class="my-4">
+                <hr class="border" />
+              </div>
+
               <!-- เพศ -->
               <div>
                 <div class="flex justify-between items-center">
@@ -267,6 +335,22 @@ const router = useRouter();
 
 import { ref } from 'vue'
 
+const selectType = ref('idCard');
+const idenNumber = ref('');
+const visaNumber = ref('');
+
+const handleIdenImgUpload = (e) => {
+  const file = e.target.files[0];
+  console.log('บัตรประชาชน:', file);
+};
+
+const handleVisaImgUpload = (e) => {
+  const file = e.target.files[0];
+  console.log('วีซ่า:', file);
+};
+
+
+
 // ข้อมูล mock ตัวอย่าง
 const firstName = ref('สมชาย')
 const lastName = ref('ใจดี')
@@ -287,6 +371,7 @@ const province = ref('กรุงเทพมหานคร')
 const isEditName = ref(false)
 const isEditEmail = ref(false)
 const isEditPhone = ref(false)
+const isEditIden = ref(false)
 const isEditSex = ref(false)
 const isEditBirthday = ref(false)
 const isEditNationality = ref(false)
@@ -368,6 +453,19 @@ function cancelEditPhone() {
 function savePhone() {
   phone.value = editPhone.value
   isEditPhone.value = false
+}
+
+
+function startEditIden() {
+  editPhone.value = phone.value
+  isEditIden.value = true
+}
+function cancelEditIden() {
+  isEditIden.value = false
+}
+function saveIden() {
+  phone.value = editPhone.value
+  isEditIden.value = false
 }
 
 function startEditSex() {

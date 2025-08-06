@@ -42,7 +42,32 @@
                   :class="highlightField === 'Price' ? 'ring-2 ring-red-400 rounded-md animate-shake' : ''" />
                 <p v-if="errors.Price" class="text-red-500 text-xs pl-2">{{ errors.Price }}</p>
               </div>
+
+              <!-- FIXME:
+              <div>
+                <div class="space-x-2">
+                  <input type="checkbox" v-model="isServiceCharge" />
+                  <label>คิดราคาห้องรวมค่าบริการต่อห้อง Service Charge {{ serviceCharge }} % (Debug: {{ serviceCharge
+                  }})</label>
+                </div>
+                <div class="space-x-2">
+                  <input type="checkbox" v-model="isVat" />
+                  <label>ดราคาคิห้องรวมค่าภาษีมูลค่าเพิ่ม Vat {{ vat }} % (Debug: {{ vat }})</label>
+                </div>
+         
+                <div v-if="isServiceCharge || isVat" class="mt-2 p-2 bg-blue-50 rounded-md">
+                  <p class="text-sm text-blue-800">
+                    <strong>ราคาที่แสดง:</strong> {{ Price }} บาท<br>
+                    <strong>Service Charge:</strong> {{ serviceCharge }} % = {{ serviceCharge * Price / 100 }} บาท<br>
+                    <strong>Vat:</strong> {{ vat }} % = {{ vat * Price / 100 }} บาท<br>
+                    <strong>ราคา Base (ไม่รวม Service Charge และ VAT):</strong> {{ calculatedBasePrice }} บาท
+                  </p>
+                </div>
+              </div> -->
+
+
             </div>
+
 
             <div class="2xl:w-1/2 w-full space-y-4  2xl:mt-0 mt-4">
 

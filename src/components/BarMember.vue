@@ -64,7 +64,7 @@
                 <button @click="toggleMenu" class="text-xl font-bold">x</button>
               </div>
 
-              <div @click="goToProfile" class="flex justify-center">
+              <div @click="goToProfile" class="flex justify-center cursor-pointer">
                 <Profile />
               </div>
 
@@ -171,7 +171,9 @@ const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
 
-
+function goToProfile() {
+  router.push('/dataprofilemember')
+}
 function goToSignin() {
   router.push('/signin')
 }

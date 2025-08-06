@@ -238,6 +238,33 @@
                               'ไม่มีแอร์' }}</span>
                           </div>
 
+                          <!-- FIXME:
+                          <div v-if="room.isServiceChargeIncluded || room.isVatIncluded" class="my-4">
+                            <div>
+                              <span>Service Charge:</span>
+                              <span class="ml-2">
+                                {{ room.isServiceChargeIncluded && posData?.aboutHotel?.serviceCharge
+                                  ? `${posData.aboutHotel.serviceCharge} % = ${room.serviceChargeAmount?.toLocaleString()
+                                  || '0'} บาท`
+                                  : 'ไม่มี' }}
+                              </span>
+                            </div>
+                            <div>
+                              <span>Vat:</span>
+                              <span class="ml-2">
+                                {{ room.isVatIncluded && posData?.aboutHotel?.vat
+                                  ? `${posData.aboutHotel.vat} % = ${room.vatAmount?.toLocaleString() || '0'} บาท`
+                                  : 'ไม่มี' }}
+                              </span>
+                            </div>
+                            <div>
+                              <span>ราคา Base (ไม่รวม Service Charge และ VAT):</span>
+                              <span class="ml-2">
+                                {{ room.basePrice?.toLocaleString() || '-' }} บาท
+                              </span>
+                            </div>
+                          </div> -->
+
                           <div v-if="room.stayPeople" class="flex items-center">
                             <span class="font-medium">จำนวนคน:</span>
                             <span class="ml-2">{{ room.stayPeople }} คน</span>

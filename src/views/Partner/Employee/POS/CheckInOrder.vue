@@ -79,6 +79,12 @@
           <input type="text" v-model="nameCustomer" class="border rounded-md p-1" placeholder="กรอกชื่อผู้เข้าพัก" />
         </div>
 
+<!-- FIXME: เพิ่มนามสกุลผู้เข้าพัก -->
+        <!-- <div class="flex space-x-2 items-center">
+          <label>นามสกุลผู้เข้าพัก</label>
+          <input type="text" v-model="lastnameCustomer" class="border rounded-md p-1" placeholder="กรอกผู้เข้าพัก" />
+        </div> -->
+
         <div class="flex space-x-2 items-center">
           <label>เพศ</label>
           <select v-model="genderCustomer" class="border rounded-md p-1">
@@ -89,18 +95,46 @@
         </div>
 
         <div class="flex space-x-2 items-center">
+          <label>เบอร์โทรศัพท์</label>
+          <input type="text" v-model="phoneCustomer" class="border rounded-md p-1" placeholder="กรอกเบอร์โทรศัพท์" />
+        </div>
+
+        <!-- 
+FIXME: เพิ่ม
+        <div class="space-y-4">
+          <div class="space-x-4">
+            <label>
+              <input type="radio" value="idcard" v-model="selectedType" />
+              ใช้บัตรประชาชน
+            </label>
+
+            <label>
+              <input type="radio" value="visa" v-model="selectedType" />
+              ใช้วีซ่า
+            </label>
+          </div>
+
+
+          <div v-if="selectedType === 'idcard'" class="space-y-2  bg-blue-50 p-3 rounded-md border border-blue-300">
+            <label>เลขบัตรประชาชน</label>
+            <input type="text" v-model="idenNumber" class="border rounded-md p-1" placeholder="กรอกเลขบัตรประชาชน" />
+            <input type="file" @change="handleIdenImgUpload" class="mt-2" />
+          </div>
+          <div v-if="selectedType === 'visa'" class="space-y-2  bg-amber-50 p-3 rounded-md border border-amber-300">
+            <label>เลขวีซ่า</label>
+            <input type="text" v-model="visaNumber" class="border rounded-md p-1" placeholder="กรอกเลขวีซ่า" />
+            <input type="file" @change="handleVisaImgUpload" class="mt-2" />
+          </div>
+        </div> -->
+
+        <div class="flex space-x-2 items-center">
           <label>วันเกิด</label>
           <input type="date" v-model="birthDateCustomer" class="border rounded-md p-1" />
         </div>
-        <!-- อายุให้เอาวันเกิดมาลบกับวันปัจจุบัน -->
+
         <div class="flex space-x-2 items-center">
           <label>อายุ</label>
           <input type="number" v-model="ageCustomer" class="border rounded-md p-1" placeholder="กรอกอายุ" />
-        </div>
-
-        <div class="flex space-x-2 items-center">
-          <label>เบอร์โทรศัพท์</label>
-          <input type="text" v-model="phoneCustomer" class="border rounded-md p-1" placeholder="กรอกเบอร์โทรศัพท์" />
         </div>
 
         <div class="flex space-x-2 items-center">
@@ -334,6 +368,22 @@
               <div class="mt-4">
                 <label>+ ค่าห้องปกติ ราคา {{ room.basePrice?.toLocaleString() || 0 }}</label>
                 <div>
+
+                  <!-- FIXME:
+                  <div>
+                    <label>+ ค่าห้องไม่รวมค่าบริการเเละภาษี {{ }}</label>
+                  </div>
+                  <div>
+                    <label>+ ค่าบริการต่อห้อง Service Charge {{ checkInStore.aboutHotelData?.serviceCharge || 0 }}
+                      % = {{ (checkInStore.aboutHotelData?.serviceCharge || 0) * room.basePrice / 100 }} บาท</label>
+                  </div>
+                  <div>
+                    <label>+ ค่าภาษีมูลค่าเพิ่ม Vat {{ checkInStore.aboutHotelData?.vat || 0 }} % = {{
+                      (checkInStore.aboutHotelData?.vat || 0) * room.basePrice / 100 }} บาท</label>
+                  </div> -->
+
+
+
                   <label>+ ค่ามัดจำ ราคา {{ room.deposit?.toLocaleString() || 0 }}</label>
                 </div>
 
@@ -503,6 +553,20 @@ import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import { useCheckInStore } from '@/stores/checkInStore';
 import { useAuthStore } from '@/stores/auth';
 import { CheckInOrderService } from '@/service/CheckInOrderService';
+
+const selectedType = ref('idcard'); // ✅ Default = ใช้บัตรประชาชน
+const idenNumber = ref('');
+const visaNumber = ref('');
+
+const handleIdenImgUpload = (e) => {
+  const file = e.target.files[0];
+  console.log('บัตรประชาชน:', file);
+};
+
+const handleVisaImgUpload = (e) => {
+  const file = e.target.files[0];
+  console.log('วีซ่า:', file);
+};
 
 // Define emits
 const emit = defineEmits(['showPaymentModal']);
