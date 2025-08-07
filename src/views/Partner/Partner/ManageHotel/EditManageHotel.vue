@@ -116,7 +116,7 @@
 
         <div>
           <hr class="border-2 my-6" />
-          <p class="font-bold">3. นโยบายการเก็บเงินมัดจำ</p>
+          <p class="font-bold">3. นโยบายการเงิน</p>
 
           <div class="max-w-3xl mx-auto px-5 pt-4 pb-2 text-center">
 
@@ -151,7 +151,21 @@
               </div>
             </transition>
           </div>
+
+          <div>
+            <div>
+              ค่าบริการต่อห้อง Service Charge :
+              <input v-model="serviceCharge" type="number" class="border rounded-md px-3 py-1 w-24"
+                placeholder="คิดเป็น %" /><span>%</span>
+            </div>
+            <div>
+              ค่าบริการต่อห้อง Vat :
+              <input v-model="vat" type="number" class="border rounded-md px-3 py-1 w-24"
+                placeholder="คิดเป็น %" /><span>%</span>
+            </div>
+          </div>
         </div>
+
 
         <hr class="border-2 my-6" />
 

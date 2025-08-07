@@ -12,13 +12,18 @@ export const useCheckInStore = defineStore("checkIn", () => {
 
   // ข้อมูลลูกค้า
   const customerData = ref({
-    name: '',
+    firstname: '',
+    lastname: '',
     gender: '',
     birthDate: '',
     age: 0,
     phone: '',
     email: '',
-    numberOfGuests: 1
+    numberOfGuests: 1,
+    idenNumber: '',
+    idenImg: '',
+    passportNumber: '',
+    passportImg: ''
   });
 
   // รายการห้องที่เลือก
@@ -152,16 +157,33 @@ export const useCheckInStore = defineStore("checkIn", () => {
   // ฟังก์ชันดึงข้อมูล aboutHotel
   const loadAboutHotelData = async (partnerId) => {
     try {
+      console.log('🔄 Loading aboutHotel data for partnerId:', partnerId);
       const response = await CheckInOrderService.getAboutHotelByPartnerId(partnerId);
+      console.log('📥 Service response:', response);
+      
       if (response.success) {
         aboutHotelData.value = response.data;
         console.log('✅ Loaded aboutHotel data:', aboutHotelData.value);
         
         // อัปเดตราคาของห้องที่เลือกอยู่แล้ว
         selectedRooms.value = selectedRooms.value.map(room => calculateRoomPrices(room));
+      } else {
+        console.warn('⚠️ Service response not successful:', response);
       }
     } catch (error) {
       console.error('❌ Error loading aboutHotel data:', error);
+      // ตั้งค่า default values เพื่อให้แอปทำงานได้
+      aboutHotelData.value = {
+        serviceCharge: 0,
+        vat: 0,
+        cashPledge: { price: 0 },
+        checkInEarlyPricePerHour: 100,
+        typeBedPrice: { child: 200, normal: 300 },
+        checkInForm: "14:00",
+        checkInTo: "ไม่ระบุ",
+        checkOutForm: "12:00",
+        checkOutTo: "ไม่ระบุ"
+      };
     }
   };
 
@@ -305,13 +327,18 @@ export const useCheckInStore = defineStore("checkIn", () => {
     // ไม่รีเซ็ต employeeData เพื่อให้ข้อมูลพนักงานยังคงอยู่
     
     customerData.value = {
-      name: '',
+      firstname: '',
+      lastname: '',
       gender: '',
       birthDate: '',
       age: 0,
       phone: '',
       email: '',
-      numberOfGuests: 1
+      numberOfGuests: 1,
+      idenNumber: '',
+      idenImg: '',
+      passportNumber: '',
+      passportImg: ''
     };
     
     selectedRooms.value = [];

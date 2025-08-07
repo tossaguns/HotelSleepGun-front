@@ -238,32 +238,32 @@
                               'ไม่มีแอร์' }}</span>
                           </div>
 
-                          <!-- FIXME:
-                          <div v-if="room.isServiceChargeIncluded || room.isVatIncluded" class="my-4">
-                            <div>
-                              <span>Service Charge:</span>
-                              <span class="ml-2">
-                                {{ room.isServiceChargeIncluded && posData?.aboutHotel?.serviceCharge
-                                  ? `${posData.aboutHotel.serviceCharge} % = ${room.serviceChargeAmount?.toLocaleString()
-                                  || '0'} บาท`
-                                  : 'ไม่มี' }}
-                              </span>
+                          <!-- แสดงราคา Base รวม Service Charge และ VAT ในห้องที่มีการกำหนด -->
+                          <div v-if="room.isServiceChargeIncluded || room.isVatIncluded"
+                            class="my-4 p-3 bg-blue-50 rounded-md border border-blue-200">
+                            <h4 class="font-semibold text-blue-900 mb-2 text-sm">การคำนวณราคา:</h4>
+                            <div class="space-y-1 text-xs text-blue-800">
+                              <div class="flex justify-between">
+                                <span>ราคา Base (ไม่รวม SC & VAT):</span>
+                                <span class="font-medium">{{ room.basePrice?.toLocaleString() || '0' }} บาท</span>
+                              </div>
+                              <div v-if="room.isServiceChargeIncluded && room.serviceChargeAmount > 0"
+                                class="flex justify-between">
+                                <span>Service Charge ({{ aboutHotelData.serviceCharge || 0 }}%):</span>
+                                <span class="font-medium">{{ room.serviceChargeAmount?.toLocaleString() || '0' }}
+                                  บาท</span>
+                              </div>
+                              <div v-if="room.isVatIncluded && room.vatAmount > 0" class="flex justify-between">
+                                <span>VAT ({{ aboutHotelData.vat || 0 }}%):</span>
+                                <span class="font-medium">{{ room.vatAmount?.toLocaleString() || '0' }} บาท</span>
+                              </div>
+                              <div class="flex justify-between border-t border-blue-300 pt-1">
+                                <span class="font-semibold">ราคารวมทั้งหมด:</span>
+                                <span class="font-bold text-blue-900">{{ room.price?.toLocaleString() || '0' }}
+                                  บาท</span>
+                              </div>
                             </div>
-                            <div>
-                              <span>Vat:</span>
-                              <span class="ml-2">
-                                {{ room.isVatIncluded && posData?.aboutHotel?.vat
-                                  ? `${posData.aboutHotel.vat} % = ${room.vatAmount?.toLocaleString() || '0'} บาท`
-                                  : 'ไม่มี' }}
-                              </span>
-                            </div>
-                            <div>
-                              <span>ราคา Base (ไม่รวม Service Charge และ VAT):</span>
-                              <span class="ml-2">
-                                {{ room.basePrice?.toLocaleString() || '-' }} บาท
-                              </span>
-                            </div>
-                          </div> -->
+                          </div>
 
                           <div v-if="room.stayPeople" class="flex items-center">
                             <span class="font-medium">จำนวนคน:</span>
@@ -581,6 +581,7 @@ const buildings = ref([]); // รายการตึกทั้งหมด
 const rooms = ref([]); // รายการห้องทั้งหมด
 const posData = ref([]); // รายการ POS ทั้งหมด
 const posSummary = ref({}); // สรุปข้อมูล POS
+const aboutHotelData = ref({ serviceCharge: 0, vat: 0 }); // ข้อมูล aboutHotel
 const loading = ref(false); // สถานะการโหลด
 const savedRoomData = ref(null); // ข้อมูลห้องที่บันทึกสำเร็จ
 const savingBuilding = ref(false); // สถานะการบันทึกตึก
@@ -955,6 +956,44 @@ async function getPOSStatistics() {
   }
 }
 
+// ฟังก์ชันดึงข้อมูล aboutHotel
+async function getAboutHotelData() {
+  try {
+    console.log('🔄 Fetching aboutHotel data from: http://localhost:9999/HotelSleepGun/pos/about-hotel');
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
+    }
+
+    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/about-hotel', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('📡 AboutHotel response status:', response.status);
+    const result = await response.json();
+    console.log('✅ AboutHotel response data:', result);
+
+    if (response.status === 404) {
+      console.log('⚠️ AboutHotel data not found, using default values');
+      return { serviceCharge: 0, vat: 0 };
+    }
+
+    if (!response.ok) {
+      throw new Error(result.message || 'เกิดข้อผิดพลาดในการดึงข้อมูล aboutHotel');
+    }
+
+    console.log('🏨 AboutHotel data fetched successfully:', result.data);
+    return result.data;
+  } catch (error) {
+    console.error('❌ Error fetching aboutHotel data:', error);
+    return { serviceCharge: 0, vat: 0 };
+  }
+}
+
 // โหลดข้อมูลแท็กและตึกเมื่อ component ถูกสร้าง
 onMounted(async () => {
   try {
@@ -968,6 +1007,11 @@ onMounted(async () => {
     // โหลดข้อมูลสถิติ POS
     const posSummaryResult = await getPOSStatistics();
     console.log('📦 Fetched POS summary:', posSummaryResult);
+
+    // โหลดข้อมูล aboutHotel
+    const aboutHotelResult = await getAboutHotelData();
+    console.log('🏨 Fetched aboutHotel data:', aboutHotelResult);
+    aboutHotelData.value = aboutHotelResult;
 
     // ใช้ข้อมูลจาก POS data (ถ้ามี)
     if (posDataResult && posDataResult.length > 0) {

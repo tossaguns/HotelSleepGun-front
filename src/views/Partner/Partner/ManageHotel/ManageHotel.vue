@@ -14,7 +14,7 @@
             </div>
             <div class="w-1/2 flex justify-start pl-4">
               <div class="bg-white border rounded-md px-3 py-1 w-24 text-center text-lg shadow">{{ manageHotelSleepGun
-              }}</div>
+                }}</div>
             </div>
           </div>
           <div>
@@ -43,7 +43,7 @@
               <p>
                 ที่พักของคุณมีให้เพิ่มเตียงเสริมหรือไม่ :
                 <span class="border px-3 mx-3 py-1 rounded-md text-amber-600">{{ hasExtraBedText
-                }}</span>
+                  }}</span>
               </p>
 
               <!-- แสดงเฉพาะเมื่อ hasExtraBed เป็น true -->
@@ -62,7 +62,7 @@
 
           <!-- คอมเม้นส่วนนโยบายการเก็บเงินมัดจำ -->
           <div>
-            <p class="font-bold">3. นโยบายการเก็บเงินมัดจำ</p>
+            <p class="font-bold">3. นโยบายการเงิน</p>
 
             <div class="max-w-3xl mx-auto mt-3 space-y-2">
               <p>
@@ -82,6 +82,22 @@
                 <p class="border py-2 px-3 rounded-md text-left text-amber-600">
                   {{ cashPledge.note }}
                 </p>
+              </div>
+            </div>
+            <div>
+              <div>
+                ค่าบริการต่อห้อง Service Charge :
+                <span class="border px-3 mx-3 py-1 rounded-md text-amber-600">
+                  {{ serviceCharge }}
+                </span>
+                %
+              </div>
+              <div>
+                ค่าบริการต่อห้อง Vat :
+                <span class="border px-3 mx-3 py-1 rounded-md text-amber-600">
+                  {{ vat }}
+                </span>
+                %
               </div>
             </div>
           </div>

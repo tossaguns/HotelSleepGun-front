@@ -235,6 +235,9 @@ export class CheckInOrderService {
         throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
       }
 
+      console.log('🔄 Fetching aboutHotel data for partnerId:', partnerId);
+
+      // ใช้ endpoint ที่ถูกต้อง (ไม่ต้องส่ง partnerId ใน URL เพราะ backend จะดึงจาก JWT token)
       const response = await fetch(`${API_BASE_URL}/pos/about-hotel`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -242,6 +245,8 @@ export class CheckInOrderService {
       });
 
       const result = await response.json();
+
+      console.log('📥 AboutHotel API Response:', result);
 
       if (!response.ok) {
         throw new Error(result.message || 'เกิดข้อผิดพลาดในการดึงข้อมูล About Hotel');

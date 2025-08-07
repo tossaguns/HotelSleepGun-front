@@ -22,8 +22,25 @@ export const useAuthStore = defineStore("auth", () => {
             const token = localStorage.getItem("token");
 
             if (savedUser && token) {
-                isAuthenticated.value = true;
-                user.value = JSON.parse(savedUser);
+                try {
+                    isAuthenticated.value = true;
+                    user.value = JSON.parse(savedUser);
+                    console.log("Auth initialized from localStorage:", user.value);
+                } catch (error) {
+                    console.error("Error parsing saved user data:", error);
+                    // Clear invalid data
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                    user.value = {
+                        id: null,
+                        title: "",
+                        fullName: "",
+                        username: "",
+                        role: "",
+                        partnerId: "",
+                    };
+                    isAuthenticated.value = false;
+                }
             }
         }
     };
@@ -34,6 +51,8 @@ export const useAuthStore = defineStore("auth", () => {
                 console.error("Invalid login data:", userData);
                 throw new Error("Invalid login response");
             }
+
+            console.log("Login response data:", userData);
 
             // เช็ค status ก็ต่อเมื่อ role === 'partner'
             if (userData.status === "รอยืนยัน" || userData.status === "ไม่ยืนยัน" ) {
@@ -48,23 +67,44 @@ export const useAuthStore = defineStore("auth", () => {
                 return false;
             }
 
+            // ตรวจสอบว่า userData เป็น API response หรือ user object โดยตรง
+            let userObject, tokenValue, roleValue;
+            
+            if (userData.user && userData.token && userData.role) {
+                // เป็น API response
+                userObject = userData.user;
+                tokenValue = userData.token;
+                roleValue = userData.role;
+            } else {
+                // เป็น user object โดยตรง (สำหรับ legacy code)
+                userObject = userData;
+                tokenValue = userData.token || null;
+                roleValue = userData.role || "";
+            }
+
+            console.log("Extracted user object:", userObject);
+            console.log("Token:", tokenValue);
+            console.log("Role:", roleValue);
+
             // แมปข้อมูล user ให้ตรงกับ response ที่คาดไว้
             user.value = {
-                id: userData._id || null,
-                partnerId: userData.partnerId || null, // อาจไม่มีใน member
-                title: userData.title || "", // เปลี่ยนชื่อฟิลด์ตามจริงถ้ามี
-                fullName: userData.fullName || "",
-                username: userData.username || "",
-                role: userData.role || "",
-                personalPhone: userData.personalPhone || "",
-                personalEmail: userData.personalEmail || "",
+                id: userObject._id || null,
+                partnerId: userObject.partnerId || null,
+                title: userObject.title || "",
+                fullName: userObject.fullName || userObject.firstname + " " + userObject.lastname || "",
+                username: userObject.username || "",
+                role: roleValue,
+                personalPhone: userObject.personalPhone || "",
+                personalEmail: userObject.personalEmail || "",
             };
 
-            token.value = userData.token || null;
+            token.value = tokenValue;
             localStorage.setItem("token", token.value);
-            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("user", JSON.stringify(user.value));
 
             isAuthenticated.value = true;
+
+            console.log("Auth store user after login:", user.value);
 
             switch (user.value.role) {
                 case "partner":

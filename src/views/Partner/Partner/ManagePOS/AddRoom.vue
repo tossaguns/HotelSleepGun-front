@@ -43,34 +43,60 @@
                 <p v-if="errors.Price" class="text-red-500 text-xs pl-2">{{ errors.Price }}</p>
               </div>
 
-              <!-- FIXME:
+              <!-- FIXME: เพิ่มค่าบริการต่อห้อง Service Charge และ Vat  ให้กด checkbox ถ้ากดจะคิดราคาห้องรวมค่าบริการต่อห้อง Service Charge และ Vat โดยรวมกับราคาห้องที่กรอกเลยเช่น กรอกราคาห้อง 1000 บาท จะดึงข้อมูล Service Charge และ Vat มาจาก aboutHotel.schema เเละหากService Charge 10% เเละ  vat 10% ให้ Service Charge 10% + vat 10% + ราคาห้อง base = 1000 บาท คือราคาห้องที่กรอก-->
               <div>
-                <div class="space-x-2">
-                  <input type="checkbox" v-model="isServiceCharge" />
-                  <label>คิดราคาห้องรวมค่าบริการต่อห้อง Service Charge {{ serviceCharge }} % (Debug: {{ serviceCharge
-                  }})</label>
-                </div>
-                <div class="space-x-2">
-                  <input type="checkbox" v-model="isVat" />
-                  <label>ดราคาคิห้องรวมค่าภาษีมูลค่าเพิ่ม Vat {{ vat }} % (Debug: {{ vat }})</label>
-                </div>
-         
-                <div v-if="isServiceCharge || isVat" class="mt-2 p-2 bg-blue-50 rounded-md">
-                  <p class="text-sm text-blue-800">
-                    <strong>ราคาที่แสดง:</strong> {{ Price }} บาท<br>
-                    <strong>Service Charge:</strong> {{ serviceCharge }} % = {{ serviceCharge * Price / 100 }} บาท<br>
-                    <strong>Vat:</strong> {{ vat }} % = {{ vat * Price / 100 }} บาท<br>
-                    <strong>ราคา Base (ไม่รวม Service Charge และ VAT):</strong> {{ calculatedBasePrice }} บาท
-                  </p>
-                </div>
-              </div> -->
+                <div class="space-y-2">
+                  <div class="space-x-2">
+                    <input type="checkbox" v-model="isServiceCharge" />
+                    <label class="text-sm">คิดราคาห้องรวมค่าบริการต่อห้อง Service Charge {{ serviceCharge }}%</label>
+                  </div>
+                  <div class="space-x-2">
+                    <input type="checkbox" v-model="isVat" />
+                    <label class="text-sm">คิดราคาห้องรวมค่าภาษีมูลค่าเพิ่ม VAT {{ vat }}%</label>
+                  </div>
 
+                  <!-- แสดงข้อมูลเมื่อยังไม่ได้เลือก checkbox -->
+                  <div v-if="!isServiceCharge && !isVat && Price > 0"
+                    class="mt-2 p-2 bg-gray-50 rounded-md border border-gray-200">
+                    <p class="text-sm text-gray-600">
+                      <strong>ข้อมูล Service Charge และ VAT:</strong><br>
+                      Service Charge: {{ serviceCharge }}%<br>
+                      VAT: {{ vat }}%<br>
+                      <span class="text-xs text-gray-500">เลือก checkbox ด้านบนเพื่อคำนวณราคา base โดยหัก SC & VAT
+                        ออกจากราคาที่กรอก</span>
+                    </p>
+                  </div>
+                </div>
 
+                <div v-if="isServiceCharge || isVat" class="mt-2 p-3 bg-blue-50 rounded-md border border-blue-200">
+                  <h4 class="font-semibold text-blue-900 mb-2">การคำนวณราคา:</h4>
+                  <div class="space-y-1 text-sm text-blue-800">
+                    <div class="flex justify-between">
+                      <span>ราคาที่กรอก (รวม SC & VAT):</span>
+                      <span class="font-medium">{{ Price || 0 }} บาท</span>
+                    </div>
+                    <div v-if="isServiceCharge && serviceCharge > 0" class="flex justify-between">
+                      <span>Service Charge ({{ serviceCharge }}%):</span>
+                      <span class="font-medium">{{ calculatedServiceChargeAmount }} บาท</span>
+                    </div>
+                    <div v-if="isVat && vat > 0" class="flex justify-between">
+                      <span>VAT ({{ vat }}%):</span>
+                      <span class="font-medium">{{ calculatedVatAmount }} บาท</span>
+                    </div>
+                    <div class="flex justify-between border-t border-blue-300 pt-1">
+                      <span class="font-semibold">ราคา Base (ไม่รวม SC & VAT):</span>
+                      <span class="font-bold text-blue-900">{{ calculatedBasePrice }} บาท</span>
+                    </div>
+                    <div class="flex justify-between bg-blue-100 p-2 rounded">
+                      <span class="font-semibold">รวมทั้งหมด:</span>
+                      <span class="font-bold text-blue-900">{{ Price || 0 }} บาท</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-
             <div class="2xl:w-1/2 w-full space-y-4  2xl:mt-0 mt-4">
-
               <div :ref="el => (inputRefs.Stay = el)">
                 <InputNumber v-model="Stay" id="Stay" :label="t('Stay_Label')"
                   :class="highlightField === 'Stay' ? 'ring-2 ring-red-400 rounded-md animate-shake' : ''" />
@@ -95,7 +121,6 @@
               <p v-if="errors.selectedTags" class="text-red-500 text-xs pl-2 mt-1">{{ errors.selectedTags }}</p>
             </div>
           </div>
-
 
           <div class=" md:mt-8 mt-20 space-y-2">
             <label class="text-xl font-semibold">{{ t('SelectTypeRoom') }}</label>
@@ -136,6 +161,85 @@ const tagOptions = computed(() => {
     label: tag.name
   }));
 });
+
+// เพิ่ม computed property สำหรับคำนวณราคา base
+const calculatedBasePrice = computed(() => {
+  if (!Price.value || Price.value <= 0) return 0;
+
+  let totalPercentage = 0;
+  if (isServiceCharge.value && serviceCharge.value > 0) {
+    totalPercentage += serviceCharge.value;
+  }
+  if (isVat.value && vat.value > 0) {
+    totalPercentage += vat.value;
+  }
+
+  if (totalPercentage === 0) return Price.value;
+
+  // คำนวณราคา base โดยการหัก service charge และ VAT ออกจากราคารวม
+  // สูตร: basePrice = totalPrice / (1 + totalPercentage/100)
+  return Math.round(Price.value / (1 + totalPercentage / 100));
+});
+
+// เพิ่ม computed property สำหรับคำนวณ Service Charge Amount
+const calculatedServiceChargeAmount = computed(() => {
+  if (!isServiceCharge.value || !serviceCharge.value || !calculatedBasePrice.value) return 0;
+  return Math.round(calculatedBasePrice.value * serviceCharge.value / 100);
+});
+
+// เพิ่ม computed property สำหรับคำนวณ VAT Amount
+const calculatedVatAmount = computed(() => {
+  if (!isVat.value || !vat.value || !calculatedBasePrice.value) return 0;
+  return Math.round(calculatedBasePrice.value * vat.value / 100);
+});
+
+// เพิ่ม computed property สำหรับคำนวณราคารวมทั้งหมด
+const calculatedTotalPrice = computed(() => {
+  return calculatedBasePrice.value + calculatedServiceChargeAmount.value + calculatedVatAmount.value;
+});
+
+// ฟังก์ชันสำหรับดึงข้อมูล aboutHotel
+const fetchAboutHotelData = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('ไม่พบ token');
+      return;
+    }
+
+    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/about-hotel', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.log('⚠️ No aboutHotel data found, using defaults');
+        serviceCharge.value = 0;
+        vat.value = 0;
+        return;
+      }
+      throw new Error('ไม่สามารถดึงข้อมูล aboutHotel ได้');
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data) {
+      serviceCharge.value = data.data.serviceCharge || 0;
+      vat.value = data.data.vat || 0;
+      console.log('✅ AboutHotel data loaded:', { serviceCharge: serviceCharge.value, vat: vat.value });
+    } else {
+      console.log('⚠️ No aboutHotel data found, using defaults');
+      serviceCharge.value = 0;
+      vat.value = 0;
+    }
+  } catch (error) {
+    console.error('❌ Error fetching aboutHotel data:', error);
+    serviceCharge.value = 0;
+    vat.value = 0;
+  }
+};
 
 // ฟังก์ชันสำหรับคำนวณสีข้อความที่เหมาะสมกับพื้นหลัง
 function getContrastColor(hexColor) {
@@ -366,13 +470,19 @@ const loadRoomDataForEdit = (roomData) => {
   // กรอกข้อมูลรูปภาพ
   uploadedImages.value = roomData.images || [];
 
+  // กรอกข้อมูล service charge และ VAT
+  isServiceCharge.value = roomData.isServiceChargeIncluded || false;
+  isVat.value = roomData.isVatIncluded || false;
+
   console.log('✅ Room data loaded for editing');
   console.log('📋 Loaded data:', {
     NumberRoom: NumberRoom.value,
     selectedTypeRoom: selectedTypeRoom.value,
     selectedTypeAir: selectedTypeAir.value,
     selectedTypeRoomHotel: selectedTypeRoomHotel.value,
-    selectedTags: selectedTags.value
+    selectedTags: selectedTags.value,
+    isServiceCharge: isServiceCharge.value,
+    isVat: isVat.value
   });
 };
 
@@ -457,6 +567,12 @@ const highlightField = ref('')
 const typeRoomHotelOptions = ref([])
 const selectedTypeRoomHotel = ref([])
 const uploadedImages = ref([]) // เก็บข้อมูลรูปภาพที่อัปโหลด
+
+// เพิ่มตัวแปรสำหรับ service charge และ VAT
+const serviceCharge = ref(0)
+const vat = ref(0)
+const isServiceCharge = ref(false)
+const isVat = ref(false)
 
 function scrollToFirstErrorWithAnimation() {
   const firstErrorKey = Object.keys(errors.value).find((key) => errors.value[key])
@@ -581,6 +697,8 @@ async function handleReset() {
   selectedRoom.value = []
   selectedTypeRoomHotel.value = []
   selectedTags.value = [] // รีเซ็ตแท็กที่เลือก
+  isServiceCharge.value = false
+  isVat.value = false
   errors.value = {
     NumberRoom: '',
     selectedTypeRoom: '',
@@ -612,6 +730,8 @@ function handleCancel() {
   selectedTypeRoomHotel.value = [];
   selectedTags.value = []; // รีเซ็ตแท็กที่เลือก
   uploadedImages.value = [];
+  isServiceCharge.value = false;
+  isVat.value = false;
   errors.value = {
     NumberRoom: '',
     selectedTypeRoom: '',
@@ -655,6 +775,11 @@ function confirmSave() {
   formData.append('roomDetail', RoomDetail.value);
   formData.append('floor', props.selectedFloor); // เพิ่ม floor field
   formData.append('buildingId', props.selectedBuildingId); // เพิ่ม buildingId field
+
+  // เพิ่ม service charge และ VAT flags
+  formData.append('isServiceCharge', isServiceCharge.value);
+  formData.append('isVat', isVat.value);
+
   // แนบ typeRoomHotel เป็น array
   selectedTypeRoomHotel.value.forEach(id => formData.append('typeRoomHotel', id));
 
@@ -756,6 +881,8 @@ function confirmSave() {
         selectedTypeRoomHotel.value = [];
         selectedTags.value = []; // รีเซ็ตแท็กที่เลือก
         uploadedImages.value = [];
+        isServiceCharge.value = false;
+        isVat.value = false;
         errors.value = {
           NumberRoom: '',
           selectedTypeRoom: '',
@@ -853,6 +980,9 @@ function validateForm() {
 
 
 onMounted(async () => {
+  // โหลดข้อมูล Service Charge และ VAT จาก aboutHotel
+  await fetchAboutHotelData();
+
   // โหลดข้อมูลตึก
   try {
     const fetchedBuildings = await getAllBuildings();
@@ -971,6 +1101,9 @@ onMounted(async () => {
       });
     }
   }
+
+  // โหลดข้อมูล aboutHotel หลังจากดึงข้อมูล tags
+  await fetchAboutHotelData();
 
 })
 </script>

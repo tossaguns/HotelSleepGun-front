@@ -319,7 +319,7 @@
                                 <Tooltip position="bottom">
                                   <template #trigger>
                                     <button class="px-2 py-2 rounded-full shadow-md">
-                                      <img src="/imgHotel/warn.png" alt="info" class="w-4 h-4"/>
+                                      <img src="/imgHotel/warn.png" alt="info" class="w-4 h-4" />
                                     </button>
                                   </template>
 
@@ -701,7 +701,8 @@
 
 
   <!-- เเสดงรายการเข้าพัก -->
-  <div v-if="showCheckInSummaryPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+  <div v-if="showCheckInSummaryPopup"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] flex flex-col mx-4 overflow-y-auto">
       <div class="flex justify-between items-center p-4 border-b">
         <h2 class="text-lg font-bold">รายการเข้าพัก</h2>
@@ -735,9 +736,9 @@
               <label>ราคา serviceCharge : {{ }}</label>
               <label>ราคา vat : {{ }}</label>
             </div>
-           <div>
-             <label>ราคารวมทั้งหมด : {{ }}</label>
-           </div>
+            <div>
+              <label>ราคารวมทั้งหมด : {{ }}</label>
+            </div>
           </div>
 
           <div>
@@ -800,7 +801,7 @@
             ใบเสร็จกำกับภาษี
           </button>
 
-          <button  @click="skipReceipt"
+          <button @click="skipReceipt"
             class="text-stone-400 hover:text-red-600 underline underline-offset-2 lg:text-sm">ข้ามการทำการนี้</button>
         </div>
       </div>
@@ -1599,10 +1600,14 @@ const checkInRoom = async (room) => {
     // ตั้งค่าข้อมูลพนักงานถ้ายังไม่ได้ตั้งค่า
     if (!checkInStore.employeeData.id) {
       const currentUser = authStore.user;
+      // ตรวจสอบว่า fullName มีค่าหรือไม่ก่อนเรียก split
+      const fullName = currentUser.fullName || '';
+      const nameParts = fullName.split(' ');
+
       checkInStore.setEmployeeData({
         id: currentUser.id,
-        firstname: currentUser.fullName.split(' ')[0] || '',
-        lastname: currentUser.fullName.split(' ').slice(1).join(' ') || '',
+        firstname: nameParts[0] || '',
+        lastname: nameParts.slice(1).join(' ') || '',
         employeeCode: currentUser.username || '',
         positionEmployee: 'พนักงานต้อนรับ'
       });
