@@ -456,7 +456,7 @@ async function loadExistingAboutHotel() {
 
     const token = localStorage.getItem('token')
     if (partnerId && token) {
-      const res = await axios.get(`http://localhost:9999/HotelSleepGun/pos/about-hotel`, {
+      const res = await axios.get(`http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -572,7 +572,7 @@ async function saveAboutHotel() {
     let response
     if (isDataExists.value && existingAboutHotelId.value) {
       // Update existing data
-      response = await axios.put(`http://localhost:9999/HotelSleepGun/pos/about-hotel/${existingAboutHotelId.value}`, aboutHotelData, {
+      response = await axios.put(`http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel/${existingAboutHotelId.value}`, aboutHotelData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -580,7 +580,7 @@ async function saveAboutHotel() {
       console.log('Updated about hotel:', response.data)
     } else {
       // Create new data
-      response = await axios.post('http://localhost:9999/HotelSleepGun/pos/about-hotel', aboutHotelData, {
+      response = await axios.post('http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel', aboutHotelData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

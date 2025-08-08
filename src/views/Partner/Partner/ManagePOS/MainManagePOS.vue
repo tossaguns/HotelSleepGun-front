@@ -718,7 +718,7 @@ async function updateRoomStatus(roomId, field, value) {
     console.log('🔍 Debug - Endpoint:', endpoint);
     console.log('🔍 Debug - Request Body:', requestBody);
 
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/rooms/${roomId}${endpoint}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/rooms/rooms/${roomId}${endpoint}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -756,7 +756,7 @@ async function loadRooms() {
   try {
     loading.value = true;
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/rooms', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await response.json();
@@ -800,7 +800,7 @@ async function deleteRoom(roomId) {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/rooms/${roomId}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/rooms/rooms/${roomId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -887,14 +887,14 @@ async function getPOSData() {
 // ฟังก์ชันดึงข้อมูลตึกทั้งหมด
 async function getAllBuildings() {
   try {
-    console.log('🔄 Fetching buildings from: http://localhost:9999/HotelSleepGun/pos/buildings');
+    console.log('🔄 Fetching buildings from: http://localhost:9999/HotelSleepGun/buildings/buildings');
 
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -959,14 +959,14 @@ async function getPOSStatistics() {
 // ฟังก์ชันดึงข้อมูล aboutHotel
 async function getAboutHotelData() {
   try {
-    console.log('🔄 Fetching aboutHotel data from: http://localhost:9999/HotelSleepGun/pos/about-hotel');
+    console.log('🔄 Fetching aboutHotel data from: http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel');
 
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/about-hotel', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -1060,7 +1060,7 @@ onMounted(async () => {
         const token = localStorage.getItem('token');
 
         // โหลดข้อมูลแท็ก
-        const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/tags', {
+        const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/tags/tags', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -1077,7 +1077,7 @@ onMounted(async () => {
         }
 
         // โหลดข้อมูลตึก
-        const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+        const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -1210,7 +1210,7 @@ const refreshPosData = async () => {
       const token = localStorage.getItem('token');
 
       // โหลดข้อมูลแท็ก
-      const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/tags', {
+      const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/tags/tags', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -1223,7 +1223,7 @@ const refreshPosData = async () => {
       }
 
       // โหลดข้อมูลตึก
-      const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+      const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -1459,7 +1459,7 @@ const addFloorToBuilding = async (buildingId) => {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/buildings/${buildingId}/floors`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/buildings/${buildingId}/floors`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1525,7 +1525,7 @@ const removeFloorFromBuilding = async (buildingId, floorName) => {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/buildings/${buildingId}/floors/${encodeURIComponent(floorName)}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/buildings/${buildingId}/floors/${encodeURIComponent(floorName)}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1717,7 +1717,7 @@ const saveBuilding = async () => {
     let response, result;
     if (isEditBuilding.value && editingBuildingId.value) {
       // อัปเดต
-      response = await fetch(`http://localhost:9999/HotelSleepGun/pos/buildings/${editingBuildingId.value}`, {
+      response = await fetch(`http://localhost:9999/HotelSleepGun/buildings/buildings/${editingBuildingId.value}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -1727,7 +1727,7 @@ const saveBuilding = async () => {
       });
     } else {
       // เพิ่มใหม่
-      response = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+      response = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -1875,7 +1875,7 @@ const saveRoomData = async (roomData) => {
     }
 
     // เรียก API เพื่อบันทึกข้อมูลห้อง
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/rooms', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1932,7 +1932,7 @@ async function confirmSave() {
     }
 
     // เรียก API เพื่อบันทึกข้อมูลห้อง
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/rooms', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -2044,7 +2044,7 @@ async function handleDeleteBuilding(building) {
 
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/buildings/${building._id}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/buildings/buildings/${building._id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -2117,7 +2117,7 @@ async function saveEditFloor(buildingId, oldFloorName) {
     const Swal = (await import('sweetalert2')).default;
 
     // เรียก API เพื่ออัปเดตชื่อชั้น
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/buildings/${buildingId}/floors/${encodeURIComponent(oldFloorName)}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/buildings/${buildingId}/floors/${encodeURIComponent(oldFloorName)}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,

@@ -207,7 +207,7 @@ const fetchAboutHotelData = async () => {
       return;
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/about-hotel', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -315,7 +315,7 @@ console.log('🏠 AddRoom props received:', {
 //       throw new Error('ไม่พบ token');
 //     }
 
-//     const response = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+//     const response = await fetch('http://localhost:9999/HotelSleepGun/buildings', {
 //       headers: {
 //         'Authorization': `Bearer ${token}`,
 //       },
@@ -356,7 +356,7 @@ const roomData = ref({});
 const fetchRoomData = async (roomId) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/rooms/${roomId}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/rooms/rooms/${roomId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -502,7 +502,7 @@ const getBuildingName = (buildingId) => {
 const getAllBuildings = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -806,8 +806,8 @@ function confirmSave() {
 
   // กำหนด URL และ method ตามโหมด
   const url = props.isEditMode && props.editRoomData
-    ? `http://localhost:9999/HotelSleepGun/pos/rooms/${props.editRoomData.roomId}`
-    : 'http://localhost:9999/HotelSleepGun/pos/rooms';
+    ? `http://localhost:9999/HotelSleepGun/rooms/rooms/${props.editRoomData.roomId}`
+    : 'http://localhost:9999/HotelSleepGun/rooms/rooms';
 
   const method = props.isEditMode && props.editRoomData ? 'PUT' : 'POST';
 
@@ -1066,7 +1066,7 @@ onMounted(async () => {
       return;
     }
 
-    const res = await fetch('http://localhost:9999/HotelSleepGun/pos/tags', {
+    const res = await fetch('http://localhost:9999/HotelSleepGun/tags/tags', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

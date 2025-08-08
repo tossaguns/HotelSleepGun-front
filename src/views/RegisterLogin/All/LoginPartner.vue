@@ -16,7 +16,6 @@
                 <span v-else>🙈</span>
               </button>
             </div>
-
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
     <!-- ปุ่มเลื่อนซ้าย -->
     <button class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full py-1 px-2"
       @click="prev" :disabled="currentIndex === 0">
-      < </button>
+      </button>
 
         <!-- ปุ่มเลื่อนขวา -->
         <button

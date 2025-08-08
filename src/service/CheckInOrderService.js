@@ -238,7 +238,7 @@ export class CheckInOrderService {
       console.log('🔄 Fetching aboutHotel data for partnerId:', partnerId);
 
       // ใช้ endpoint ที่ถูกต้อง (ไม่ต้องส่ง partnerId ใน URL เพราะ backend จะดึงจาก JWT token)
-      const response = await fetch(`${API_BASE_URL}/pos/about-hotel`, {
+      const response = await fetch(`${API_BASE_URL}/aboutHotel/about-hotel`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

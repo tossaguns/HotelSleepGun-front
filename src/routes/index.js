@@ -56,6 +56,7 @@ import CollectionMember from "../views/Member/Profile/CollectionMember.vue";
 import DetailHotelMember from "../views/Member/DetailHotel/DetailHotelMember.vue";
 import DetailHotelMemberDate from "../views/Member/DetailHotel/DetailHotelMemberDate.vue";
 import SelectHotel from "../views/Member/SelectHotel/SelectHotel.vue";
+import FormMember from "../views/Member/FormMember.vue";
 
 
 
@@ -120,6 +121,7 @@ const routes = [
   { path: "/detailhotelmember", component: DetailHotelMember},
   { path: "/detailhotelmemberdate", component: DetailHotelMemberDate},
   { path: "/selecthotel", component: SelectHotel},
+  { path: "/formmember", component: FormMember},
 ];
 
 const router = createRouter({

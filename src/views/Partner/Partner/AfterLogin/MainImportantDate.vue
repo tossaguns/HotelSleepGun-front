@@ -41,7 +41,7 @@ onMounted(async () => {
   const token = localStorage.getItem('token')
   if (aboutHotelId.value && token) {
     // ดึงข้อมูลมาแสดง
-    const res = await axios.get(`http://localhost:9999/HotelSleepGun/pos/about-hotel`, {
+    const res = await axios.get(`http://localhost:9999/HotelSleepGun/about-hotel`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -56,7 +56,7 @@ async function saveAboutHotel() {
   const token = localStorage.getItem('token')
   if (!aboutHotelId.value) {
     // CREATE
-    const res = await axios.post('http://localhost:9999/HotelSleepGun/pos/about-hotel', form.value, {
+    const res = await axios.post('http://localhost:9999/HotelSleepGun/about-hotel', form.value, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -68,7 +68,7 @@ async function saveAboutHotel() {
     }
   } else {
     // UPDATE
-    const res = await axios.put(`http://localhost:9999/HotelSleepGun/pos/about-hotel/${aboutHotelId.value}`, form.value, {
+    const res = await axios.put(`http://localhost:9999/HotelSleepGun/about-hotel/${aboutHotelId.value}`, form.value, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

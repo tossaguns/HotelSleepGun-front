@@ -14,7 +14,7 @@
             </div>
             <div class="w-1/2 flex justify-start pl-4">
               <div class="bg-white border rounded-md px-3 py-1 w-24 text-center text-lg shadow">{{ manageHotelSleepGun
-                }}</div>
+              }}</div>
             </div>
           </div>
           <div>
@@ -43,7 +43,7 @@
               <p>
                 ที่พักของคุณมีให้เพิ่มเตียงเสริมหรือไม่ :
                 <span class="border px-3 mx-3 py-1 rounded-md text-amber-600">{{ hasExtraBedText
-                  }}</span>
+                }}</span>
               </p>
 
               <!-- แสดงเฉพาะเมื่อ hasExtraBed เป็น true -->
@@ -270,7 +270,7 @@ async function loadAboutHotelData() {
     const partnerId = localStorage.getItem('partnerId')
     const token = localStorage.getItem('token')
     if (partnerId && token) {
-      const res = await axios.get(`http://localhost:9999/HotelSleepGun/pos/about-hotel`, {
+      const res = await axios.get(`http://localhost:9999/HotelSleepGun/aboutHotel/about-hotel`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

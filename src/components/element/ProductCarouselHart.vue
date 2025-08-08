@@ -3,7 +3,7 @@
   <div class="card overflow-hidden relative px-8">
     <button class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full py-1 px-2"
       @click="prev" :disabled="currentIndex === 0">
-      < </button>
+      </button>
         <button
           class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full py-1 px-2"
           @click="next" :disabled="currentIndex + itemsPerView >= products.length">

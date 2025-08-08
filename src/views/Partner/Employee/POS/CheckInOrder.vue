@@ -1,7 +1,6 @@
 <template>
   <div class="h-full flex flex-col">
     <div class=" lg:text-sm text-xs text-stone-400">
-
       <div class="flex justify-between items-center">
         <div class="flex justify-center items-center pb-4">
           <button @click="resetData">
@@ -16,12 +15,9 @@
           <label>OrderAll : {{ orderAll }}</label>
         </div>
       </div>
-
       <div class="flex justify-start items-start flex-col mt-3">
         <label>Date : {{ orderDate }} ,Time : {{ orderTime }}</label>
-
         <label>Order by : {{ orderBy || 'ไม่ระบุ' }}</label>
-
       </div>
     </div>
 
@@ -40,7 +36,7 @@
         </div>
         <div>
           <span class="font-medium">เข้าพักก่อนเวลา:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInEarlyPricePerHour?.toLocaleString() || 100
+          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInEarlyPricePerHour?.toLocaleString() || 0
             }} บาท/ชั่วโมง</span>
         </div>
         <div>
@@ -63,12 +59,12 @@
         </div>
         <div>
           <span class="font-medium">เวลาเช็คอิน:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInForm || "14:00" }} - {{
+          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInForm || "" }} - {{
             checkInStore.aboutHotelData.checkInTo || "ไม่ระบุ" }}</span>
         </div>
         <div>
           <span class="font-medium">เวลาเช็คเอาท์:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkOutForm || "12:00" }} - {{
+          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkOutForm || "" }} - {{
             checkInStore.aboutHotelData.checkOutTo || "ไม่ระบุ" }}</span>
         </div>
       </div>
@@ -577,7 +573,7 @@
                   </div>
                   <label>ราคาที่เพิ่มเตียงเด็กรวม : {{ (room.numberAddBedChild *
                     (checkInStore.aboutHotelData?.typeBedPrice?.child
-                      || 200))?.toLocaleString() || 0 }}
+                      || 0))?.toLocaleString() || 0 }}
                     บาท</label>
                 </div>
 
@@ -594,15 +590,15 @@
                       class="bg-white text-blue-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">+</button>
                   </div>
                   <label>ราคาที่เพิ่มเตียงธรรมดารวม : {{ (room.numberAddBedNormal *
-                    (checkInStore.aboutHotelData?.typeBedPrice?.normal || 300))?.toLocaleString() || 0 }}
+                    (checkInStore.aboutHotelData?.typeBedPrice?.normal || 0))?.toLocaleString() || 0 }}
                     บาท</label>
                 </div>
 
                 <div class="mt-2 flex justify-end">
                   <label class="text-red-600">ราคาที่เพิ่มเตียงรวม : {{ ((room.numberAddBedChild *
-                    (checkInStore.aboutHotelData?.typeBedPrice?.child || 200)) +
+                    (checkInStore.aboutHotelData?.typeBedPrice?.child || 0)) +
                     (room.numberAddBedNormal * (checkInStore.aboutHotelData?.typeBedPrice?.normal ||
-                      300)))?.toLocaleString() || 0
+                      0)))?.toLocaleString() || 0
                   }} บาท</label>
                 </div>
               </div>
@@ -662,6 +658,30 @@
             <div class="flex justify-between text-xl font-bold">
               <span>ราคารวมทั้งหมด:</span>
               <span>{{ grandTotal?.toLocaleString() || 0 }} บาท</span>
+            </div>
+
+
+            <!-- เเสดงเมื่อมาจากห้อง SleepGun เท่านั้น -->
+            <div class="pt-12">
+              <label>สำหรับห้องที่จองกับ SleepGun</label>
+              <div class="flex justify-between">
+                <span>ราคาที่จ่ายกับ SleepGun:</span>
+                <span>{{ }} บาท</span>
+              </div>
+              <div class="py-6">
+                <label>มีรายการเพิ่มเติมหรือไม่ {{ }}</label>
+
+                <!-- ถ้ามีให้เเสดงส่วนนนี้ -->
+                <div class="flex justify-between">
+                  <span>ค่าเตียงเสริม/คืน {{  }}: ดังนั้นรวม =</span>
+                  <span>{{ }} บาท</span>
+                </div>
+
+              </div>
+              <div class="flex justify-between text-xl font-bold">
+                <span>ราคาที่ต้องจ่ายเพิ่มเติม:</span>
+                <span>{{ }} บาท</span>
+              </div>
             </div>
           </div>
 
@@ -1210,13 +1230,7 @@ onMounted(async () => {
   await initializeCheckInData();
 });
 
-// ใช้ watch เพื่อติดตามการเปลี่ยนแปลงของ auth user
-watch(() => authStore.user, async (newUser) => {
-  if (newUser && newUser.partnerId && !checkInStore.aboutHotelData) {
-    console.log('Auth user changed, initializing check-in data');
-    await initializeCheckInData();
-  }
-}, { immediate: true });
+
 
 // ฟังก์ชันเริ่มต้นข้อมูล Check-in
 const initializeCheckInData = async () => {
@@ -1241,6 +1255,15 @@ const initializeCheckInData = async () => {
     console.error('Error initializing check-in data:', error);
   }
 };
+
+
+// ใช้ watch เพื่อติดตามการเปลี่ยนแปลงของ auth user
+watch(() => authStore.user, async (newUser) => {
+  if (newUser && newUser.partnerId && !checkInStore.aboutHotelData) {
+    console.log('Auth user changed, initializing check-in data');
+    await initializeCheckInData();
+  }
+}, { immediate: true });
 
 // ทำความสะอาด timer เมื่อ component unmount
 onUnmounted(() => {

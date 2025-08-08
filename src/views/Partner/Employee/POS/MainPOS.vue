@@ -71,12 +71,12 @@
                       <label>จำนวนตึกทั้งหมด : </label>
                       <label class="font-bold text-amber-500 px-2 py-1 rounded-md">{{ posSummary.totalBuildingCount ||
                         0
-                      }}</label>
+                        }}</label>
                     </div>
                     <div>
                       <label>ห้องว่างทั้งหมด : </label>
                       <label class="font-bold text-amber-500 px-2 py-1 rounded-md">{{ getTotalAvailableRooms()
-                      }}</label>
+                        }}</label>
                     </div>
 
                     <!-- จำนวนห้องที่จองกับ Sleep Gun ตอนนี้ อันนี้เก็บไว้ก่อนยังไม่ต้องเขียนข้อมูลเชื่อมดาต้าเบส
@@ -104,20 +104,20 @@
                                 posSummary.totalBuildingCount
                                 ||
                                 0
-                              }}</label>
+                                }}</label>
                             </div>
                             <div>
                               <label>จำนวนห้องพักทั้งหมด : </label>
                               <label class="font-bold text-amber-300 px-2 py-1 rounded-md">{{ posSummary.totalRoomCount
                                 ||
                                 0
-                              }}</label>
+                                }}</label>
                             </div>
                             <div>
                               <label>โควต้าห้องพัก Sleep Gun :</label>
                               <label class="font-bold text-amber-300 px-2 py-1 rounded-md">{{
                                 posSummary.totalRoomCountSleepGun || 0
-                              }}</label>
+                                }}</label>
                             </div>
                           </div>
                         </div>
@@ -229,7 +229,7 @@
                         <div class="w-2/4 space-x-4">
                           <span class="text-sm text-gray-600">จำนวนห้อง: {{ getRoomsInFloor(selectedBuilding._id,
                             floor.name)
-                          }} ห้อง</span>
+                            }} ห้อง</span>
                           <span class="text-sm text-gray-600">ห้องว่างเเต่ละชั้น: {{
                             getAvailableRoomsInFloor(selectedBuilding._id,
                               floor.name) }}</span>
@@ -600,7 +600,7 @@
                     </div>
                     <div class="flex flex-col text-sm text-stone-500 mt-2 space-y-1 px-4">
                       <label>ประเภทห้อง: {{ room.typeRoom?.mainName || room.typeRoom }} {{ room.typeRoom?.name || ''
-                      }}</label>
+                        }}</label>
                       <label>พัดลม/แอร์: {{ room.air || 'ไม่มีแอร์' }}</label>
                       <label>ค่ามัดจำ: {{ room.deposit?.toLocaleString() || 0 }} THB</label>
                       <label>ค่าเตียงเพิ่ม: {{ room.extraBedPrice?.toLocaleString() || 0 }} THB</label>
@@ -761,6 +761,7 @@
           <div class="flex justify-end items-end mt-10">
             <label class="text-green-600 font-bold">ราคารวมทั้งหมด : {{ }}</label>
           </div>
+
         </div>
 
         <div class="my-2">
@@ -788,15 +789,15 @@
 
       <div>
         <div class="flex flex-col justify-center items-center my-4 space-y-4 w-full lg:px-12 px-4">
-          <button
+          <button @click="goToSlip"
             class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md  hover:bg-blue-500 transition w-full ">
             สลิป
           </button>
-          <button
+          <button @click="goToReceipt"
             class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md hover:bg-blue-500 transition w-full">
             ใบเสร็จ
           </button>
-          <button
+          <button @click="goToReceiptVat"
             class="bg-stone-400 border-stone-500 text-white px-4 py-4 rounded-md hover:bg-blue-500 transition w-full">
             ใบเสร็จกำกับภาษี
           </button>
@@ -819,6 +820,9 @@ import Drawer from '@/components/element/Drawer.vue'
 import CheckInOrder from '@/views/Partner/Employee/POS/CheckInOrder.vue'
 import { useCheckInStore } from '@/stores/checkInStore';
 import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();  
 
 const isDrawerVisible = ref(false)
 const wasDrawerOpenBeforeResize = ref(false) // จำสถานะ drawer ก่อน resize
@@ -883,6 +887,24 @@ const isSearching = ref(false); // สถานะการค้นหา
 const searchResults = ref([]); // ผลการค้นหา
 const searchSummary = ref({}); // สรุปผลการค้นหา
 const searchCriteria = ref({}); // เกณฑ์การค้นหา
+
+
+
+function goToSlip() {
+  router.push('/slip')
+}
+
+function goToReceipt() {
+  router.push('/receipt')
+}
+
+function goToReceiptVat() {
+  router.push('/receiptvat')
+}
+
+
+
+
 
 // ฟังก์ชันสำหรับคำนวณสีข้อความที่เหมาะสมกับพื้นหลัง
 function getContrastColor(hexColor) {
@@ -979,7 +1001,7 @@ async function updateRoomStatus(roomId, field, value) {
         throw new Error('Invalid field type');
     }
 
-    const response = await fetch(`http://localhost:9999/HotelSleepGun/pos/rooms/${roomId}${endpoint}`, {
+    const response = await fetch(`http://localhost:9999/HotelSleepGun/rooms/${roomId}${endpoint}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1015,7 +1037,7 @@ async function loadRooms() {
   try {
     loading.value = true;
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/rooms', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await response.json();
@@ -1065,7 +1087,7 @@ async function getAllBuildings() {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/buildings/buildings', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -1106,7 +1128,7 @@ const refreshPosData = async () => {
       const token = localStorage.getItem('token');
 
       // โหลดข้อมูลแท็ก
-      const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/tags', {
+      const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/tags', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -1118,7 +1140,7 @@ const refreshPosData = async () => {
       }
 
       // โหลดข้อมูลตึก
-      const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/buildings', {
+      const buildingsResponse = await fetch('http://localhost:9999/HotelSleepGun/buildings', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -1405,7 +1427,7 @@ const searchAvailableRooms = async () => {
 
     console.log('🔍 Searching for:', isSingleDay ? 'single day' : 'date range', dateRangeData.value);
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms/search-by-date', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/search-by-date', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1454,7 +1476,7 @@ const searchCheckedOutRooms = async () => {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms/search-checked-out', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/search-checked-out', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1503,7 +1525,7 @@ const searchCleaningRooms = async () => {
       throw new Error('ไม่พบ token กรุณาเข้าสู่ระบบใหม่');
     }
 
-    const response = await fetch('http://localhost:9999/HotelSleepGun/pos/rooms/search-cleaning', {
+    const response = await fetch('http://localhost:9999/HotelSleepGun/rooms/search-cleaning', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -1770,7 +1792,7 @@ onMounted(async () => {
     const token = localStorage.getItem('token');
 
     // โหลดข้อมูลแท็ก
-    const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/pos/tags', {
+    const tagsResponse = await fetch('http://localhost:9999/HotelSleepGun/tags/tags', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
