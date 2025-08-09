@@ -37,7 +37,9 @@
               </div>
             </div>
           </div>
+        </div>
 
+        <div class="max-w-[3000px mx-auto] lg:px-8">
           <div class="mt-8">
             <div class="">
               <div class="flex flex-col md:flex-row justify-end items-center md:space-x-2">
@@ -55,6 +57,7 @@
                 <button class="bg-stone-400 text-white py-2 px-4 hover:bg-red-500 rounded-md">ยกเลิก</button>
                 <button
                   class="bg-stone-400 text-white py-2 px-4 hover:bg-amber-500 rounded-md">ทำรายการไม่สำเร็จ</button>
+                <button class="bg-stone-400 text-white py-2 px-4 hover:bg-blue-500 rounded-md">รายการทั้งหมด</button>
               </div>
             </div>
 
@@ -72,11 +75,33 @@
               </div>
 
               <div class="mt-4">
+                <div class="bg-amber-50 px-6 py-4 flex justify-between items-center border rounded-lg shadow-md">
+                  <div class="flex flex-col">
+                    <div class="flex lg:justify-start lg:items-start justify-end items-end">
+                      <label>ลำดับ {{ }}</label>
+                    </div>
+                    <div class="flex flex-col">
+                      <div>
+                        <label>order SleepGun ID : {{ }}</label>
+                      </div>
+                      <div class="space-x-4">
+                        <label class="font-bold">หมายเลขห้องพัก {{ }}</label>
+                        <label>ตึก {{ }} ชั้น {{ }}</label>
+                        <label>ชื่อผู้เข้าพัก {{ }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label>วันเวลา check-in : {{ }}</label>
+                  </div>
+                </div>
+
                 <div class="lg:text-base md:text-sm text-xs px-3">
                   <div
-                    class="flex flex-col xl:flex-row xl:justify-between items-center border w-full  rounded-lg shadow-md p-4 bg-white">
+                    class="flex flex-col xl:flex-row xl:justify-between items-center border w-full  rounded-b-lg  p-4 bg-white">
 
-                    <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2 border-r-2 border-stone-300">
+                    <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2 xl:border-r-2 border-stone-300">
                       <div>
 
                         <div class="flex flex-col md:flex-row justify-between items-start mb-4">
@@ -111,7 +136,7 @@
                         </div>
 
                         <div class="mb-4">
-                          <hr class="border"/>
+                          <hr class="border" />
                         </div>
 
                         <div class="mb-4 text-stone-400">
@@ -123,61 +148,72 @@
                             <label class="font-bold">วันเวลาที่จ่ายเงิน : </label>
                             <label>วัน : {{ }} , เวลา : {{ }}</label>
                           </div>
-                           <div>
+                          <div>
                             <label class="font-bold">วันเวลาที่ยกเลิกการจอง : </label>
                             <label>วัน : {{ }} , เวลา : {{ }}</label>
                           </div>
                         </div>
-
-                        <div class="flex item-center space-x-2">
-                          <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
-                          <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
-                        </div>
-                        <div>
-                          <label class="font-bold">หมายเลขห้อง : </label>
-                          <label>{{ roomNumber }}</label>
-                        </div>
-                        <div>
-                          <label class="font-bold">ประเภทห้องพัก : </label>
-                          <label>{{ typeRoom }}</label>
-                        </div>
-                        <div>
-                          <label class="font-bold">เข้าพักสูงสุดได้ : </label>
-                          <label>{{ maxStayPeople }} คน</label>
-                        </div>
                       </div>
 
-
-                      <div class="mt-4 space-y-1">
-                        <div>
-                          <label class="font-bold">คำนวนราคา</label>
+                      <div class="flex flex-col lg:flex-row justify-start items-start">
+                        <div class="md:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{  }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
                         </div>
 
-                        <div class="px-4">
-                          <div class="flex flex-col">
-                            <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
-                            <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
-                          </div>
+                        <div class="flex flex-col 3xl:flex-row px-4 lg:px-0">
+                          <div class="2xl:w-[400px] mt-4 space-y-1">
+                            <div>
+                              <label class="font-bold">คำนวนราคา</label>
+                            </div>
 
-                          <div>
-                            <label class="font-bold">เตียงเสริม : </label>
-                            <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
-                              {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
-                            </label>
-                            <div class="px-4">
-                              <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
-                                priceExtraBedByDay }} บาท</label>
+                            <div class="flex flex-col">
+                              <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
+                              <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
                             </div>
                           </div>
 
-                          <div>
-                            <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
-                              </span></label>
-                          </div>
+                          <div class="mt-4 space-y-1">
+                            <div>
+                              <label class="font-bold">เตียงเสริม : </label>
+                              <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
+                                {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
+                              </label>
+                              <div class="px-4">
+                                <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
+                                  priceExtraBedByDay }} บาท</label>
+                              </div>
+                            </div>
 
+                            <div>
+                              <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
+                                </span></label>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
                       <div>
                         <hr class="my-4 " />
                       </div>
@@ -188,9 +224,13 @@
                           <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
                         </div>
                         <div class="flex space-x-3">
-                          <div>
+                         <div>
                             <label class="font-bold">ชื่อผู้ทำการจอง : </label>
-                            <label>{{ customerName }}</label>
+                            <label>{{ customerfirstName }} {{ customerlastName }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เบอร์โทร : </label>
+                            <label>{{ }}</label>
                           </div>
                           <div>
                             <label class="font-bold">จำนวนคนที่เข้าพักทั้งหมด : </label>

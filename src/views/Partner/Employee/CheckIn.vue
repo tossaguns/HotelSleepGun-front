@@ -15,7 +15,7 @@
                 class="md:px-3 px-2 py-1 bg-stone-100 rounded hover:bg-stone-300 md:text-base text-xs">
                 ◀ เดือนก่อนหน้า
               </button>
-              <h2 class="md:text-xl text-sm font-bold cursor-pointer text-green-600" @click="openMonthYearPicker">
+              <h2 class="md:text-xl text-sm font-bold cursor-pointer text-red-600" @click="openMonthYearPicker">
                 {{ monthNames[currentMonth] }} {{ currentYear }}
               </h2>
               <button @click="nextMonth"
@@ -26,17 +26,20 @@
 
             <!-- ปฏิทิน -->
             <div class="grid grid-cols-7 gap-2 text-center">
-              <div class="font-bold text-green-600" v-for="d in days" :key="d">{{ d }}</div>
+              <div class="font-bold text-red-600" v-for="d in days" :key="d">{{ d }}</div>
               <div v-for="day in calendarDays" :key="day.date + Math.random()"
                 class="border p-2 rounded-md relative cursor-pointer hover:bg-blue-50 min-h-[60px]"
                 @click="selectDate(day)">
                 <div class="text-sm font-semibold text-right">{{ day.day }}</div>
-                <div v-if="day.bookings.length" class="mt-1 text-xs bg-green-200 text-green-800 rounded px-1 truncate">
+                <div v-if="day.bookings.length" class="mt-1 text-xs bg-red-200 text-red-800 rounded px-1 truncate">
                   {{ day.bookings[0].title }}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="max-w-[3000px mx-auto] lg:px-8">
 
           <div class="mt-8">
             <div class="">
@@ -49,215 +52,944 @@
               </div>
             </div>
 
-
-
-
-
-            <div class="mt-8">
-              <label class="text-xl font-bold">รายละเอียดการ Check-in</label>
+            <div>
+              <!-- ต้องการให้กดปุ่มไหนให้เเสดงเเค่ข้อมูลของสถานะนั้นๆ -->
+              <div class="space-x-2 flex justify-center items-center my-12">
+                <button
+                  class="bg-stone-400 py-2 px-4 rounded-lg hover:bg-amber-500 text-white font-bold">อยู่ระหว่งการเข้าพัก</button>
+                <button
+                  class="bg-stone-400 py-2 px-4 rounded-lg hover:bg-green-500 text-white font-bold">เข้าพักเสร็จสิ้น</button>
+              </div>
             </div>
 
-            <div class="mt-6">
-              <!-- ทำเมื่อกด div นี้ ให้เเสดง div ข้างล่าง -->
-              <div @click="toggleDetails" :class="[
-                'flex flex-col lg:flex-row md:justify-between lg:items-center p-4 rounded-lg shadow border cursor-pointer',
-                status === 'SleepGun' ? 'bg-amber-50' : 'bg-white'
-              ]">
-                <div class="flex flex-col">
-                  <div class="flex lg:justify-start lg:items-start justify-end items-end">
-                    <label>ลำดับ {{ }}</label>
+            <div class="mt-8">
+              <label class="text-xl font-bold">รายละเอียดเเต่ละรายการ</label>
+            </div>
+
+            <div>
+              <div>
+                <label class="font-bold">รายการ check-out วันนี้ วันที่ {{ }}</label>
+              </div>
+              <div class="mt-6">
+                <!-- ทำเมื่อกด div นี้ ให้เเสดง div ข้างล่าง -->
+                <div @click="toggleDetails" :class="[
+                  'flex flex-col lg:flex-row md:justify-between lg:items-center p-4 rounded-lg shadow border cursor-pointer',
+                  status === 'SleepGun' ? 'bg-amber-50' : 'bg-white'
+                ]">
+                  <div class="flex flex-col">
+                    <div class="flex lg:justify-start lg:items-start justify-end items-end">
+                      <label>ลำดับ {{ }}</label>
+                    </div>
+                    <div class="flex flex-col">
+                      <div>
+                        <label>order Check-in ID : {{ }}</label>
+                      </div>
+                      <div class="space-x-4">
+                        <label class="font-bold">หมายเลขห้องพัก {{ }}</label>
+                        <label>ตึก {{ }} ชั้น {{ }}</label>
+                        <label>ชื่อผู้เข้าพัก {{ }}</label>
+                      </div>
+                    </div>
                   </div>
-                  <div class="flex flex-col md:flex-row md:space-x-4">
-                    <label>order Check-in ID : {{ }}</label>
-                    <label>ชื่อผู้เข้าพัก {{ }}</label>
+
+                  <div>
+                    <label>วันเวลา check-in : {{ }}</label>
                   </div>
                 </div>
 
-                <div>
-                  <label>วันเวลา check-in : {{ }}</label>
+
+                <div v-if="showDetails" class="lg:text-base md:text-sm text-xs px-3">
+                  <div
+                    class="flex flex-col xl:flex-row xl:justify-between items-start border w-full  rounded-b-lg shadow-md p-4 bg-stone-100">
+
+                    <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2">
+                      <div>
+
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                          <div class="flex items-center space-x-2 w-full">
+                            <label>สถานะ :</label>
+
+                            <!-- สถานะมี 2 สถานะ มี อยู่ระหว่างการเข้าพัก bg-amber/ เข้าพักเสร็จสิ้น bg-green-->
+                            <lable class="bg-amber-400 text-white py-1 px-4 rounded-md">อยู่ระหว่างการเข้าพัก</lable>
+
+
+
+                            <button :class="[
+                              'font-bold text-white py-1 px-4 rounded-lg',
+                              status === 'SleepGun' ? 'bg-amber-500' :
+                                status === 'Walkin' ? 'bg-blue-500' : ''
+                            ]">
+                              {{ status }}
+                            </button>
+                          </div>
+
+                          <div class="w-full flex justify-end items-end space-x-2 flex-col mb-4 text-stone-400">
+                            <div>
+                              <label class="font-bold">วันที่เข้า check-in : </label>
+                              <label>{{ dateCheckInSleepGunWebStart }} - {{ dateCheckInSleepGunWebEnd }} เวลา:{{
+                                }}</label>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">Order check-in id : </label>
+                              <label>{{ }}</label>
+                            </div>
+                            <div>
+                              <label class="font-bold">Order All : </label>
+                              <label>{{ }}</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4 text-stone-400">
+                          <div>
+                            <label class="font-bold">Order Booking : </label>
+                            <label>{{ proofBooking }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">Order Booking All : </label>
+                            <label>{{ }}</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ Walkin  -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
+                        </div>
+
+
+                        <div class="mt-4 space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div>
+                              <label class="font-bold">คำนวนราคา</label>
+                            </div>
+                            <div class="flex flex-col">
+                              <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
+                              <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div>
+                              <label class="font-bold">เตียงเสริม : </label>
+                              <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
+                                {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
+                              </label>
+                              <div>
+                                <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
+                                  priceExtraBedByDay }} บาท = ราคารวท {{ }}</label>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
+                                </span></label>
+                            </div>
+                            <div>
+                              <label class="font-bold">ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                  ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                </span></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ SleepGun -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
+                        </div>
+
+                        <div class=" space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div class="mt-4">
+                              <label class="font-bold">เพิ่มรายการ(เฉพาะ SleepGun)</label>
+                              <div>
+                                <label>เพิ่มเตียงเสริม : ประเภทเตียง {{ }} ,ราคา/คืน {{ }} = ราคารวม {{ }}</label>
+                              </div>
+                              <div>
+                                <label>ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                    ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                  </span></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                      <div class="lg:mr-16">
+                        <hr class="my-4 " />
+                      </div>
+
+                      <div>
+                        <div class="flex item-center space-x-2">
+                          <label class="text-xs">ข้อมูลผู้เข้าพัก</label>
+                          <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                        </div>
+                        <div class="flex flex-col md:flex-row md:space-x-3">
+                         <div>
+                            <label class="font-bold">ชื่อผู้ทำการจอง : </label>
+                            <label>{{ customerfirstName }} {{ customerlastName }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เบอร์โทร :</label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">จำนวนคนที่เข้าพักทั้งหมด : </label>
+                            <label>{{ numberOfPeople }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="xl:w-2/6 w-full mt-6 xl:mt-0 text-stone-500">
+
+                      <div>
+                        <div class="w-full flex justify-between bg-white px-6 py-3 rounded-md">
+                          <button @click="goToSlip"
+                            class="text-amber-600 font-bold underline underline-offset-2 hover:text-amber-500">สลิป</button>
+                          <button @click="goToReceipt"
+                            class="text-blue-600 font-bold underline underline-offset-2 hover:text-blue-500">ใบเสร็จ</button>
+                          <button @click="goToReceiptVat"
+                            class="text-rose-600 font-bold underline underline-offset-2 hover:text-rose-500">ใบเสร็จกำกับภาษี</button>
+                        </div>
+                      </div>
+
+
+                      <div class="flex flex-col space-y-2 justify-center items-center px-6 mt-10">
+                        <div>
+                          <label class="font-bold">ราคาห้องปกติ : </label>
+                          <label>{{ priceRoomOld }} บาท</label>
+                        </div>
+                        <div>
+                          <label class="font-bold">ราคาห้องที่ลดราคาเเล้ว : </label>
+                          <label>{{ priceRoomNew }} บาท</label>
+                        </div>
+                        <div class="flex flex-col pt-6 justify-center items-center space-y-2">
+                          <label class="font-bold">ราคารวมที่ชำระเเล้ว</label>
+                          <label class="font-bold lg:text-3xl text-xl text-black"> {{ priceRoomTotal }}บาท</label>
+                        </div>
+                      </div>
+
+                      <div class="mt-8 flex flex-col items-center px-6">
+                        <div class="w-full">
+                          <button
+                            class=" text-red-500 border bg-white border-red-500 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white w-full"
+                            @click="openChangeRoomModal">
+                            เปลี่ยนห้องพัก
+                          </button>
+                        </div>
+
+
+                        <div class="text-red-600 font-bold mt-2">
+                          <label>
+                            เเสดงเวลานับถอยหลังตอน check-Out {{ }}
+                          </label>
+                        </div>
+
+                        <button class="bg-red-500 text-white px-4 py-4 rounded-lg hover:bg-red-600 w-full mt-2 ">
+                          <div class="flex flex-col">
+                            <label class=" font-bold text-xl">Check-out</label>
+
+                            <div>
+                              <label>วันที่ : {{ currentDate }} </label>
+                              <label> ({{ currentTime }})</label>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
 
-              <div v-if="showDetails" class="lg:text-base md:text-sm text-xs px-3">
-                <div
-                  class="flex flex-col xl:flex-row xl:justify-between items-start border w-full  rounded-b-lg shadow-md p-4 bg-stone-100">
 
-                  <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2">
-                    <div>
 
-                      <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                        <div class="md:w-1/3 flex items-center space-x-2">
-                          <label>สถานะ : </label>
-                          <button :class="[
-                            'font-bold text-white py-1 px-4 rounded-lg',
-                            status === 'SleepGun' ? 'bg-amber-500' :
-                              status === 'Walkin' ? 'bg-blue-500' : ''
-                          ]">
-                            {{ status }}
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="mt-6">
+                <div>
+                  <label class="font-bold">รายการ check-out ทั้งหมด</label>
+                  <!-- วันที่เเสดงเรียงถัดไปจากวันปัจจุบัน -->
+                  <div>
+                    <label class="font-bold">รายการ check-out วันที่ {{ }}</label>
+                  </div>
+
+                </div>
+                <!-- ทำเมื่อกด div นี้ ให้เเสดง div ข้างล่าง -->
+                <div @click="toggleDetails" :class="[
+                  'flex flex-col lg:flex-row md:justify-between lg:items-center p-4 rounded-lg shadow border cursor-pointer',
+                  status === 'SleepGun' ? 'bg-amber-50' : 'bg-white'
+                ]">
+                  <div class="flex flex-col">
+                    <div class="flex lg:justify-start lg:items-start justify-end items-end">
+                      <label>ลำดับ {{ }}</label>
+                    </div>
+                    <div class="flex flex-col">
+                      <div>
+                        <label>order Check-in ID : {{ }}</label>
+                      </div>
+                      <div class="space-x-4">
+                        <label class="font-bold">หมายเลขห้องพัก {{ }}</label>
+                        <label>ตึก {{ }} ชั้น {{ }}</label>
+                        <label>ชื่อผู้เข้าพัก {{ }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label>วันเวลา check-in : {{ }}</label>
+                  </div>
+                </div>
+
+
+                <div v-if="showDetails" class="lg:text-base md:text-sm text-xs px-3">
+                  <div
+                    class="flex flex-col xl:flex-row xl:justify-between items-start border w-full  rounded-b-lg shadow-md p-4 bg-stone-100">
+
+                    <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2">
+                      <div>
+
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                          <div class="flex items-center space-x-2 w-full">
+                            <label>สถานะ :</label>
+
+                            <!-- สถานะมี 2 สถานะ มี อยู่ระหว่างการเข้าพัก bg-amber/ เข้าพักเสร็จสิ้น bg-green-->
+                            <lable class="bg-amber-400 text-white py-1 px-4 rounded-md">อยู่ระหว่างการเข้าพัก</lable>
+
+
+
+                            <button :class="[
+                              'font-bold text-white py-1 px-4 rounded-lg',
+                              status === 'SleepGun' ? 'bg-amber-500' :
+                                status === 'Walkin' ? 'bg-blue-500' : ''
+                            ]">
+                              {{ status }}
+                            </button>
+                          </div>
+
+                          <div class="w-full flex justify-end items-end space-x-2 flex-col mb-4 text-stone-400">
+                            <div>
+                              <label class="font-bold">วันที่เข้า check-in : </label>
+                              <label>{{ dateCheckInSleepGunWebStart }} - {{ dateCheckInSleepGunWebEnd }} เวลา:{{
+                                }}</label>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">Order check-in id : </label>
+                              <label>{{ }}</label>
+                            </div>
+                            <div>
+                              <label class="font-bold">Order All : </label>
+                              <label>{{ }}</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4 text-stone-400">
+                          <div>
+                            <label class="font-bold">Order Booking : </label>
+                            <label>{{ proofBooking }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">Order Booking All : </label>
+                            <label>{{ }}</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ Walkin  -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
+                        </div>
+
+
+                        <div class="mt-4 space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div>
+                              <label class="font-bold">คำนวนราคา</label>
+                            </div>
+                            <div class="flex flex-col">
+                              <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
+                              <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div>
+                              <label class="font-bold">เตียงเสริม : </label>
+                              <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
+                                {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
+                              </label>
+                              <div>
+                                <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
+                                  priceExtraBedByDay }} บาท = ราคารวท {{ }}</label>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
+                                </span></label>
+                            </div>
+                            <div>
+                              <label class="font-bold">ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                  ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                </span></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ SleepGun -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
+                        </div>
+
+                        <div class=" space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div class="mt-4">
+                              <label class="font-bold">เพิ่มรายการ(เฉพาะ SleepGun)</label>
+                              <div>
+                                <label>เพิ่มเตียงเสริม : ประเภทเตียง {{ }} ,ราคา/คืน {{ }} = ราคารวม {{ }}</label>
+                              </div>
+                              <div>
+                                <label>ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                    ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                  </span></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="lg:mr-16">
+                        <hr class="my-4 " />
+                      </div>
+
+                      <div>
+                        <div class="flex item-center space-x-2">
+                          <label class="text-xs">ข้อมูลผู้เข้าพัก</label>
+                          <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                        </div>
+                        <div class="flex flex-col md:flex-row md:space-x-3">
+                          <div>
+                            <label class="font-bold">ชื่อผู้ทำการจอง : </label>
+                            <label>{{ customerfirstName }} {{ customerlastName }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เบอร์โทร :</label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">จำนวนคนที่เข้าพักทั้งหมด : </label>
+                            <label>{{ numberOfPeople }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="xl:w-2/6 w-full mt-6 xl:mt-0 text-stone-500">
+
+                      <div>
+                        <div class="w-full flex justify-between bg-white px-6 py-3 rounded-md">
+                          <button @click="goToSlip"
+                            class="text-amber-600 font-bold underline underline-offset-2 hover:text-amber-500">สลิป</button>
+                          <button @click="goToReceipt"
+                            class="text-blue-600 font-bold underline underline-offset-2 hover:text-blue-500">ใบเสร็จ</button>
+                          <button @click="goToReceiptVat"
+                            class="text-rose-600 font-bold underline underline-offset-2 hover:text-rose-500">ใบเสร็จกำกับภาษี</button>
+                        </div>
+                      </div>
+
+
+                      <div class="flex flex-col space-y-2 justify-center items-center px-6 mt-12">
+                        <div>
+                          <label class="font-bold">ราคาห้องปกติ : </label>
+                          <label>{{ priceRoomOld }} บาท</label>
+                        </div>
+                        <div>
+                          <label class="font-bold">ราคาห้องที่ลดราคาเเล้ว : </label>
+                          <label>{{ priceRoomNew }} บาท</label>
+                        </div>
+                        <div class="flex flex-col pt-6 justify-center items-center space-y-2">
+                          <label class="font-bold">ราคารวมที่ชำระเเล้ว</label>
+                          <label class="font-bold lg:text-3xl text-xl text-black"> {{ priceRoomTotal }}บาท</label>
+                        </div>
+                      </div>
+
+                      <div class="mt-8 flex flex-col items-center px-6">
+                        <div class="w-full">
+                          <button
+                            class=" text-red-500 border bg-white border-red-500 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white w-full"
+                            @click="openChangeRoomModal">
+                            เปลี่ยนห้องพัก
                           </button>
                         </div>
 
-                        <div class="w-full flex justify-end items-end space-x-2 flex-col mb-4 text-stone-400">
-                          <div>
-                            <label class="font-bold">วันที่เข้า check-in : </label>
-                            <label>{{ dateCheckInSleepGunWebStart }} - {{ dateCheckInSleepGunWebEnd }} เวลา:{{
-                              }}</label>
+                        <div class="mt-2 w-full">
+                          <button
+                            class="bg-white text-red-500 border border-red-600 px-4 py-4 rounded-lg hover:bg-red-600 hover:text-white w-full mt-2 ">
+                            <div class="flex flex-col">
+                              <label class=" font-bold text-xl">Check-out</label>
+
+                              <div>
+                                <label>วันที่ : {{ currentDate }} </label>
+                                <label> ({{ currentTime }})</label>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="mt-6">
+                <div>
+                  <label class="font-bold">วันที่ {{ }}</label>
+                </div>
+                <!-- ทำเมื่อกด div นี้ ให้เเสดง div ข้างล่าง -->
+                <div @click="toggleDetails" :class="[
+                  'flex flex-col lg:flex-row md:justify-between lg:items-center p-4 rounded-lg shadow border cursor-pointer',
+                  status === 'SleepGun' ? 'bg-amber-50' : 'bg-white'
+                ]">
+                  <div class="flex flex-col">
+                    <div class="flex lg:justify-start lg:items-start justify-end items-end">
+                      <label>ลำดับ {{ }}</label>
+                    </div>
+                    <div class="flex flex-col">
+                      <div>
+                        <label>order Check-in ID : {{ }}</label>
+                      </div>
+                      <div class="space-x-4">
+                        <label class="font-bold">หมายเลขห้องพัก {{ }}</label>
+                        <label>ตึก {{ }} ชั้น {{ }}</label>
+                        <label>ชื่อผู้เข้าพัก {{ }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label>วันเวลา check-in : {{ }}</label>
+                  </div>
+                </div>
+
+
+                <div v-if="showDetails" class="lg:text-base md:text-sm text-xs px-3">
+                  <div
+                    class="flex flex-col xl:flex-row xl:justify-between items-start border w-full  rounded-b-lg shadow-md p-4 bg-stone-100">
+
+                    <div class="xl:w-5/6 w-full bg-white p-4 rounded-md mr-2">
+                      <div>
+
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                          <div class="flex items-center space-x-2 w-full">
+                            <label>สถานะ :</label>
+
+                            <!-- สถานะมี 2 สถานะ มี อยู่ระหว่างการเข้าพัก bg-amber/ เข้าพักเสร็จสิ้น bg-green-->
+                            <lable class="bg-amber-400 text-white py-1 px-4 rounded-md">อยู่รหว่างการเข้าพัก</lable>
+
+
+
+                            <button :class="[
+                              'font-bold text-white py-1 px-4 rounded-lg',
+                              status === 'SleepGun' ? 'bg-amber-500' :
+                                status === 'Walkin' ? 'bg-blue-500' : ''
+                            ]">
+                              {{ status }}
+                            </button>
                           </div>
 
+                          <div class="w-full flex justify-end items-end space-x-2 flex-col mb-4 text-stone-400">
+                            <div>
+                              <label class="font-bold">วันที่เข้า check-out : </label>
+                              <label>{{ }} เวลา:{{
+                                }}</label>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">Order check-out id : </label>
+                              <label>{{ }}</label>
+                            </div>
+                            <div>
+                              <label class="font-bold">Order check-out All : </label>
+                              <label>{{ }}</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4 text-stone-400">
+                          <div>
+                            <label class="font-bold">วันเวลาที่เข้า check-in :</label>
+                            <label>วัน {{ }} เวลา {{ }}</label>
+                          </div>
                           <div>
                             <label class="font-bold">Order check-in id : </label>
                             <label>{{ }}</label>
                           </div>
                           <div>
-                            <label class="font-bold">Order All : </label>
+                            <label class="font-bold">Order check-in All : </label>
+                            <label>{{ }}</label>
+                          </div>
+
+                          <div>
+                            <label class="font-bold">Order Booking : </label>
+                            <label>{{ proofBooking }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">Order Booking All : </label>
                             <label>{{ }}</label>
                           </div>
                         </div>
                       </div>
 
-                      <div class="mb-4 text-stone-400">
-                        <div>
-                          <label class="font-bold">Order Booking : </label>
-                          <label>{{ proofBooking }}</label>
-                        </div>
-                        <div>
-                          <label class="font-bold">Order Booking All : </label>
-                          <label>{{ }}</label>
-                        </div>
-                      </div>
-
-                      <div class="flex item-center space-x-2">
-                        <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
-                        <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
-                      </div>
-                      <div>
-                        <label class="font-bold">หมายเลขห้อง : </label>
-                        <label>{{ roomNumber }}</label>
-                      </div>
-                      <div>
-                        <label class="font-bold">ประเภทห้องพัก : </label>
-                        <label>{{ typeRoom }}</label>
-                      </div>
-                      <div>
-                        <label class="font-bold">เข้าพักสูงสุดได้ : </label>
-                        <label>{{ maxStayPeople }} คน</label>
-                      </div>
-                    </div>
 
 
-                    <div class="mt-4 space-y-1">
-                      <div>
-                        <label class="font-bold">คำนวนราคา</label>
-                      </div>
 
-                      <div class="px-4">
-                        <div class="flex flex-col">
-                          <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
-                          <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
-                        </div>
 
-                        <div>
-                          <label class="font-bold">เตียงเสริม : </label>
-                          <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
-                            {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
-                          </label>
-                          <div class="px-4">
-                            <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
-                              priceExtraBedByDay }} บาท = ราคารวท {{ }}</label>
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ Walkin  -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
                           </div>
                         </div>
 
-                        <div>
-                          <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
-                            </span></label>
-                        </div>
-                        <div>
-                          <label class="font-bold">ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
-                              ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
-                            </span></label>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="mt-4">
-                      <label class="font-bold">เพิ่มรายการ(เฉพาะ SleepGun)</label>
-                      <div>
-                        <label>เพิ่มเตียงเสริม : ประเภทเตียง {{ }} ,ราคา/คืน {{ }} = ราคารวม {{ }}</label>
-                      </div>
-                    </div>
-
-                    <div class="lg:mr-16">
-                      <hr class="my-4 " />
-                    </div>
-
-                    <div>
-                      <div class="flex item-center space-x-2">
-                        <label class="text-xs">ข้อมูลผู้เข้าพัก</label>
-                        <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
-                      </div>
-                      <div class="flex space-x-3">
-                        <div>
-                          <label class="font-bold">ชื่อผู้ทำการจอง : </label>
-                          <label>{{ customerName }}</label>
-                        </div>
-                        <div>
-                          <label class="font-bold">จำนวนคนที่เข้าพักทั้งหมด : </label>
-                          <label>{{ numberOfPeople }}</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="xl:w-2/6 w-full mt-6 xl:mt-0 text-stone-500">
-
-                    <div class="mb-24">
-                      <div class="w-full flex justify-between bg-white px-6 py-3 rounded-md">
-                        <button @click="goToSlip"
-                          class="text-amber-600 font-bold underline underline-offset-2 hover:text-amber-500">สลิป</button>
-                        <button @click="goToReceipt"
-                          class="text-blue-600 font-bold underline underline-offset-2 hover:text-blue-500">ใบเสร็จ</button>
-                        <button @click="goToReceiptVat"
-                          class="text-rose-600 font-bold underline underline-offset-2 hover:text-rose-500">ใบเสร็จกำกับภาษี</button>
-                      </div>
-                    </div>
-
-
-                    <div class="flex flex-col space-y-2 justify-center items-center px-6">
-                      <div>
-                        <label class="font-bold">ราคาห้องปกติ : </label>
-                        <label>{{ priceRoomOld }} บาท</label>
-                      </div>
-                      <div>
-                        <label class="font-bold">ราคาห้องที่ลดราคาเเล้ว : </label>
-                        <label>{{ priceRoomNew }} บาท</label>
-                      </div>
-                      <div class="flex flex-col pt-6 justify-center items-center space-y-2">
-                        <label class="font-bold">ราคารวมที่ชำระเเล้ว</label>
-                        <label class="font-bold lg:text-3xl text-xl text-black"> {{ priceRoomTotal }}บาท</label>
-                      </div>
-                    </div>
-
-                    <div class="mt-8 flex flex-col space-x-2 items-center px-6">
-                      <div class="w-full">
-                        <button
-                          class=" text-red-500 border bg-white border-red-500 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white w-full"
-                          @click="openChangeRoomModal">
-                          เปลี่ยนห้องพัก
-                        </button>
-                      </div>
-
-                      <button class="bg-red-500 text-white px-4 py-4 rounded-lg hover:bg-red-600 w-full mt-2 ">
-                        <div class="flex flex-col">
-                          <label class=" font-bold text-xl">Check-out</label>
+                        <div class="mt-4 space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div>
+                              <label class="font-bold">คำนวนราคา</label>
+                            </div>
+                            <div class="flex flex-col">
+                              <label>ราคาห้องไม่รวม serviceCharge : {{ }} บาท</label>
+                              <label>ราคา serviceCharge {{ }} % : {{ }} บาท , ราคา vat {{ }} % : {{ }} </label>
+                            </div>
+                          </div>
 
                           <div>
-                            <label>วันที่ : {{ currentDate }} </label>
-                            <label> ({{ currentTime }})</label>
+                            <div>
+                              <label class="font-bold">เตียงเสริม : </label>
+                              <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
+                                {{ hasUseExtraBed ? 'ใช้งาน' : 'ไม่ใช้งาน' }}
+                              </label>
+                              <div>
+                                <label> ประเภท : {{ typeExtraBed }} ,ราคา / คืน : {{
+                                  priceExtraBedByDay }} บาท = ราคารวท {{ }}</label>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey }})
+                                </span></label>
+                            </div>
+                            <div>
+                              <label class="font-bold">ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                  ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                </span></label>
+                            </div>
                           </div>
                         </div>
-                      </button>
+                      </div>
+
+
+                      <!--FIXME: เเสดงเฉพาะมีสถานะ SleepGun -->
+                      <div class="flex flex-col lg:flex-row items-start">
+                        <div class="lg:w-[400px] px-4">
+                          <div class="flex item-center space-x-2">
+                            <label class="text-xs">ข้อมูลห้องพักทั้งหมด</label>
+                            <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">หมายเลขห้อง : </label>
+                            <label>{{ roomNumber }}</label>
+                            <label class="font-bold">ตึก : </label>
+                            <label>{{ }}</label>
+                            <label class="font-bold">ชั้น : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div class="space-x-2">
+                            <label class="font-bold">ประเภทห้องพัก : </label>
+                            <label>{{ typeRoom }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เข้าพักสูงสุดได้ : </label>
+                            <label>{{ maxStayPeople }} คน</label>
+                          </div>
+                        </div>
+
+                        <div class=" space-y-1 px-4 flex flex-col 3xl:flex-row">
+                          <div class="3xl:w-[400px]">
+                            <div class="mt-4">
+                              <label class="font-bold">เพิ่มรายการ(เฉพาะ SleepGun)</label>
+                              <div>
+                                <label>เพิ่มเตียงเสริม : ประเภทเตียง {{ }} ,ราคา/คืน {{ }} = ราคารวม {{ }}</label>
+                              </div>
+                              <div>
+                                <label>ค่าเข้าพักกก่อนเวลา : <span class="font-normal">
+                                    ค่าเข้าพักก่อนเวลา({{ earlyCheckIn }})
+                                  </span></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="lg:mr-16">
+                        <hr class="my-4 " />
+                      </div>
+
+                      <div>
+                        <div class="flex item-center space-x-2">
+                          <label class="text-xs">ข้อมูลผู้เข้าพัก</label>
+                          <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
+                        </div>
+                        <div class="flex flex-col md:flex-row md:space-x-3">
+                          <div>
+                            <label class="font-bold">ชื่อผู้ทำการจอง : </label>
+                            <label>{{ customerfirstName }} {{ customerlastName }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">เบอร์โทร :</label>
+                            <label>{{ }}</label>
+                          </div>
+                          <div>
+                            <label class="font-bold">จำนวนคนที่เข้าพักทั้งหมด : </label>
+                            <label>{{ numberOfPeople }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="xl:w-2/6 w-full mt-6 xl:mt-0 text-stone-500">
+
+                      <div>
+                        <div class="w-full flex justify-between bg-white px-6 py-3 rounded-md">
+                          <button @click="goToSlip"
+                            class="text-amber-600 font-bold underline underline-offset-2 hover:text-amber-500">สลิป</button>
+                          <button @click="goToReceipt"
+                            class="text-blue-600 font-bold underline underline-offset-2 hover:text-blue-500">ใบเสร็จ</button>
+                          <button @click="goToReceiptVat"
+                            class="text-rose-600 font-bold underline underline-offset-2 hover:text-rose-500">ใบเสร็จกำกับภาษี</button>
+                        </div>
+                      </div>
+
+
+                      <div class="flex flex-col space-y-2 justify-center items-center px-6 mt-10">
+                        <div>
+                          <label class="font-bold">ราคาที่ชำระเเล้ว check-in : </label>
+                          <label>{{ }} บาท</label>
+                        </div>
+
+                        <div class="pt-6">
+                          <label class="font-bold">ค่า check-out เลท : </label>
+                          <label>{{ }} บาท</label>
+                        </div>
+
+                        <div>
+                          <label class="font-bold">หักค่ามัดจำ : </label>
+                          <label>{{ }} บาท</label>
+                        </div>
+
+                        <div>
+                          <label>ราคาที่ต้องจ่ายลูกค้า = ราคาค่ามัดจำ{{ }} บาท - ค่า checkout เลท {{ }} บาท = {{ }}
+                            บาท</label>
+                          <!--FIXME: ทำเงื่อนไข หากค่าเป็น + เเสดงคำว่า ต้องจ่ายเงินคืนให้ลูกค้า/หากค่าเป็น - เเสดงคำว่า ลูกค้าต้องจ่ายเงินเพิ่ม -->
+
+                          <div class="md:pt-12 pt-6">
+                            <div>
+                              <label class="font-bold">ราคาที่ต้องจ่ายคืนลูกค้า : </label>
+                              <label>{{ }} บาท</label>
+                            </div>
+
+                            <div>
+                              <label class="font-bold">ราคาที่ต้องจ่ายเพิ่ม : </label>
+                              <label>{{ }} บาท</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="flex justify-center items-center md:mt-12 mt-6">
+                        <img src="/imgHotel/check.png" alt="เช็คถูก" class="w-20 h-20" />
+                      </div>
+
+
                     </div>
                   </div>
                 </div>

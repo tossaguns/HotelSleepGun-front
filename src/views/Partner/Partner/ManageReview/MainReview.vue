@@ -6,8 +6,41 @@
 
     <template #content>
       <div class="p-4 max-w-[3000px] mx-auto">
-        <div>
-          <Review :reviews="reviewsForHotel" />
+        <div class="flex flex-col xl:flex-row justify-between item-start">
+          <div class="xl:w-2/5">
+            <div class="border mt-8 mx-4 rounded-lg shadow-md py-6 px-4">
+              <div class="flex justify-end items-end mb-4">
+                <button class="bg-red-500 text-white font-bold px-4 py-1 rounded-md">เเสดงความเห็นทั้งหมด</button>
+              </div>
+
+              <label>เลือกห้องที่เปิดใน sleepGun
+                เพื่อดูรีวิวเเต่ละห้อง(เเสดงทั้งห้องที่เคยเปิดเเล้วเเละห้องปัจจุบัน)</label>
+
+              <div class="mt-6">
+                <button class="w-full hover:bg-amber-100 border rounded-md">
+                  <div class="p-3 flex justify-between items-center">
+                    <div class="2xl:w-1/2 w-1/3 flex justify-center items-center">
+                      <img src="/imgHotel/sea.jpg" alt="รูปห้อง" class="w-[250px] h-[120px] object-cover rounded-md" />
+                    </div>
+
+                    <div class="2xl:w-1/2 w-2/3 px-4">
+                      <div class="font-bold mb-4 flex flex-col">
+                        <label>เลขห้อง : {{ }}</label>
+                        <label> เข้าพักล่าสุด : วันที่ {{ }}</label>
+                      </div>
+                      <div class="flex flex-col">
+                        <label>ค่าเฉลี่ยรีวิว : {{ }}</label>
+                        <label>จำนวนรีวิว : {{ }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="xl:w-3/5 mt-6 xl:mt-0">
+            <Review :reviews="reviewsForHotel" />
+          </div>
         </div>
       </div>
     </template>
