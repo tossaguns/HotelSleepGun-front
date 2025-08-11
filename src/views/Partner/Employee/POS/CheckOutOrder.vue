@@ -10,14 +10,28 @@
             </div>
           </button>
         </div>
-        <div class="flex flex-col font-bold justify-end items-end">
-          <label>Order Check-in ID : {{ checkInOrderId }}</label>
-          <label>Order check-in All : {{ orderAll }}</label>
+        <div class="flex flex-col justify-end items-end">
+          <!-- id check-out ใช้ COUT-yyyymm-xxxx -->
+          <div class="font-bold flex flex-col">
+            <label>Order Check-Out ID : {{ checkOutOrderId }} </label>
+            <label>Order check-Out All : {{ orderCheckoutAll }}</label>
+          </div>
+          <label>Date Check-out : {{ orderDate }}, {{ orderTime }}</label>
+          <label>Order check-Out by : {{ orderCheckoutBy || 'ไม่ระบุ' }}</label>
         </div>
       </div>
-      <div class="flex justify-start items-start flex-col mt-3">
-        <label>Date : {{ orderDate }} ,Time : {{ orderTime }}</label>
-        <label>Order by : {{ orderBy || 'ไม่ระบุ' }}</label>
+      <div class="my-4">
+        <hr class="border" />
+      </div>
+      <div class="flex justify-between items-start">
+        <div class="flex flex-col">
+          <label>Order Check-in ID : {{ checkOutOrderId }} </label>
+          <label>Date Check-in : {{ orderDateCheckin }} , {{ orderTimeCheckin }}</label>
+        </div>
+        <div class="flex flex-col justify-end items-end">
+          <label>Order check-in All : {{ ordercheckinAll }}</label>
+          <label>Order by : {{ orderCheckinBy || 'ไม่ระบุ' }}</label>
+        </div>
       </div>
     </div>
 
@@ -26,70 +40,41 @@
     </div>
 
     <!-- แสดงข้อมูลการตั้งค่าของโรงแรม -->
-    <div v-if="checkInStore.aboutHotelData" class="bg-blue-50 p-3 rounded-md mb-3">
-      <h3 class="font-bold text-blue-800 mb-2">การตั้งค่าของโรงแรม</h3>
+    <div v-if="checkInStore.aboutHotelData" class="bg-amber-50 p-3 rounded-md mb-3 border-amber-400 border">
+      <h3 class="font-bold text-amber-800 mb-2">การตั้งค่าของโรงแรม</h3>
       <div class="grid grid-cols-2 gap-2 text-sm">
         <div>
           <span class="font-medium">ค่ามัดจำ:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.cashPledge?.price?.toLocaleString() || 0 }}
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.cashPledge?.price?.toLocaleString() || 0 }}
             บาท</span>
         </div>
         <div>
-          <span class="font-medium">เข้าพักก่อนเวลา:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInEarlyPricePerHour?.toLocaleString() || 0
-            }} บาท/ชั่วโมง</span>
+          <span class="font-medium">check-out เลท:</span>
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.checkInEarlyPricePerHour?.toLocaleString() || 0
+          }} บาท/ชั่วโมง</span>
         </div>
-        <div>
-          <span class="font-medium">เตียงเด็ก:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.typeBedPrice?.child?.toLocaleString() || 0 }}
-            บาท/คืน</span>
-        </div>
-        <div>
-          <span class="font-medium">เตียงธรรมดา:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.typeBedPrice?.normal?.toLocaleString() || 0 }}
-            บาท/คืน</span>
-        </div>
+
         <div>
           <span class="font-medium">Service Charge:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.serviceCharge || 0 }}%</span>
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.serviceCharge || 0 }}%</span>
         </div>
         <div>
           <span class="font-medium">VAT:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.vat || 0 }}%</span>
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.vat || 0 }}%</span>
         </div>
         <div>
           <span class="font-medium">เวลาเช็คอิน:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkInForm || "" }} - {{
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.checkInForm || "" }} - {{
             checkInStore.aboutHotelData.checkInTo || "ไม่ระบุ" }}</span>
         </div>
         <div>
           <span class="font-medium">เวลาเช็คเอาท์:</span>
-          <span class="text-blue-600">{{ checkInStore.aboutHotelData.checkOutForm || "" }} - {{
+          <span class="text-amber-600">{{ checkInStore.aboutHotelData.checkOutForm || "" }} - {{
             checkInStore.aboutHotelData.checkOutTo || "ไม่ระบุ" }}</span>
         </div>
       </div>
     </div>
 
-    <!-- แสดงข้อมูล debug -->
-    <div v-if="!checkInStore.aboutHotelData" class="bg-yellow-50 p-3 rounded-md mb-3 border border-yellow-200">
-      <h3 class="font-bold text-yellow-800 mb-2">⚠️ ข้อมูลการตั้งค่าของโรงแรมยังไม่โหลด</h3>
-      <div class="text-sm text-yellow-700">
-        <p>Auth User: {{ authStore.user ? 'มีข้อมูล' : 'ไม่มีข้อมูล' }}</p>
-        <p>Partner ID: {{ authStore.user?.partnerId || 'ไม่มี' }}</p>
-        <p>Role: {{ authStore.user?.role || 'ไม่มี' }}</p>
-        <p>AboutHotel Data: {{ checkInStore.aboutHotelData ? 'โหลดแล้ว' : 'ยังไม่โหลด' }}</p>
-      </div>
-    </div>
-
-    <!-- แสดงข้อมูล debug เมื่อโหลดแล้ว -->
-    <div v-if="checkInStore.aboutHotelData" class="bg-green-50 p-3 rounded-md mb-3 border border-green-200">
-      <h3 class="font-bold text-green-800 mb-2">✅ ข้อมูลการตั้งค่าของโรงแรมโหลดแล้ว</h3>
-      <div class="text-sm text-green-700">
-        <p>Service Charge: {{ checkInStore.aboutHotelData.serviceCharge || 0 }}%</p>
-        <p>VAT: {{ checkInStore.aboutHotelData.vat || 0 }}%</p>
-        <p>Cash Pledge: {{ checkInStore.aboutHotelData.cashPledge?.price || 0 }} บาท</p>
-      </div>
-    </div>
 
     <!-- Content Area with Scroll -->
     <div class="flex-1 overflow-y-auto">
@@ -98,138 +83,53 @@
         <label class="text-lg font-bold">ข้อมูลผู้เข้าพัก</label>
 
         <div class="flex space-x-2 items-center">
-          <label>ชื่อผู้เข้าพัก</label>
-          <input type="text" v-model="firstnameCustomer" class="border rounded-md p-1"
-            placeholder="กรอกชื่อผู้เข้าพัก" />
+          <label>ชื่อผู้เข้าพัก : {{ firstnameCustomer }} {{ lastnameCustomer }}</label>
         </div>
 
         <div class="flex space-x-2 items-center">
-          <label>นามสกุลผู้เข้าพัก</label>
-          <input type="text" v-model="lastnameCustomer" class="border rounded-md p-1"
-            placeholder="กรอกนามสกุลผู้เข้าพัก" />
+          <label>เพศ : {{ genderCustomer }}</label>
         </div>
 
         <div class="flex space-x-2 items-center">
-          <label>เพศ</label>
-          <select v-model="genderCustomer" class="border rounded-md p-1">
-            <option disabled value="">เลือกเพศ</option>
-            <option value="ชาย">ชาย</option>
-            <option value="หญิง">หญิง</option>
-          </select>
+          <label>เบอร์โทรศัพท์ : {{ phoneCustomer }}</label>
         </div>
 
-        <div class="flex space-x-2 items-center">
-          <label>เบอร์โทรศัพท์</label>
-          <input type="text" v-model="phoneCustomer" class="border rounded-md p-1" placeholder="กรอกเบอร์โทรศัพท์" />
+
+        <div>
+          <label>ยืนยันตัวตนโดยใช้ : {{ selectedType }}</label>
         </div>
 
-        <div class="space-y-4">
-          <div class="space-x-4">
-            <label>
-              <input type="radio" value="idcard" v-model="selectedType" @change="clearDocumentData" />
-              ใช้บัตรประชาชน
-            </label>
+        <div>
+          <label>หมายเลข : {{ }}</label>
+        </div>
 
-            <label>
-              <input type="radio" value="visa" v-model="selectedType" @change="clearDocumentData" />
-              ใช้พาสปอร์ต
-            </label>
-          </div>
-
-
-          <div v-if="selectedType === 'idcard'" class="space-y-2  bg-blue-50 p-3 rounded-md border border-blue-300">
-            <label>เลขบัตรประชาชน</label>
-            <input type="text" v-model="idenNumberCustomer" @blur="validateIdenNumber(idenNumberCustomer)"
-              class="border rounded-md p-1" placeholder="กรอกเลขบัตรประชาชน" maxlength="13" />
-            <input type="file" @change="handleIdenImgUpload" class="mt-2" />
-            <!-- แสดงรูปภาพที่อัปโหลดแล้ว -->
-            <div v-if="idenImgCustomer" class="mt-2">
-              <label class="text-sm font-medium text-blue-700">รูปบัตรประชาชน:</label>
-              <img :src="idenImgCustomer" alt="บัตรประชาชน" class="w-32 h-20 object-cover rounded border mt-1" />
-            </div>
-          </div>
-          <div v-if="selectedType === 'visa'" class="space-y-2  bg-amber-50 p-3 rounded-md border border-amber-300">
-            <label>เลขพาสปอร์ต</label>
-            <input type="text" v-model="passportNumberCustomer" @blur="validatePassportNumber(passportNumberCustomer)"
-              class="border rounded-md p-1" placeholder="กรอกเลขพาสปอร์ต" />
-            <input type="file" @change="handlePassportImgUpload" class="mt-2" />
-            <!-- แสดงรูปภาพที่อัปโหลดแล้ว -->
-            <div v-if="passportImgCustomer" class="mt-2">
-              <label class="text-sm font-medium text-amber-700">รูปพาสปอร์ต:</label>
-              <img :src="passportImgCustomer" alt="พาสปอร์ต" class="w-32 h-20 object-cover rounded border mt-1" />
-            </div>
+        <div>
+          <!-- เเสดงรูป -->
+          <label>รุป : </label>
+          <div class="flex justify-center items-center">
+            <img src="/imgHotel/sea.jpg" alt="รูปยืนยันตัวตน"
+              class="w-[300px] h-[180px] object-cover border rounded-lg" />
           </div>
         </div>
 
+
+
         <div class="flex space-x-2 items-center">
-          <label>วันเกิด</label>
-          <input type="date" v-model="birthDateCustomer" class="border rounded-md p-1" />
+          <label>วันเกิด : {{ birthDateCustomer }}</label>
         </div>
 
         <div class="flex space-x-2 items-center">
-          <label>อายุ</label>
-          <input type="number" v-model="ageCustomer" class="border rounded-md p-1" placeholder="กรอกอายุ" />
+          <label>อายุ : {{ ageCustomer }}</label>
         </div>
 
         <div class="flex space-x-2 items-center">
-          <label>email (ถ้ามี)</label>
-          <input type="email" v-model="emailCustomer" class="border rounded-md p-1" placeholder="กรอกอีเมล" />
+          <label>email : {{ emailCustomer }}</label>
         </div>
 
         <div class="flex space-x-2 items-center">
-          <label>จำนวนคนเข้าพัก</label>
-          <div class="flex items-center space-x-1">
-            <button @click="decreaseCustomerGuests"
-              class="bg-white text-red-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">-</button>
-            <input type="number" v-model="numberCustomerStay" class="border rounded-md p-1 w-20 text-center"
-              placeholder="1" min="1" />
-            <button @click="increaseCustomerGuests"
-              class="bg-white text-blue-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">+</button>
-          </div>
-
-        </div>
-
-        <!-- แสดงข้อมูลการคำนวณจำนวนคนเข้าพัก -->
-        <div class="bg-blue-50 p-3 rounded-md">
-          <div class="text-sm">
-            <div class="flex justify-between items-center mb-2">
-              <span class="font-medium">จำนวนคนที่ลูกค้าต้องการ:</span>
-              <span class="font-bold text-blue-600">{{ numberCustomerStay }} คน</span>
-
-            </div>
-            <div class="flex justify-between items-center mb-2">
-              <span class="font-medium">จำนวนคนที่เข้าพักในห้อง:</span>
-              <span class="font-bold text-green-600">{{ totalGuestsInRooms }} คน</span>
-
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="font-medium">จำนวนคนที่เหลือ:</span>
-              <span
-                :class="remainingGuests < 0 ? 'text-red-600 font-bold' : remainingGuests === 0 ? 'text-green-600 font-bold' : 'text-orange-600 font-bold'">
-                {{ remainingGuests }} คน
-              </span>
-
-            </div>
-            <!-- แสดงข้อความแจ้งเตือนเฉพาะเมื่อกด Check-in แล้ว -->
-            <div v-if="checkInAttempted && remainingGuests < 0"
-              class="mt-2 p-2 bg-red-100 border border-red-300 rounded text-red-700 text-xs">
-              ⚠️ จำนวนคนที่เข้าพักในห้องเกินกว่าที่ลูกค้าต้องการ
-
-            </div>
-            <div v-else-if="checkInAttempted && remainingGuests === 0"
-              class="mt-2 p-2 bg-green-100 border border-green-300 rounded text-green-700 text-xs">
-              ✅ จำนวนคนเข้าพักครบถ้วนแล้ว
-
-            </div>
-            <div v-else-if="checkInAttempted && remainingGuests > 0"
-              class="mt-2 p-2 bg-orange-100 border border-orange-300 rounded text-orange-700 text-xs">
-              ⚠️ ยังมีจำนวนคนที่เหลือ {{ remainingGuests }} คน
-
-            </div>
-          </div>
+          <label>จำนวนคนเข้าพัก : {{ numberCustomerStay }}</label>
         </div>
       </div>
-
 
       <div class="my-2">
         <hr class="border" />
@@ -239,9 +139,9 @@
         <label class="text-lg font-bold px-4">ห้องที่เลือก ({{ totalRooms }} ห้อง)</label>
 
         <!-- แสดงรายการห้องที่เลือก -->
-        <div v-for="(room, index) in selectedRooms" :key="room._id" class="border rounded-md p-2 mt-3"
+        <div v-for="(room, index) in selectedRooms" :key="room._id" class="border border-red-300 rounded-md p-2 mt-3"
           :class="room.status === 'SleepGunWeb' ? 'bg-amber-100' : ''">
-          <div class="flex justify-between items-center lg:text-sm text-xs text-green-600 ">
+          <div class="flex justify-between items-center lg:text-sm text-xs text-red-600 ">
             <label>รายการที่ {{ index + 1 }}</label>
             <div>
               <label>วันที่เข้าพัก : {{ new Date().toLocaleDateString('th-TH') }}</label>
@@ -376,363 +276,167 @@
                     <label class="text-lg font-bold">ราคา {{ room.totalPrice?.toLocaleString() ||
                       room.basePrice?.toLocaleString() }} THB</label>
                   </div>
-                  <!-- แสดงการคำนวณ Service Charge และ VAT -->
-                  <div class="text-sm text-gray-600 mt-1">
-                    <div v-if="checkInStore.aboutHotelData?.serviceCharge > 0">
-                      + ค่าบริการต่อห้อง Service Charge {{ checkInStore.aboutHotelData?.serviceCharge || 0 }}% = {{
-                        calculateRoomServiceCharge(room)?.toLocaleString() || 0 }} บาท
-                    </div>
-                    <div v-if="checkInStore.aboutHotelData?.vat > 0">
-                      + ค่าภาษีมูลค่าเพิ่ม VAT {{ checkInStore.aboutHotelData?.vat || 0 }}% = {{
-                        calculateRoomVat(room)?.toLocaleString() || 0 }} บาท
-                    </div>
-                  </div>
-                  <!-- แสดงราคารวมทั้งหมด -->
-                  <div class="text-sm font-bold text-blue-600 mt-1">
-                    ราคารวมทั้งหมด: {{ room.totalPrice?.toLocaleString() || room.basePrice?.toLocaleString() }} บาท
-                    (รวม: ราคาห้อง + SC + VAT + ค่ามัดจำ + ค่าเตียง + ค่าเข้าพักก่อนเวลา)
-                  </div>
-                  <!-- แสดงจำนวนคนเข้าพักในห้องนี้ -->
-                  <div class="mt-2 p-2 bg-blue-100 rounded-md">
-                    <label class="text-sm font-medium text-blue-800">เข้าพัก {{ room.numberOfGuests || 1 }} คน</label>
-
-                  </div>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div class="text-stone-400">
               <div class="flex flex-col my-2">
-                <label>เข้าพักห้องนี้จำนวนกี่คน</label>
-                <div class="flex items-center space-x-1">
-                  <button @click="decreaseRoomGuests(room._id)"
-                    class="bg-white text-red-500 hover:bg-stone-200 text-xl rounded-md shadow px-2 ">-</button>
-                  <input type="number" :value="room.numberOfGuests"
-                    @change="updateRoomData(room._id, { numberOfGuests: parseInt($event.target.value) || 1 })"
-                    class="border rounded-md py-1 px-4 w-20 text-center" :placeholder="room.stayPeople || 1" :min="1"
-                    :max="room.stayPeople || 10" />
-                  <button @click="increaseRoomGuests(room._id)"
-                    class="bg-white text-blue-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">+</button>
-                </div>
+                <label>เข้าพักห้องนี้จำนวนกี่คน : {{ room.numberOfGuests }}</label>
+
                 <!-- แสดงจำนวนคนสูงสุดที่สามารถเข้าพักได้ -->
                 <div class="text-xs text-gray-600 mt-1">
                   <span>สูงสุด {{ room.stayPeople || 'ไม่จำกัด' }} คน</span>
                   <span v-if="room.numberOfGuests > (room.stayPeople || 10)" class="text-red-600 ml-2">
                     ⚠️ เกินจำนวนที่แนะนำ
                   </span>
-
                 </div>
               </div>
 
 
               <!-- แสดงข้อมูลราคาห้อง -->
-              <div class="mt-4 p-3 bg-gray-50 rounded-md border border-gray-200">
-                <h4 class="font-semibold text-gray-900 mb-2">รายละเอียดราคาห้อง:</h4>
+              <div class="my-4 p-3 bg-gray-50 rounded-md border border-gray-200 ">
+                <h4 class="font-semibold mb-2">รายละเอียดราคาห้อง:</h4>
 
                 <!-- ราคาปกติ -->
-                <div class="mb-2">
-                  <label class="text-sm font-medium">+ ค่าห้องปกติ: {{ room.basePrice?.toLocaleString() || 0 }}
+                <div>
+                  <label class="text-sm font-medium">ค่าห้องปกติ: {{ room.basePrice?.toLocaleString() || 0 }}
                     บาท</label>
                 </div>
 
-                <!-- แสดงข้อมูลสำหรับห้องที่มีการกำหนด Service Charge และ VAT -->
-                <div v-if="room.isServiceChargeIncluded || room.isVatIncluded" class="space-y-2">
-                  <!-- ราคา Base (ไม่รวม SC & VAT) -->
-                  <div class="bg-blue-50 p-2 rounded border border-blue-200">
-                    <label class="text-sm font-medium text-blue-900">+ ค่าห้องไม่รวมค่าบริการและภาษี: {{
-                      calculateRoomBasePrice(room)?.toLocaleString() || 0 }} บาท</label>
-                  </div>
 
-                  <!-- Service Charge -->
-                  <div v-if="room.isServiceChargeIncluded && checkInStore.aboutHotelData?.serviceCharge > 0">
-                    <label class="text-sm font-medium">+ ค่าบริการต่อห้อง Service Charge {{
-                      checkInStore.aboutHotelData?.serviceCharge || 0 }}% = {{
-                        calculateRoomServiceCharge(room)?.toLocaleString() ||
-                        0 }} บาท</label>
-                  </div>
-
-                  <!-- VAT -->
-                  <div v-if="room.isVatIncluded && checkInStore.aboutHotelData?.vat > 0">
-                    <label class="text-sm font-medium">+ ค่าภาษีมูลค่าเพิ่ม VAT {{ checkInStore.aboutHotelData?.vat || 0
-                      }}% = {{
-                        calculateRoomVat(room)?.toLocaleString() || 0 }} บาท</label>
-                  </div>
-
-                  <!-- ราคารวม (สำหรับห้องที่รวม SC & VAT ไว้แล้ว) -->
-                  <div class="bg-green-100 p-2 rounded border border-green-300 mt-2">
-                    <label class="text-sm font-bold text-green-900">💰 ราคารวม: {{
-                      room.basePrice?.toLocaleString() || 0
-                      }} บาท (รวม SC & VAT แล้ว)</label>
-                  </div>
-                </div>
-
-                <!-- แสดงข้อมูลสำหรับห้องที่ไม่มี Service Charge และ VAT -->
-                <div v-else class="space-y-2">
-                  <!-- ห้องนี้ไม่ได้รวม Service Charge และ VAT ในราคา -->
-                  <div class="bg-red-50 p-2 rounded border border-red-200 mb-2">
-                    <p class="text-xs text-red-700 font-medium">⚠️ ห้องนี้ไม่ได้รวม Service Charge และ VAT ในราคา</p>
-                  </div>
-
-                  <!-- Service Charge -->
-                  <div v-if="checkInStore.aboutHotelData?.serviceCharge > 0"
-                    class="bg-red-50 p-2 rounded border border-red-200">
-                    <label class="text-sm font-medium text-red-900">+ ค่าบริการต่อห้อง Service Charge {{
-                      checkInStore.aboutHotelData?.serviceCharge || 0 }}% = {{
-                        calculateRoomServiceChargeFromTotal(room)?.toLocaleString() ||
-                        0 }} บาท</label>
-                  </div>
-
-                  <!-- VAT -->
-                  <div v-if="checkInStore.aboutHotelData?.vat > 0" class="bg-red-50 p-2 rounded border border-red-200">
-                    <label class="text-sm font-medium text-red-900">+ ค่าภาษีมูลค่าเพิ่ม VAT {{
-                      checkInStore.aboutHotelData?.vat ||
-                      0
-                    }}% = {{
-                        calculateRoomVatFromTotal(room)?.toLocaleString() || 0 }} บาท</label>
-                  </div>
-
-                  <!-- ราคารวม (สำหรับห้องที่ไม่ได้รวม SC & VAT) -->
-                  <div class="bg-red-100 p-2 rounded border border-red-300 mt-2">
-                    <label class="text-sm font-bold text-red-900">💰 ราคารวม: {{
-                      calculateRoomTotalPriceWithoutSCVAT(room)?.toLocaleString() || 0
-                      }} บาท</label>
-                    <div class="text-xs text-red-700 mt-1">
-
-                    </div>
-                  </div>
+                <div>
+                  <label class="text-sm font-medium">+ ราคารวม: {{
+                    room.basePrice?.toLocaleString() || 0
+                  }} บาท (รวม SC & VAT แล้ว)</label>
                 </div>
 
                 <!-- ค่ามัดจำ -->
-                <div class="mt-2">
+                <div>
                   <label class="text-sm font-medium">+ ค่ามัดจำ: {{ room.deposit?.toLocaleString() || 0 }} บาท</label>
                 </div>
 
-                <!-- กรณีที่ไม่มี Service Charge และ VAT เลย -->
-                <div v-if="!checkInStore.aboutHotelData?.serviceCharge && !checkInStore.aboutHotelData?.vat"
-                  class="space-y-2">
-                  <div class="bg-gray-100 p-2 rounded border border-gray-300 mt-2">
-                    <label class="text-sm font-bold text-gray-900">💰 ราคารวม: {{
-                      room.basePrice?.toLocaleString() || 0
-                      }} บาท (ไม่มี SC & VAT)</label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="flex space-x-2">
-                <input class="border rounded-md py-1 px-4" type="checkbox" :checked="room.isAddBed"
-                  @change="updateRoomData(room._id, { isAddBed: $event.target.checked })" />
-                <label class="cursor-pointer">+ เตียงเสริม ราคารวม {{ room.extraBedPrice?.toLocaleString() || 0 }}
-                  (คลิกเพื่อดูรายละเอียด)</label>
-              </div>
-              
-              <!-- แจ้งเตือนเข้าพักก่อนเวลาตามเวลา -->
-              <div v-if="isBeforeCheckInTime()" class="border rounded-md p-2 bg-amber-50 border-amber-200 mt-2">
-                <div class="flex items-center space-x-2">
-                  <div class="w-4 h-4 bg-amber-400 rounded-full flex items-center justify-center">
-                    <span class="text-amber-800 text-xs">!</span>
-                  </div>
-                  <label class="text-amber-800 font-semibold">แจ้งเตือน: เข้าพักก่อนเวลา</label>
-                </div>
-                <div class="mt-1 text-sm text-amber-700">
-                  <p>เวลาปัจจุบัน: {{ checkInStore.getCurrentTime() }}</p>
-                  <p>เวลาเช็คอินมาตรฐาน: {{ checkInStore.aboutHotelData?.checkInForm || "0" }}</p>
-                  <p>เข้าพักก่อนเวลา: {{ checkInStore.calculateEarlyCheckInHours() }} ชั่วโมง</p>
-                  <p class="font-bold">ราคาเพิ่ม: {{ (checkInStore.calculateEarlyCheckInHours() *
-                    (checkInStore.aboutHotelData?.checkInEarlyPricePerHour || 100))?.toLocaleString() }} บาท</p>
-                </div>
-              </div>
-
-              <!-- ส่วนเตียงเสริม -->
-              <div v-if="room.isAddBed" class="border rounded-md p-2 bg-stone-100 mt-2">
-                <label class="text-sm font-semibold">ค่าเตียงเสริม</label>
-                <div>
-                  <div class="flex space-x-2">
-                    <input type="checkbox" :checked="room.isAddBedChild"
-                      @change="updateRoomData(room._id, { isAddBedChild: $event.target.checked })" />
-                    <label>เตียงเด็กราคา ราคา {{ checkInStore.aboutHotelData?.typeBedPrice?.child || 0 }}
-                      /คืน</label>
-                  </div>
-                  <div class="flex space-x-2">
-                    <input type="checkbox" :checked="room.isAddBedNormal"
-                      @change="updateRoomData(room._id, { isAddBedNormal: $event.target.checked })" />
-                    <label>เตียงธรรมดา ราคา {{ checkInStore.aboutHotelData?.typeBedPrice?.normal || 0 }}
-                      /คืน</label>
-                  </div>
-                </div>
-
-                <!-- กด checkbox เตียงเด็กจะแสดงช่องกรอกจำนวนเตียงเด็ก -->
-                <div v-if="room.isAddBedChild" class="border rounded-md p-2 bg-stone-50 mt-2 flex flex-col">
-                  <label class="text-sm font-semibold">จำนวนเตียงเด็ก :</label>
-                  <div class="flex items-center space-x-1">
-                    <button @click="decreaseChildBeds(room._id)"
-                      class="bg-white text-red-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">-</button>
-                    <input type="number" :value="room.numberAddBedChild"
-                      @input="updateRoomData(room._id, { numberAddBedChild: parseInt($event.target.value) || 0 })"
-                      class="border rounded-md py-1 px-4 w-20 text-center" min="0" />
-                    <button @click="increaseChildBeds(room._id)"
-                      class="bg-white text-blue-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">+</button>
-                  </div>
-                  <label>ราคาที่เพิ่มเตียงเด็กรวม : {{ (room.numberAddBedChild *
+                <div class="mt-2 flex flex-col text-sm font-medium">
+                  <label>+ ราคาที่เพิ่มเตียงเด็กรวม : {{ (room.numberAddBedChild *
                     (checkInStore.aboutHotelData?.typeBedPrice?.child
                       || 0))?.toLocaleString() || 0 }}
                     บาท</label>
-                </div>
-
-                <!-- กด checkbox เตียงธรรมดา จะแสดงช่องกรอกจำนวนเตียงธรรมดา -->
-                <div v-if="room.isAddBedNormal" class="border rounded-md p-2 bg-stone-50 mt-2 flex flex-col">
-                  <label class="text-sm font-semibold">จำนวนเตียงธรรมดา :</label>
-                  <div class="flex items-center space-x-1">
-                    <button @click="decreaseNormalBeds(room._id)"
-                      class="bg-white text-red-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">-</button>
-                    <input type="number" :value="room.numberAddBedNormal"
-                      @input="updateRoomData(room._id, { numberAddBedNormal: parseInt($event.target.value) || 0 })"
-                      class="border rounded-md py-1 px-4 w-20 text-center" min="0" />
-                    <button @click="increaseNormalBeds(room._id)"
-                      class="bg-white text-blue-500 hover:bg-stone-200 text-xl rounded-md shadow px-2">+</button>
-                  </div>
-                  <label>ราคาที่เพิ่มเตียงธรรมดารวม : {{ (room.numberAddBedNormal *
+                  <label>+ ราคาที่เพิ่มเตียงธรรมดารวม : {{ (room.numberAddBedNormal *
                     (checkInStore.aboutHotelData?.typeBedPrice?.normal || 0))?.toLocaleString() || 0 }}
                     บาท</label>
                 </div>
 
-                <div class="mt-2 flex justify-end">
-                  <label class="text-red-600">ราคาที่เพิ่มเตียงรวม : {{ ((room.numberAddBedChild *
-                    (checkInStore.aboutHotelData?.typeBedPrice?.child || 0)) +
-                    (room.numberAddBedNormal * (checkInStore.aboutHotelData?.typeBedPrice?.normal ||
-                      0)))?.toLocaleString() || 0
-                  }} บาท</label>
+                <div class=" text-sm font-medium">
+                  <label>+ ราคาเข้าพักก่อนเวลา: {{ (checkInStore.calculateEarlyCheckInHours() *
+                    (checkInStore.aboutHotelData?.checkInEarlyPricePerHour || 100))?.toLocaleString() }} บาท</label>
                 </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="border rounded-md p-2 bg-amber-50 border-amber-400 mt-2">
+                <div class="flex items-center space-x-2">
+                  <div class="w-4 h-4 bg-amber-400 rounded-full flex items-center justify-center">
+                    <span class="text-amber-800 text-xs">!</span>
+                  </div>
+                  <label class="text-amber-800 font-semibold">แจ้งเตือน: Check-out เลท</label>
+                </div>
+                <div class="mt-1 text-sm text-amber-700">
+                  <p>เวลาปัจจุบัน: {{ checkInStore.getCurrentTime() }}</p>
+                  <p>เวลา Check-Out : {{ }}</p>
+                  <p>Check-Out เลท: {{ checkInStore.calculateEarlyCheckInHours() }} ชั่วโมง</p>
+                  <p class="font-bold">ราคาเพิ่ม: {{ (checkInStore.calculateEarlyCheckInHours() *
+                    (checkInStore.aboutHotelData?.checkInEarlyPricePerHour || 100))?.toLocaleString() }} บาท</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-red-50 py-2 px-4 rounded-lg border border-red-500">
+              <label class="text-red-600">เลือกรายการที่ต้องการ Check-out</label>
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="border py-1 px-3" />
+                <label>ต้องการเรียกค่าเสียหายหรือไม่</label>
+              </div>
+            </div>
+            <div class=" bg-red-100  rounded-b-lg mx-3 py-4 px-3 flex flex-col">
+              <label>ราคาค่าเสียหาย <span><input type="number" class="bg-white border rounded-lg py-2 px-4 w-[100px]"
+                    placeholder="ราคา" /></span> บาท</label>
+              <div class="mt-2">
+                <label>เหตุผลที่ต้องชำระค่าเสียหาย </label>
+                <span><textarea type="text" class="bg-white border rounded-lg w-full py-2 px-4"
+                    placeholder="พิมพ์เหตุผล..." /></span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- แสดงข้อความเมื่อไม่มีห้องที่เลือก -->
-      <div v-else class="border rounded-md p-4 mt-2 bg-gray-50 text-center">
-        <p class="text-gray-500">ยังไม่มีห้องที่เลือก กรุณากดปุ่ม "Check In" ที่ห้องที่ต้องการ</p>
       </div>
     </div>
 
     <div class="mt-auto flex-shrink-0">
       <div class="mt-20">
+        <div class="my-4">
+          <label class="font-bold">จำนวนคนทั้งหมด</label>
+          <div>
+            <!-- ดึงจำนวนคนตามจำนวนห้องที่ checkinn ทั้งหมด -->
+            <label>จำนวนคนที่ Check-in ตอนนี้ <span><input type="number" class="border rounded-lg w-[100px] px-4 py-2"
+                  placeholder="จำนวนคน" /></span> คน</label>
+            <!-- คำนวนจากจำนวนคนเข้าพัก เเละคนที่ออกไปตอน check-out ว่าคนเหลือเท่าไหร่ เเละหักลบจากการจองรอบเดียวกันของคนจองคนเดียวกัน -->
+            <label>จำนวนคนคงเหลือที่เข้าพักด้วยกัน {{ }} คน</label>
+          </div>
+        </div>
 
-        <div class="border rounded-md p-4 bg-green-600 text-white flex flex-col">
+        <div class="border rounded-md p-4 bg-red-500 text-white flex flex-col">
           <label class="text-lg font-bold mb-3">สรุปราคา ({{ totalRooms }} รายการ)</label>
 
           <!-- รายละเอียดราคา -->
           <div class="space-y-2 text-sm">
             <div class="flex justify-between">
-              <span>ราคาห้องทั้งหมด:</span>
-              <span>{{ totalBasePrice?.toLocaleString() || 0 }} บาท</span>
-            </div>
-
-            <div class="flex justify-between">
-              <span>ค่ามัดจำรวม:</span>
-              <span>{{ totalDeposit?.toLocaleString() || 0 }} บาท</span>
-            </div>
-
-            <div class="flex justify-between">
-              <span>ค่าเตียงรวม:</span>
-              <span>{{ totalExtraBedPrice?.toLocaleString() || 0 }} บาท</span>
-            </div>
-
-            <div class="flex justify-between">
-              <span>ค่าเข้าพักก่อนเวลารวม:</span>
-              <span>{{ totalEarlyCheckInPrice?.toLocaleString() || 0 }} บาท</span>
+              <span>รวมราคาห้องที่จ่ายตอน check-in:</span>
+              <span>{{ }} บาท</span>
             </div>
 
             <hr class="border-white/30 my-2">
 
-            <div class="flex justify-between font-semibold">
-              <span>รวมยอด:</span>
-              <span>{{ subtotal?.toLocaleString() || 0 }} บาท</span>
-            </div>
-
             <div class="flex justify-between">
-              <span>ภาษี 7%:</span>
-              <span>{{ tax?.toLocaleString() || 0 }} บาท</span>
+              <span>ค่ามัดจำ:</span>
+              <span>{{ }} บาท</span>
             </div>
 
             <hr class="border-white/30 my-2">
 
-            <div class="flex justify-between text-xl font-bold">
-              <span>ราคารวมทั้งหมด:</span>
-              <span>{{ grandTotal?.toLocaleString() || 0 }} บาท</span>
+            <div class="flex justify-between">
+              <span>ราคาค่า check-out เลท:</span>
+              <span>{{ }} บาท</span>
+            </div>
+            <div class="flex justify-between">
+              <span>ราคาค่า เสียหายภายในห้อง:</span>
+              <span>{{ }} บาท</span>
             </div>
 
+            <hr class="border-white/30 my-2">
 
-            <!-- เเสดงเมื่อมาจากห้อง SleepGun เท่านั้น -->
-            <div class="pt-12">
-              <label>สำหรับห้องที่จองกับ SleepGun</label>
-              <div class="flex justify-between">
-                <span>ราคาที่จ่ายกับ SleepGun:</span>
-                <span>{{ }} บาท</span>
+            <!-- เเสดงตามค่าคำนวนที่ได้ มีค่า + เเละ - -->
+            <!-- เเสดงเมื่อค่าเป็น +  -->
+            <div class="pt-12 space-y-2">
+              <div class="flex justify-between text-xl font-bold  text-black bg-green-100 py-3 px-4 rounded-lg">
+                <span>ราคาที่ต้องจ่ายคืนให้ลูกค้า:</span>
+                <span class="text-green-600">{{ }} บาท</span>
               </div>
-              <div class="py-6">
-                <label>มีรายการเพิ่มเติมหรือไม่ {{ }}</label>
-
-                <!-- ถ้ามีให้เเสดงส่วนนนี้ -->
-                <div class="flex justify-between">
-                  <span>ค่าเตียงเสริม/คืน {{  }}: ดังนั้นรวม =</span>
-                  <span>{{ }} บาท</span>
-                </div>
-
-              </div>
-              <div class="flex justify-between text-xl font-bold">
-                <span>ราคาที่ต้องจ่ายเพิ่มเติม:</span>
-                <span>{{ }} บาท</span>
+              <!-- เเสดงเมื่อค่าเป็น -  -->
+              <div class="flex justify-between text-xl font-bold text-black bg-red-100 py-3 px-4 rounded-lg">
+                <span>ราคาที่ลูกค้าตอ้งจ่ายเพิ่ม:</span>
+                <span class="text-red-600">{{ }} บาท</span>
               </div>
             </div>
           </div>
 
           <div class="flex justify-end mt-4">
-            <button @click="handleCheckIn"
-              :disabled="selectedRooms.length === 0 || !firstnameCustomer || !lastnameCustomer || !phoneCustomer || checkInStore.isLoading"
-              class="bg-white text-lg font-bold text-green-600 px-4 py-2 rounded-md disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed">
-              {{ checkInStore.isLoading ? 'กำลังประมวลผล...' : `Check-in ${firstnameCustomer && lastnameCustomer ?
-                `(${firstnameCustomer} ${lastnameCustomer})` : ''}` }}
+            <button 
+              class="bg-white text-lg font-bold text-red-600 px-4 py-2 rounded-md disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed">Check-Out
             </button>
           </div>
         </div>
-        <!-- แสดงข้อมูลที่กรอกแล้ว -->
-        <div class="mt-4 p-3 bg-gray-50 rounded-md">
-          <h4 class="font-bold text-gray-700 mb-2">ข้อมูลที่กรอกแล้ว:</h4>
-          <div class="text-sm space-y-1">
-            <div>
-              <span class="font-medium">ชื่อ:</span>
-              <span :class="firstnameCustomer ? 'text-green-600' : 'text-red-600'">{{ firstnameCustomer || 'ยังไม่กรอก'
-                }}</span>
-            </div>
-            <div>
-              <span class="font-medium">นามสกุล:</span>
-              <span :class="lastnameCustomer ? 'text-green-600' : 'text-red-600'">{{ lastnameCustomer || 'ยังไม่กรอก'
-                }}</span>
-            </div>
-
-            <div>
-              <span class="font-medium">เบอร์โทร:</span>
-              <span :class="phoneCustomer ? 'text-green-600' : 'text-red-600'">{{ phoneCustomer || 'ยังไม่กรอก'
-                }}</span>
-            </div>
-            <div v-if="selectedType === 'idcard'">
-              <span class="font-medium">เลขบัตรประชาชน:</span>
-              <span :class="idenNumberCustomer ? 'text-green-600' : 'text-gray-500'">{{ idenNumberCustomer ||
-                'ยังไม่กรอก'
-                }}</span>
-            </div>
-            <div v-if="selectedType === 'visa'">
-              <span class="font-medium">เลขพาสปอร์ต:</span>
-              <span :class="passportNumberCustomer ? 'text-green-600' : 'text-gray-500'">{{ passportNumberCustomer ||
-                'ยังไม่กรอก' }}</span>
-            </div>
-            <div>
-              <span class="font-medium">ประเภทเอกสาร:</span>
-              <span class="text-blue-600">{{ selectedType === 'idcard' ? 'บัตรประชาชน' : 'พาสปอร์ต' }}</span>
-            </div>
-          </div>
-        </div>
-
+       
         <div class="flex justify-center items-center">
           <img src="/imgHotel/checkinHotel.jpg" alt="" class="h-[160px] rounded-md p-2" />
         </div>

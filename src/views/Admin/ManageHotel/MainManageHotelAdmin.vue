@@ -78,7 +78,8 @@
 
           <!-- รายละเอียดที่แสดงใต้ row -->
           <!-- v-if="selectedPartnerId === partner.id" -->
-          <div v-if="selectedPartnerId === partner.id" class="bg-stone-50 border rounded-b-lg md:mx-4 mx-1 py-8 shadow-inner">
+          <div v-if="selectedPartnerId === partner.id"
+            class="bg-stone-50 border rounded-b-lg md:mx-4 mx-1 py-8 shadow-inner">
             <div
               class="flex flex-col xl:flex-row justify-between items-center max-w-7xl mx-auto md:bg-white pb-2 pt-5 rounded-md ">
               <div
@@ -352,11 +353,38 @@
             <div v-if="isBookingDetailsOpen"
               class="max-w-7xl mx-auto px-3 2xl:px-0 text-xs md:text-sm lg:text-base mb-3">
               <div class=" bg-white rounded-b-lg p-4 mx-2">
+
+                <!-- FIXME: เเก้ไขให้กำหนดโควต้าของเเต่ละบอริษัทได้ -->
+                <div
+                  class="mb-4 flex justify-between items-center border px-4 py-4 rounded-lg border-amber-300 bg-amber-50">
+                  <div class="">
+                    <label class="text-red-600 font-bold">เเอดมินทำการเเก้ไขจำนวนโควต้าห้องพักที่เปิดกับ SleepGun
+                      ตอนนี้มีจำนวน {{ }} ห้อง</label>
+                  </div>
+                  <div>
+                    <button
+                      class="py-2 px-4 border rounded-lg text-red-600 font-bold bg-white border-amber-300">เเก้ไขจำนวนโควต้า</button>
+                  </div>
+                </div>
+
+                <div class="flex justify-between border border-amber-300 p-4 rounded-lg bg-amber-50 lg:mx-6 mb-4 ">
+                  <div class="space-x-3">
+                    <label class="font-bold">เเก้ไขจำนวนโควต้า</label>
+                    <input type="number" class="border px-4 py-2 rounded-md" placeholder="กรอกจำนวนโควต้า" />
+                    <label>หรือ</label>
+                    <button
+                      class=" text-blue-500 font-bold  py-2 px-4 rounded-lg bg-white hover:shadow-md">อนุญาตให้เปิดโควต้ากับห้องทั้งหมด</button>
+                  </div>
+                  <div>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-lg font-bold">บันทึก</button>
+                  </div>
+                </div>
+
                 <label class="text-xl font-bold">รายละเอียดการจองกับ SleepGun</label>
                 <div
                   class="flex flex-col xl:flex-row justify-center items-center mt-6 xl:space-x-4 lg:text-sm text-xs border rounded-lg p-4">
                   <div class="flex items-center space-x-2">
-                    <img src="/imgHotel/checkin.png" alt="check-in" class="w-6 h-6 object-cover"></img>
+                    <img src="/imgHotel/checkin.png" alt="check-in" class="w-6 h-6 object-cover" />
                     <div>
                       <label>เวลา Check-in :</label>
                       <label>{{ partner.checkInTimeStart }} - {{ partner.checkInTimeEnd }} น.</label>
@@ -364,7 +392,7 @@
                   </div>
 
                   <div class="flex items-center space-x-2 mt-4 xl:mt-0">
-                    <img src="/imgHotel/checkout.png" alt="check-out" class="w-6 h-6 object-cover"></img>
+                    <img src="/imgHotel/checkout.png" alt="check-out" class="w-6 h-6 object-cover" />
                     <div>
                       <label>เวลา Check-out :</label>
                       <label>{{ partner.checkOutTimeStart }} - {{ partner.checkOutTimeEnd }} น.</label>
@@ -573,8 +601,34 @@
             <!-- รายได้ทั้งหมด -->
             <div v-if="isIncomeAllOpen" class="max-w-7xl mx-auto px-3 2xl:px-0  text-xs md:text-sm lg:text-base">
               <div class="bg-white p-4 rounded-b-lg 2xl:mx-4 mx-1">
+
+                <!-- FIXME: เเก้ไขให้สามารถกำหนดอัตตรา % รายได้ที่ SleepGun ต้องการได้ -->
+                <div>
+                  <div
+                    class="mb-4 flex justify-between items-center border px-4 py-4 rounded-lg border-amber-300 bg-amber-50">
+                    <div class="">
+                      <label class="text-red-600 font-bold">เเอดมินทำการเเก้ไข % รายได้กับ SleepGun
+                        {{ }} เปอร์เซ็น</label>
+                    </div>
+                    <div>
+                      <button
+                        class="py-2 px-4 border rounded-lg text-red-600 font-bold bg-white border-amber-300">เเก้ไขจำนวน % </button>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between border border-amber-300 p-4 rounded-lg bg-amber-50 lg:mx-6 mb-4 ">
+                    <div class="space-x-3">
+                      <label class="font-bold">เเก้ไขเปอรืเซ็นที่ให้กับ SleepGun </label>
+                      <input type="number" class="border px-4 py-2 rounded-md" placeholder="กรอก %" />
+                     
+                    </div>
+                    <div>
+                      <button class="bg-blue-500 text-white py-2 px-4 rounded-lg font-bold">บันทึก</button>
+                    </div>
+                  </div>
+                </div>
                 <div
-                  class="space-x-2 flex flex-col justify-center items-center space-y-2 mb-12 bg-yellow-50 p-4 rounded-lg shadow-md">
+                  class="space-x-2 flex flex-col justify-center items-center space-y-2 mb-12 bg-blue-50 p-4 rounded-lg shadow-md">
                   <div class="flex flex-col md:flex-row justify-center items-center md:space-x-2">
                     <label class="font-bold">รายได้ที่ได้จากการเปิดใช้งานกับ SleepGun : </label>
                     <label class="font-bold text-lg text-lime-500">+ {{ partner.incomeSleepGun }} THB</label>

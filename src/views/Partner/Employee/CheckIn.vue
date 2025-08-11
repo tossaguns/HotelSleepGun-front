@@ -278,7 +278,7 @@
                           <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
                         </div>
                         <div class="flex flex-col md:flex-row md:space-x-3">
-                         <div>
+                          <div>
                             <label class="font-bold">ชื่อผู้ทำการจอง : </label>
                             <label>{{ customerfirstName }} {{ customerlastName }}</label>
                           </div>
@@ -838,7 +838,7 @@
                             </div>
                           </div>
 
-                          <div>
+                          <div class="">
                             <div>
                               <label class="font-bold">เตียงเสริม : </label>
                               <label :class="hasUseExtraBed ? 'bg-green-500 text-white px-2 rounded' : ''">
@@ -861,6 +861,58 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div class="px-4 my-4">
+                        <label class="font-bold">คำนวน check-out</label>
+                        <!-- เเสดง div ตามสถานะ :  มีเลท/ ตรงเวลา / ยกเลิก  -->
+                        <!-- เลท -->
+                        <div>
+                          <label>สถานะการเข้าพัก : <span
+                              class="bg-red-500 text-white px-4 rounded-lg">เลท</span></label>
+                          <div class="flex flex-wrap">
+                            <label>ราคา Check-out เลท/ชม {{ }} = ราคารวม {{ }} บาท</label>
+                          </div>
+                          <div class="flex flex-wrap">
+                            <label>เหตุผลที่ check-out เลท : {{ }}</label>
+                          </div>
+                          <div class="flex flex-wrap">
+                            <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                          </div>
+                           <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                           <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                        </div>
+                        <!-- ตรงเวลา -->
+                        <!-- <div>
+                              <label>สถานะการเข้าพัก : <span
+                                  class="bg-green-500 text-white px-4 rounded-lg">ตรงเวลา</span></label>
+                              <div class="flex flex-wrap">
+                                <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                              </div>
+                               <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                            </div> -->
+                        <!-- ยกเลิก -->
+                        <!-- <div>
+                              <label>สถานะการเข้าพัก : <span
+                                  class="bg-amber-400 text-white px-4 rounded-lg">ยกเลิก</span></label>
+                              <div class="flex flex-wrap">
+                                <label>เปลี่ยนไปยังห้องพัก หมายเลข {{ }} ตึก {{ }} ชั้น {{ }}</label>
+                              </div>
+                              <div class="flex flex-wrap">
+                                <label>เหตุผลที่เปลี่ยนห้อง : {{ }}</label>
+                              </div>
+                              <div class="flex flex-wrap">
+                                <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                              </div>
+                               <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                            </div> -->
                       </div>
 
 
@@ -893,7 +945,7 @@
                           </div>
                         </div>
 
-                        <div class=" space-y-1 px-4 flex flex-col 3xl:flex-row">
+                        <div class="space-y-1 px-4 flex flex-col 3xl:flex-row">
                           <div class="3xl:w-[400px]">
                             <div class="mt-4">
                               <label class="font-bold">เพิ่มรายการ(เฉพาะ SleepGun)</label>
@@ -908,6 +960,56 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+
+                      <div class="px-4 my-4">
+                        <label class="font-bold">คำนวน check-out</label>
+                        <!-- เเสดง div ตามสถานะ :  มีเลท/ ตรงเวลา / ยกเลิก  -->
+                        <!-- เลท -->
+                        <div>
+                          <label>สถานะการเข้าพัก : <span
+                              class="bg-red-500 text-white px-4 rounded-lg">เลท</span></label>
+                          <div class="flex flex-wrap">
+                            <label>ราคา Check-out เลท/ชม {{ }} = ราคารวม {{ }} บาท</label>
+                          </div>
+                          <div class="flex flex-wrap">
+                            <label>เหตุผลที่ check-out เลท : {{ }}</label>
+                          </div>
+                          <div class="flex flex-wrap">
+                            <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                          </div>
+                           <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                        </div>
+                        <!-- ตรงเวลา -->
+                        <!-- <div>
+                              <label>สถานะการเข้าพัก : <span
+                                  class="bg-green-500 text-white px-4 rounded-lg">ตรงเวลา</span></label>
+                              <div class="flex flex-wrap">
+                                <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                              </div>
+                               <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                            </div> -->
+                        <!-- ยกเลิก -->
+                        <!-- <div>
+                              <label>สถานะการเข้าพัก : <span
+                                  class="bg-amber-400 text-white px-4 rounded-lg">ยกเลิก</span></label>
+                              <div class="flex flex-wrap">
+                                <label>เปลี่ยนไปยังห้องพัก หมายเลข {{ }} ตึก {{ }} ชั้น {{ }}</label>
+                              </div>
+                              <div class="flex flex-wrap">
+                                <label>เหตุผลที่เปลี่ยนห้อง : {{ }}</label>
+                              </div>
+                              <div class="flex flex-wrap">
+                                <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
+                              </div>
+                               <div class="flex flex-wrap">
+                            <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
+                          </div>
+                            </div> -->
                       </div>
 
                       <div class="lg:mr-16">
@@ -962,12 +1064,19 @@
                         </div>
 
                         <div>
+                          <label class="font-bold">ค่าเสียหาย : </label>
+                          <label>{{ }} บาท</label>
+                        </div>
+
+
+                        <div class="pt-3">
                           <label class="font-bold">หักค่ามัดจำ : </label>
                           <label>{{ }} บาท</label>
                         </div>
 
                         <div>
-                          <label>ราคาที่ต้องจ่ายลูกค้า = ราคาค่ามัดจำ{{ }} บาท - ค่า checkout เลท {{ }} บาท = {{ }}
+                          <label>ราคาที่ต้องจ่ายลูกค้า = ราคาค่ามัดจำ{{ }} บาท - (ราคาค่าเสียหาย{{ }} บาท + ค่า
+                            checkout เลท {{ }} บาท ) = {{ }}
                             บาท</label>
                           <!--FIXME: ทำเงื่อนไข หากค่าเป็น + เเสดงคำว่า ต้องจ่ายเงินคืนให้ลูกค้า/หากค่าเป็น - เเสดงคำว่า ลูกค้าต้องจ่ายเงินเพิ่ม -->
 
@@ -988,8 +1097,6 @@
                       <div class="flex justify-center items-center md:mt-12 mt-6">
                         <img src="/imgHotel/check.png" alt="เช็คถูก" class="w-20 h-20" />
                       </div>
-
-
                     </div>
                   </div>
                 </div>

@@ -6,6 +6,22 @@
     <template #content>
       <div class="p-4 max-w-[3000px] mx-auto lg:px-8">
         <div>
+          
+          <div class="flex flex-col lg:flex-row justify-center items-center lg:space-x-6 lg:space-y-2 space-y-2">
+            <div class="flex items-center space-x-2">
+              <label>ค้นหาวันที่ : </label>
+              <input type="date" class="border py-2 px-4 rounded-lg" />
+              <button class="bg-blue-500 text-white py-1 px-4 rounded-lg">ค้นหา</button>
+            </div>
+            <div class="flex items-center space-x-2">
+              <label>ค้นหาคำ : </label>
+              <input type="text" class="border py-2 px-4 rounded-lg" placeholder="ชื่อลูกค้า/ห้อง/ตึก/ชั้น/..." />
+              <button class="bg-green-500 text-white py-1 px-4 rounded-lg">ค้นหา</button>
+            </div>
+          </div>
+
+
+
           <div class="my-12">
             <div class="flex justify-center items-center space-x-4">
               <button class="bg-stone-400 text-white py-2 px-4 hover:bg-green-500 rounded-md">กำลังดำเนินการ</button>
@@ -155,7 +171,7 @@
 
                               <div>
                                 <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey
-                                }})
+                                    }})
                                   </span></label>
                               </div>
                             </div>

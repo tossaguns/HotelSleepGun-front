@@ -520,8 +520,10 @@
           </div>
         </div>
 
-        <!-- Drawer - Fixed Position -->
-        <div class="hidden xl:block">
+        <!-- FIXME: ให้เเสดง Drawer เเตกต่างกันโดยหากดห้อง checkin .ห้เเสดง drawer Chech-in Order/หากกดห้องที่มีสถานะ check-out ให้เเสดง Drawer check-out -->
+
+        <!-- Drawer - Fixed Position Check-in Order -->
+        <!-- <div class="hidden xl:block">
           <div v-if="isDrawerVisible"
             class="w-full md:w-96 lg:w-[475px] bg-white shadow-xl border-l transition-all duration-300 h-screen flex flex-col fixed top-0 right-0 z-50">
             <div class="flex justify-between items-center py-4 px-6 border-b bg-white flex-shrink-0">
@@ -534,10 +536,23 @@
               </div>
             </div>
           </div>
+        </div> -->
+
+        <!-- Drawer - Fixed Position Check-out Order-->
+        <div class="hidden xl:block">
+          <div v-if="isDrawerVisible"
+            class="w-full md:w-96 lg:w-[475px] bg-white shadow-xl border-l transition-all duration-300 h-screen flex flex-col fixed top-0 right-0 z-50">
+            <div class="flex justify-between items-center py-4 px-6 border-b bg-white flex-shrink-0">
+              <h2 class="text-lg font-semibold">Check-Out Order</h2>
+              <button @click="closeDrawer" class="text-gray-500 hover:text-gray-800">X</button>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+              <div class="p-4">
+                <CheckOutOrder @showPaymentModal="showPaymentModal" />
+              </div>
+            </div>
+          </div>
         </div>
-
-
-
       </div>
     </template>
   </TemplateEmployee>
@@ -818,6 +833,7 @@ import DatePicker from "@/components/element/DatePicker.vue";
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 import Drawer from '@/components/element/Drawer.vue'
 import CheckInOrder from '@/views/Partner/Employee/POS/CheckInOrder.vue'
+import CheckOutOrder from '@/views/Partner/Employee/POS/CheckOutOrder.vue'
 import { useCheckInStore } from '@/stores/checkInStore';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
