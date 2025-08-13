@@ -75,7 +75,7 @@
             </div>
 
             <div class="hidden xl:block">
-              <button class="border py-2 px-5 rounded-lg">เเสดง Check-in
+              <button class="border py-2 px-5 rounded-lg">เเสดง ID ของ Check-in
                 / Check-out / SleepGun-web ในรายการ</button>
             </div>
           </div>
@@ -87,9 +87,23 @@
           </div>
 
 
+          <div class="flex flex-col">
+            <label>ยอด Order ทั้งหมด : {{ }}</label>
+            <label>
+              <label>เเบ่งเป็น</label>
+              <label>walkin : {{ }} Order</label>
+              <label>Sleepgun : {{ }} Order</label>
+            </label>
+          </div>
 
-          <div>
-            <div class="bg-white border w-full rounded-lg mt-8 px-4 py-2 shadow-md">
+
+
+          <div class="mt-8 ">
+            <div>
+              <!-- เเสดงจำนวน order  ที่ได้หลังจากทำการฟิวเตอร์ -->
+              <label class="font-bold">มีทั้งหมด {{ }}124 Order</label>
+            </div>
+            <div class="bg-white border w-full rounded-lg px-4 py-2 shadow-md">
               <div class="flex flex-col xl:flex-row justify-between items-center">
                 <div class="xl:w-8/12 w-full flex justify-end  xl:justify-start items-end xl:items-start">
                   <label>ลำดับล่าสุด {{ }}</label>

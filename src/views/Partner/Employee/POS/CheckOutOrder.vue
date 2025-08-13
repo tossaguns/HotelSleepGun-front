@@ -358,13 +358,13 @@
                 <label>ต้องการเรียกค่าเสียหายหรือไม่</label>
               </div>
             </div>
-            <div class=" bg-red-100  rounded-b-lg mx-3 py-4 px-3 flex flex-col">
+            <div class=" bg-red-100 border border-red-500  rounded-b-lg mx-3 py-4 px-3 flex flex-col">
               <label>ราคาค่าเสียหาย <span><input type="number" class="bg-white border rounded-lg py-2 px-4 w-[100px]"
                     placeholder="ราคา" /></span> บาท</label>
               <div class="mt-2">
                 <label>เหตุผลที่ต้องชำระค่าเสียหาย </label>
-                <span><textarea type="text" class="bg-white border rounded-lg w-full py-2 px-4"
-                    placeholder="พิมพ์เหตุผล..." /></span>
+                <textarea type="text" class="bg-white border rounded-lg w-full py-2 px-4"
+                    placeholder="พิมพ์เหตุผล..." />
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@
           </div>
         </div>
 
-        <div class="border rounded-md p-4 bg-red-500 text-white flex flex-col">
+        <div class="border rounded-md p-4 bg-red-600 text-white flex flex-col">
           <label class="text-lg font-bold mb-3">สรุปราคา ({{ totalRooms }} รายการ)</label>
 
           <!-- รายละเอียดราคา -->

@@ -6,7 +6,7 @@
     <template #content>
       <div class="p-4 max-w-[3000px] mx-auto lg:px-8">
         <div>
-          
+
           <div class="flex flex-col lg:flex-row justify-center items-center lg:space-x-6 lg:space-y-2 space-y-2">
             <div class="flex items-center space-x-2">
               <label>ค้นหาวันที่ : </label>
@@ -36,11 +36,15 @@
             </div>
           </div>
 
-
+          <div>
+            <label>รายการทั้งหมด : {{ }} รายการ</label>
+          </div>
 
           <div>
             <label>สถานะ : {{ }}</label>
           </div>
+
+
 
           <div class="mt-8">
             <div>
@@ -171,7 +175,7 @@
 
                               <div>
                                 <label class="font-bold">ค่ามัดจำ : <span class="font-normal">ค่าจุญเเจ ({{ depositKey
-                                    }})
+                                }})
                                   </span></label>
                               </div>
                             </div>

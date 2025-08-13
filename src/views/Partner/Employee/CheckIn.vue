@@ -1,12 +1,12 @@
 <template>
   <TemplateEmployee>
     <template #header>
-      <label>Check-in</label>
+      <label>รายการเข้าพัก</label>
     </template>
     <template #content>
       <div class="p-4 max-w-[3000px] mx-auto text-stone">
         <div>
-          <label class="text-2xl font-bold">Check-in</label>
+          <label class="text-2xl font-bold">รายการเข้าพัก</label>
         </div>
         <div class="max-w-7xl mx-auto mt-8">
           <div class="md:p-6">
@@ -52,9 +52,71 @@
               </div>
             </div>
 
+            <div class="flex justify-center items-center mt-8 space-x-5">
+              <div class="relative inline-block text-left" ref="dropdownRef">
+                <!-- ปุ่ม -->
+                <button @click="toggleDropdownOrder"
+                  class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  เรียง row เเบบไหน ▼
+                </button>
+                <!-- รายการ dropdown -->
+                <div v-if="isOpenOrder"
+                  class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                  <div class="py-1">
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตาม order check-in
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตาม order check-out
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตาม order SleepGun
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตามฉบับ check-in
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตามฉบับ check-out
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงตามฉบับ SleepGun
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="relative inline-block text-left" ref="dropdownRef">
+                <!-- ปุ่ม -->
+                <button @click="toggleDropdownNewOld"
+                  class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  รูปเเบบการเรียง ▼
+                </button>
+                <!-- รายการ dropdown -->
+                <div v-if="isOpenNewOld"
+                  class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                  <div class="py-1">
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงจากเก่า > ใหม่
+                    </a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      เรียงจาก ใหม่ > เก่า
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <label>Export :</label>
+              <div class="flex justify-center item-center space-x-4">
+                <button class="bg-red-600 text-white py-2 px-4 rounded-lg font-bold">PDF</button>
+                <button class="bg-green-600 text-white py-2 px-4 rounded-lg font-bold">Excel</button>
+              </div>
+            </div>
+
+
             <div>
               <!-- ต้องการให้กดปุ่มไหนให้เเสดงเเค่ข้อมูลของสถานะนั้นๆ -->
-              <div class="space-x-2 flex justify-center items-center my-12">
+              <div class="space-x-2 flex justify-center items-center my-8">
                 <button
                   class="bg-stone-400 py-2 px-4 rounded-lg hover:bg-amber-500 text-white font-bold">อยู่ระหว่งการเข้าพัก</button>
                 <button
@@ -65,6 +127,11 @@
             <div class="mt-8">
               <label class="text-xl font-bold">รายละเอียดเเต่ละรายการ</label>
             </div>
+
+            
+          <div>
+            <label>รายการทั้งหมด : {{ }} รายการ</label>
+          </div>
 
             <div>
               <div>
@@ -878,10 +945,10 @@
                           <div class="flex flex-wrap">
                             <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
                           </div>
-                           <div class="flex flex-wrap">
+                          <div class="flex flex-wrap">
                             <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
                           </div>
-                           <div class="flex flex-wrap">
+                          <div class="flex flex-wrap">
                             <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
                           </div>
                         </div>
@@ -978,7 +1045,7 @@
                           <div class="flex flex-wrap">
                             <label>ค่าเสียหายภายในห้อง : {{ }} บาท</label>
                           </div>
-                           <div class="flex flex-wrap">
+                          <div class="flex flex-wrap">
                             <label>เหตุผลที่เก็บค่าเสียหาย : {{ }}</label>
                           </div>
                         </div>

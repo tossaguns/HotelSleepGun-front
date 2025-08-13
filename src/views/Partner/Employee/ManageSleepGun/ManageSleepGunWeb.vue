@@ -66,6 +66,10 @@
             </div>
 
             <div>
+              <label>รายการทั้งหมด : {{ }} รายการ</label>
+            </div>
+
+            <div>
               <label>สถานะ : {{ }}</label>
             </div>
 
@@ -175,7 +179,7 @@
                           </div>
                           <div>
                             <label class="font-bold">ประเภทพัดลม/เเอร์ : </label>
-                            <label>{{  }}</label>
+                            <label>{{ }}</label>
                           </div>
                           <div>
                             <label class="font-bold">เข้าพักสูงสุดได้ : </label>
@@ -224,7 +228,7 @@
                           <img src="/imgHotel/warn.png" class="w-4 h-4 bg-stone-200 rounded-full" />
                         </div>
                         <div class="flex space-x-3">
-                         <div>
+                          <div>
                             <label class="font-bold">ชื่อผู้ทำการจอง : </label>
                             <label>{{ customerfirstName }} {{ customerlastName }}</label>
                           </div>

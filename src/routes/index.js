@@ -42,7 +42,6 @@ import MainManageMember from "../views/Admin/ManageMember/MainManageMember.vue";
 import ProfileEmployee from "../views/Partner/Employee/ProfileEmployee.vue";
 import ManageSleepGunWeb from "../views/Partner/Employee/ManageSleepGun/ManageSleepGunWeb.vue";
 import CheckIn from "../views/Partner/Employee/CheckIn.vue";
-import MainIncomeEmployee from "../views/Partner/Employee/MainIncomeEmployee.vue";
 import MainPOS from "../views/Partner/Employee/POS/MainPOS.vue";
 //member
 import MainMemberPage from "../views/Member/MainMemberPage.vue";
@@ -105,7 +104,6 @@ const routes = [
   { path: "/profileemployee", component: ProfileEmployee },
   { path: "/managesleepgunWeb", component: ManageSleepGunWeb },
   { path: "/checkin", component: CheckIn },
-  { path: "/mainincomeemployee", component: MainIncomeEmployee },
   { path: "/mainpos", component: MainPOS },
   //Member
   { path: "/mainmemberpage", component: MainMemberPage },
