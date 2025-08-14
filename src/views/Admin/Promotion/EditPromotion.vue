@@ -265,7 +265,7 @@ async function updatePromotion() {
 
 
 function navigateBackToMainPromotion() {
-  router.push('/mainpromotion')
+  router.push('/mainmanagepromotion')
 }
 
 </script>

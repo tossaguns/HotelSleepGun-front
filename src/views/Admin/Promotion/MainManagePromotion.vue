@@ -6,6 +6,10 @@
     <template #content>
       <div class="p-4 max-w-[3000px] mx-auto">
 
+       
+
+
+
         <div class="flex justify-center pt-7 mb-5">
           <button @click="navigateToAddPromotion" class="rounded-lg px-2 py- text-lg hover:bg-emerald-500 shadow-lg">
             + เพิ่มโปรโมชั่น
@@ -31,7 +35,8 @@
                 <th class="col-finish border px-2 py-1">วันสิ้นสุดโปรโมชั่น</th>
                 <th class="border px-2 py-1">ผู้ทำการอัปเดต</th>
                 <th class="col-updated border px-2 py-1">วันเวลาที่อัปเดต</th>
-                <th class="px-2 py-2 border sm:px-3 sm:py-3 rounded-tr-xl">จัดการ</th>
+                <th class="border px-2 py-1">จัดการ</th>
+                <th class="px-2 py-2 border sm:px-3 sm:py-3 rounded-tr-xl">ดูข้อมูลใช้งาน</th>
               </tr>
             </thead>
             <tbody>
@@ -62,9 +67,75 @@
                     👁️
                   </button>
                 </td>
+                <td>
+                  <button
+                    class="text-blue-500 hover:text-blue-700 font-bold underline underline-offset-2 ">ข้อมูลเพิ่มเติม</button>
+                </td>
               </tr>
             </tbody>
           </table>
+
+           <!--FIXME: เมื่อกดข้อมูลเพิ่มเติม ให้เเสดง div นี้ -->
+        <div class="mx-3 p-4 border rounded-lg mt-10">
+          <div class=" flex flex-col space-y-2">
+            <label>ลำดับ : {{ }} </label>
+            <label class="text-lg font-bold">ชื่อโปรโมชั่น : {{ }}</label>
+            <div class="px-4 flex flex-col">
+              <label class="font-bold text-stone-500">มี partner ใช้งาน : {{ }} คน</label>
+              <label class="font-bold text-stone-500">ราคาที่ได้ : {{ }} THB</label>
+            </div>
+          </div>
+
+          <div class="mt-10 px-4">
+            <div class="flex justify-between items-center px-4 text-sm text-stone-400">
+              <div class="w-1/12 flex justify-center items-center"><label>ลำดับ</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>โลโก้</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>ชื่อบริษัท</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>ชื่อโรงเเรม</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>จังหวัด</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>ราคาที่ซื้อ</label></div>
+              <div class="w-2/12 flex justify-center items-center"><label>ข้อมูล Partner</label></div>
+            </div>
+
+            <div class="border rounded-lg shadow-md px-4 py-3 mt-2">
+              <div class="flex justify-between items-center">
+                <div class="w-1/12 flex justify-center items-center">
+                  <label>ลำดับ {{ }}</label>
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <img src="/imgHotel/sea.jpg" class="w-14 h-14 rounded-full" />
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <label>ชื่อบริษัท {{ }}</label>
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <label>ชื่อโรงเเรม {{ }}</label>
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <label>จังหวัด {{ }}</label>
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <label>ราคาที่ทำการซื้อ {{ }} THB</label>
+                </div>
+                <div class="w-2/12 flex justify-center items-center">
+                  <button class="text-amber-500 font-bold border shadow py-2 px-4 rounded-lg ">ข้อมูล Partner</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- เเสดงเเค่หน้าละ 15 row -->
+          <div class="flex justify-center items-center mb-4 mt-6">
+            <div class="space-x-3">
+              <button class="bg-green-800/60 text-white rounded-lg  px-2 hover:bg-green-800">ก่อนหน้า</button>
+              <label>หมายเลขหน้า</label>
+              <button class="bg-green-800/60 text-white rounded-lg  px-2 hover:bg-green-800">ถัดไป</button>
+            </div>
+          </div>
+        </div>
+
+
+
         </div>
       </div>
     </template>

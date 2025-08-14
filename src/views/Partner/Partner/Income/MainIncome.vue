@@ -19,6 +19,8 @@
               class="border border-amber-500 text-amber-500 px-4 py-2 rounded-lg font-bold hover:bg-amber-300 hover:text-white mt-2">กำลังเข้าพัก</button>
             <button
               class="border border-green-600 text-green-600 px-4 py-2 rounded-lg font-bold hover:bg-green-500 hover:text-white mt-2">เข้าพักเสร็จสิ้น</button>
+            <button
+              class="border border-rose-500 text-rose-500 px-4 py-2 rounded-lg font-bold hover:bg-rose-400 hover:text-white mt-2">เป็นสมาชิกกับ SleepGun</button>
             <div class="px-10 mt-2">
               <button class="px-4 py-2 rounded-lg font-bold bg-blue-500 text-white hover:bg-blue-600">ค้นหา</button>
             </div>
@@ -35,11 +37,9 @@
                   <label class="font-bold">
                     40000{{ }}
                     <span class="text-amber-500 font-thin group-hover:text-amber-200">
-                      (+850{{ }})
+                      (ค่ามัดจำ +850{{ }})
                     </span>
-                    <span class="text-xs text-stone-400 font-thin group-hover:text-stone-200">
-                      ค่ามัดจำ
-                    </span>
+
                   </label>
                 </div>
               </div>
@@ -53,11 +53,9 @@
                   <label class="font-bold">
                     40000{{ }}
                     <span class="text-amber-500 font-thin group-hover:text-amber-50">
-                      (+850{{ }})
+                      (ค่ามัดจำ +850{{ }})
                     </span>
-                    <span class="text-xs text-stone-400 font-thin group-hover:text-stone-100">
-                      ค่ามัดจำ
-                    </span>
+
                   </label>
                 </div>
               </div>
@@ -72,10 +70,7 @@
                 <label class="font-bold">
                   40000{{ }}
                   <span class="text-amber-500 font-thin group-hover:text-amber-200">
-                    (+850{{ }})
-                  </span>
-                  <span class="text-xs text-stone-400 font-thin group-hover:text-stone-100">
-                    ค่ามัดจำ
+                    ( ค่ามัดจำ +850{{ }})
                   </span>
                 </label>
               </div>
@@ -124,6 +119,8 @@
                     <label class="bg-blue-600 text-white px-2 rounded-lg">สถานะการเข้าพัก : walkin{{ }}</label>
                     <!-- สถานะ เข้าพักเสร็จสิ้น bg-green/กำลังเข้าพัก bg-amber -->
                     <label class="bg-green-600 text-white px-2 rounded-lg">สถานะ : เข้าพักเสร็จสิ้น{{ }}</label>
+                    <!-- สถานะ เป็นสมาชิกกับ SleepGun เเสดงเมื่อทำการกรอกข้อมูลหมายเลขโทรศัพท์สำหรับเป็นสมาชิก -->
+                    <label class="bg-rose-600 text-white px-2 rounded-lg">สถานะ : เป็นสมาชิกกับ SleepGun{{ }}</label>
                   </div>
                   <div>
                     <label>Order Stay ID : {{ }}</label>

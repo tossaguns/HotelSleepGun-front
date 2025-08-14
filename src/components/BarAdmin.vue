@@ -89,11 +89,31 @@
             <transition name="fade-slide" mode="out-in" appear>
               <p class="transition-all duration-300 whitespace-nowrap overflow-hidden"
                 :class="isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'">
-                จัดการโปรโมชัน
+                จัดการโปรโมชั่น
               </p>
             </transition>
           </div>
         </div>
+
+
+        <div @click="navigateTo('/sleepgundata', 'sleepgun')"
+          class="group mb-2 font-semibold py-2 rounded-lg transition duration-300 hover:bg-[#3D795A] hover:text-white hover:drop-shadow-lg flex items-center cursor-pointer"
+          :class="[
+            activeMenu === 'sleepgun' ? 'bg-[#3D795A] text-white drop-shadow-lg' : '',
+            isCollapsed ? 'px-3' : 'px-3'
+          ]">
+          <div class="flex items-center gap-3 ml-3 transition-all duration-300">
+            <img src="/images/icon/promotion_nav.png" alt="icon"
+              class="w-4 h-5 object-contain transition-transform duration-300 group-hover:scale-110" />
+            <transition name="fade-slide" mode="out-in" appear>
+              <p class="transition-all duration-300 whitespace-nowrap overflow-hidden"
+                :class="isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'">
+                ข้อมูลส่วน SleepGun
+              </p>
+            </transition>
+          </div>
+        </div>
+
 
         <div @click="navigateTo('/mainmanagehoteladmin', 'managehotel')"
           class="group mb-2 font-semibold py-2 rounded-lg transition duration-300 hover:bg-[#3D795A] hover:text-white hover:drop-shadow-lg flex items-center cursor-pointer"
@@ -274,6 +294,8 @@ function getActiveMenuFromRoute() {
     '/mainmanagehoteladmin': 'managehotel',
     '/mainmanagemember': 'managemember',
 
+
+    '/sleepgundata': 'sleepgun',
 
     '/mainselecttype': 'selecttype',
     '/maincheckincheckout': 'selecttype',

@@ -127,7 +127,7 @@
               <div class="flex flex-col space-y-2">
                 <label>เลขบัตรประชาชน</label>
                 <input type="text" v-model="idenNumberCustomer" @blur="validateIdenNumber(idenNumberCustomer)"
-                  class="border rounded-md p-1" placeholder="กรอกเลขบัตรประชาชน" maxlength="13" />
+                  class="border rounded-md py-1 px-4" placeholder="กรอกเลขบัตรประชาชน" maxlength="13" />
               </div>
 
               <div
@@ -142,7 +142,7 @@
                   class="absolute top-1 right-1 bg-white rounded-full text-red-500 hover:text-white hover:bg-red-500 w-6 h-6 flex items-center justify-center text-xs shadow">
                   ✕
                 </button>
-                <span v-if="!idenImgCustomer" class="text-blue-400 font-medium">เลือกรูป</span>
+                <span v-if="!idenImgCustomer" class="text-blue-400 font-medium text-center px-2">+ เเนบรูปถ่ายบัตรประชาชน</span>
               </div>
             </div>
 
@@ -150,7 +150,7 @@
               <div class="flex flex-col space-y-2">
                 <label>เลขพาสปอร์ต</label>
                 <input type="text" v-model="passportNumberCustomer"
-                  @blur="validatePassportNumber(passportNumberCustomer)" class="border rounded-md p-1"
+                  @blur="validatePassportNumber(passportNumberCustomer)" class="border rounded-md py-1 px-4"
                   placeholder="กรอกเลขพาสปอร์ต" />
               </div>
 
@@ -166,10 +166,16 @@
                   class="absolute top-1 right-1 bg-white rounded-full text-red-500 hover:text-white hover:bg-red-500 w-6 h-6 flex items-center justify-center text-xs shadow">
                   ✕
                 </button>
-                <span v-if="!passportImgCustomer" class="text-amber-400 font-medium">เลือกรูป</span>
+                <span v-if="!passportImgCustomer" class="text-amber-400 font-medium text-center px-2">+ เเนบรูปถ่ายวีซ่า เห็นชื่อเเละหมายเลขชัดเจน</span>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- กดคลิ๊กเเล้วหากข้อมูลไม่ตรงกันกับในดาต้าเบส ให้เเสดงข้อควมขึ้นมา ว่า ชื่อเเละเบอร์โทรไม่ตรงกัน -->
+        <div class="flex items-center space-x-2 px-4 py-4 border rounded-lg">
+          <input type="checkbox"/>
+          <label>หากเป็นสมาชิกกับ Tossagun สามารถกดคลิ๊กเพื่อสะสมเเต้มเครดิตได้</label>
         </div>
 
         <div class="flex justify-center pb-12 pt-6">

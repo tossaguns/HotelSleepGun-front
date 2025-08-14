@@ -30,19 +30,22 @@
 
           <div class="mt-2 mb-12">
             <div class="flex justify-between items-center">
-              <div class="w-4/6">
-              <div class="text-red-600 text-6xl font-bold flex justify-center items-center">
-                กราฟ...
-              </div>
+              <div class="w-3/4">
+                <div class="text-red-600 text-6xl font-bold flex justify-center items-center">
+                  กราฟ...
+                </div>
               </div>
 
-              <div class="w-2/6">
+              <div class="w-1/4">
                 <div class="flex flex-col justify-center items-center bg-white shadow-lg py-6 px-4 w-full rounded-lg">
                   <div class="flex flex-col justify-center items-center">
                     <label class="pt-4 text-stone-400">ยอดเข้าพักทั้งหมด</label>
                     <div class="mt-3 mb-4">
-                      <div class="bg-amber-100 py-12 px-4 rounded-full">
-                        <label class="text-2xl font-bold bg-amber-300 py-8 px-2 rounded-full">{{ }}129 ครั้ง</label>
+                      <div class="bg-amber-100 py-4 px-4 rounded-full ">
+                        <div class=" bg-amber-300/70 py-8 px-2 rounded-full flex flex-col justify-center items-center">
+                          <label class="text-2xl font-bold">{{ }}129 ครั้ง</label>
+                          <label>รายได้ {{ }}80000 THB </label>
+                        </div>
                       </div>
                     </div>
                     <label>จำนวนคนเข้าพักทั้งหมด <span class="font-bold">{{ }}254</span> คน</label>
@@ -55,8 +58,9 @@
 
                   <div class="flex flex-col justify-center items-center">
                     <label class="text-blue-600">ยอด Walkin</label>
-                    <div class="mt-6">
-                      <label class="font-bold text-xl ">{{ }} 86 Order</label>
+                    <div class="mt-6 flex flex-col justify-center items-center ">
+                      <label class="text-lg font-bold  ">{{ }} 86 Order</label>
+                      <label class="">รายได้ {{ }} 60,520 THB</label>
                     </div>
                   </div>
 
@@ -66,10 +70,22 @@
 
                   <div class="flex flex-col justify-center items-center">
                     <label class="text-amber-600">ยอด SleepGun</label>
-                    <div class="mt-6 mb-4">
-                      <label class="font-bold text-xl ">{{ }} 43 Order</label>
+                    <div class="mt-6  mb-4 flex flex-col justify-center items-center">
+                      <label class="text-lg font-bold ">{{ }} 41 Order</label>
+                      <label class="">รายได้ {{ }} 10,520 THB</label>
                     </div>
-                    <label class="text-stone-400">ยอดเข้าชมหน้าเว็บ {{  }} ครั้ง</label>
+                    <label class="text-stone-400">ยอดเข้าชมหน้าเว็บ {{ }} ครั้ง</label>
+                  </div>
+
+                  <div @click="$router.push('/mainreview')" class="border py-3 px-8 mt-6 rounded-lg  shadow-md">
+                    <div class="flex space-x-3">
+                      <label class="font-bold">รีวิว</label>
+                      <div class="space-x-6">
+                        <label class="font-bold text-amber-600">{{ }}3.5 ดาว</label>
+                        <!-- เเสดงดาวที่ได้จกรีวิว -->
+                        <label>***{{ }}</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -90,7 +106,7 @@
 
 
 
-          <div  class="flex justify-between items-center mt-4 space-x-2">
+          <div class="flex justify-between items-center mt-4 space-x-2">
             <div @click="$router.push('/mainincome')" class="w-2/5">
               <div class="bg-[url('/imgHotel/bgleaf.png')] object-cover rounded-lg shadow-md">
                 <div class="bg-black/40 rounded-lg">
