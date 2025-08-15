@@ -297,7 +297,7 @@
                         </div>
                       </div>
                       <!-- ตรงเวลา -->
-                      <div>
+                      <div class="mt-4">
                         <label>สถานะการเข้าพัก : <span
                             class="bg-green-500 text-white px-4 rounded-lg">ตรงเวลา</span></label>
                         <div class="flex flex-wrap">
@@ -308,7 +308,7 @@
                         </div>
                       </div>
                       <!-- ยกเลิก -->
-                      <div>
+                      <div class="mt-4">
                         <label>สถานะการเข้าพัก : <span
                             class="bg-amber-400 text-white px-4 rounded-lg">ยกเลิก</span></label>
                         <div class="flex flex-wrap">
@@ -397,7 +397,7 @@
                           หมายเลข : {{ }}
                         </label>
                         <div class="flex justify-center items-center">
-                          <img src="/imgHotel/delete.png" class="w-[300px] h-[120px] border rounded-lg" />
+                          <img src="/imgHotel/employee.jpg" class="w-[300px] h-[120px] border rounded-lg" />
                         </div>
                       </div>
                     </div>

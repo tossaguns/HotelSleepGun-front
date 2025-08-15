@@ -110,7 +110,7 @@
             </transition>
           </div>
         </div>
-      
+
 
         <div @click="navigateTo('/managehotel', 'managehotel')"
           class="group mb-2 font-semibold py-2 rounded-lg transition duration-300 hover:bg-amber-400 hover:text-white hover:drop-shadow-lg flex items-center cursor-pointer"
@@ -348,6 +348,7 @@ function getActiveMenuFromRoute() {
     '/mainreview': 'review',
 
     '/managehotel': 'managehotel',
+    '/editmanagehotel': 'managehotel',
     '/mainmanagepos': 'managepos',
 
     '/mainmanageroom': 'manageroom',

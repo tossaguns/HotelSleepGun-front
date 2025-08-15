@@ -804,7 +804,7 @@
                             <label>สถานะ :</label>
 
                             <!-- สถานะมี 2 สถานะ มี อยู่ระหว่างการเข้าพัก bg-amber/ เข้าพักเสร็จสิ้น bg-green-->
-                            <lable class="bg-amber-400 text-white py-1 px-4 rounded-md">อยู่รหว่างการเข้าพัก</lable>
+                            <lable class="bg-green-600 text-white py-1 px-4 rounded-md">เข้าพักเสร็จสิ้น</lable>
 
 
 

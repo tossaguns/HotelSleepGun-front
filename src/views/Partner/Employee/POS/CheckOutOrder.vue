@@ -107,7 +107,7 @@
           <!-- เเสดงรูป -->
           <label>รุป : </label>
           <div class="flex justify-center items-center">
-            <img src="/imgHotel/sea.jpg" alt="รูปยืนยันตัวตน"
+            <img src="/imgHotel/employee.jpg" alt="รูปยืนยันตัวตน"
               class="w-[300px] h-[180px] object-cover border rounded-lg" />
           </div>
         </div>
@@ -385,7 +385,7 @@
           </div>
         </div>
 
-        <div class="border rounded-md p-4 bg-red-600 text-white flex flex-col">
+        <div class="border rounded-md p-4 bg-red-700/80 text-white flex flex-col">
           <label class="text-lg font-bold mb-3">สรุปราคา ({{ totalRooms }} รายการ)</label>
 
           <!-- รายละเอียดราคา -->
