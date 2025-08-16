@@ -9,7 +9,7 @@
         <!-- Hotel -->
         <div class="mb-5" :ref="setSectionRef('hotel')">
           <div class=" bg-cyan-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer" @click="toggleSection('hotel')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               ประเภททที่พัก
             </div>
           </div>
@@ -23,7 +23,7 @@
         <!-- Room -->
         <div class="mb-5" :ref="setSectionRef('room')">
           <div class="bg-rose-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer" @click="toggleSection('room')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               ประเภทห้อง
             </div>
           </div>
@@ -38,7 +38,7 @@
         <div class="mb-5" :ref="setSectionRef('facility')">
           <div class="bg-lime-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer"
             @click="toggleSection('facility')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               สิ่งอำนวยความสะดวกของที่พัก
             </div>
           </div>
@@ -53,7 +53,7 @@
         <div class="mb-5" :ref="setSectionRef('typeroom')">
           <div class="bg-stone-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer"
             @click="toggleSection('typeroom')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               สิ่งอำนวนความสะดวกภายในห้อง
             </div>
           </div>
@@ -67,7 +67,7 @@
         <!-- Hotel For -->
         <div class="mb-5" :ref="setSectionRef('for')">
           <div class="bg-indigo-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer" @click="toggleSection('for')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               ที่พักเหมาะสำหรับ
             </div>
           </div>
@@ -82,7 +82,7 @@
         <div class="mb-5" :ref="setSectionRef('ocation')">
           <div class="bg-fuchsia-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer"
             @click="toggleSection('location')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               สถานที่ใกล้เคียง
             </div>
           </div>
@@ -96,7 +96,7 @@
         <!-- Food -->
         <div class="mb-5" :ref="setSectionRef('food')">
           <div class="bg-amber-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer" @click="toggleSection('food')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               มื้ออาหาร
             </div>
           </div>
@@ -111,7 +111,7 @@
         <div class="mb-5" :ref="setSectionRef('payment')">
           <div class="bg-slate-50 h-[160px] w-full rounded-lg shadow-md cursor-pointer"
             @click="toggleSection('payment')">
-            <div>
+            <div class="p-4 text-xl font-bold text-green-900/80">
               นโยบายการจ่ายเงิน
             </div>
           </div>
