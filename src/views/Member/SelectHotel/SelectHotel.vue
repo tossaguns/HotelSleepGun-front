@@ -134,7 +134,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import { ref, onMounted } from 'vue';
 import BarDateMember from "@components/BarDateMember.vue";
 import PriceSlider from "@components/element/PriceSlider.vue";

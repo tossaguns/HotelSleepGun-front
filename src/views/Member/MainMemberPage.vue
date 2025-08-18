@@ -95,7 +95,7 @@ import Bar from "@components/BarMember.vue";
 import CalendarRangePicker from "@/components/element/CalendarRangePicker.vue";
 import InputNumber from "@/components/element/InputNumber.vue";
 import SearchInput from "@/components/element/SearchInput.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import ProductCarouselHart from '@/components/element/ProductCarouselHart.vue';
 import ProductCarouselImg from '@/components/element/ProductCarouselImg.vue';
 import { ref, onMounted } from 'vue';

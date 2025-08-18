@@ -4,7 +4,7 @@
       <Bar />
     </div>
     <div class="min-h-screen">
-      <div class="max-w-7xl mx-auto text-stone-600">
+      <div class="max-w-[3000px] mx-auto text-stone-600">
         <div class="mt-8">
 
           <div class="flex flex-col md:flex-row justify-start md:items-center">
@@ -26,7 +26,7 @@
             <hr class="border" />
           </div>
 
-          <div class="flex flex-col lg:flex-row justify-between items-center space-x-4 px-4">
+          <!-- <div class="flex flex-col lg:flex-row justify-between items-center space-x-4 px-4">
             <div>
               <Gallery />
             </div>
@@ -60,7 +60,59 @@
               </div>
 
             </div>
+          </div> -->
+
+
+          <div class="relative w-full">
+            <img src="/imgHotel/imgprovince/Bangkok.jpg" class="w-full h-[500px] 2xl:h-[800px] object-cover" />
+
+            <!-- ข้อความบนมุมขวาบน -->
+            <label
+              class="absolute 2xl:top-20 top-12 right-12 bg-black/50 text-white px-4 py-6 rounded-3xl text-xl xl:text-3xl 3xl:text-5xl w-[300px] xl:w-[450px] 3xl:w-[680px] text-center hidden md:block">
+              สโลเเกนของโรงเเรม...{{ }}
+            </label>
+
+            <div
+              class="absolute bottom-12 left-20 bg-stone-300/60 rounded-3xl 3xl:h-[700px] 3xl:w-[550px]  2xl:h-[600px] 2xl:w-[450px] lg:h-[330px] lg:w-[250px]">
+
+              <div class=" p-3 hidden lg:block">
+                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
+                  class="3xl:h-[675px] 2xl:h-[575px] lg:h-[305px] object-cover rounded-2xl w-full" />
+              </div>
+
+            </div>
+
+            <div
+              class="absolute bottom-12 3xl:left-[650px] 2xl:left-[550px] lg:left-[345px] bg-stone-300/60 rounded-3xl 3xl:h-[300px] 3xl:w-[260px] 2xl:h-[300px] 2xl:w-[250px] lg:h-[180px] lg:w-[150px]">
+
+              <div class="p-3 hidden lg:block">
+                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
+                  class="3xl:h-[275px] 2xl:h-[275px] lg:h-[155px] object-cover rounded-2xl w-full" />
+              </div>
+
+            </div>
+
+            <div
+              class="absolute bottom-12 3xl:left-[930px] 2xl:left-[820px] lg:left-[510px] bg-stone-300/60 rounded-3xl 3xl:h-[300px] 3xl:w-[260px] 2xl:h-[300px] 2xl:w-[250px] lg:h-[180px] lg:w-[150px]">
+
+              <div class="p-3 hidden lg:block">
+                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
+                  class="3xl:h-[275px] 2xl:h-[275px] lg:h-[155px] object-cover rounded-2xl w-full" />
+              </div>
+            </div>
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
           <div class="mx-4 border mt-4 p-4 rounded-lg">
             <div class="">
@@ -239,7 +291,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import Gallery from "@components/element/Gallery.vue";
 import Roomlist from "@components/element/RoomlistDate.vue";
 import { ref, onMounted, computed } from 'vue'

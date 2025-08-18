@@ -190,7 +190,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import Gallery from "@components/element/Gallery.vue";
 import Roomlist from "@components/element/Roomlist.vue";
 import About from "./All/About.vue";

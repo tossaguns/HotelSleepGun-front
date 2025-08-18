@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-stone-700 w-full">
+  <!-- <div class="bg-stone-700 w-full">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-row items-center justify-between py-4 px-4">
 
@@ -42,7 +42,7 @@
         </div>
 
         <div class="relative">
-          <!-- ปุ่มเปิดเมนู (มือถือ) -->
+
           <div class="lg:hidden w-2/4 flex justify-end">
             <button class="text-white" @click="toggleMenu">
               <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,13 +51,13 @@
             </button>
           </div>
 
-          <!-- Overlay เฟด -->
+      
           <transition name="fade">
             <div v-if="menuOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" @click.self="toggleMenu">
             </div>
           </transition>
 
-          <!-- Slide-in Menu -->
+       
           <transition name="slide">
             <div v-if="menuOpen" class="fixed top-0 right-0 h-full w-64 bg-white z-50  shadow-lg p-4 overflow-y-auto">
               <div class="flex justify-end mb-2">
@@ -94,6 +94,43 @@
 
             </div>
           </transition>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+  <div class="backdrop-blur-md 
+           bg-gradient-to-t from-transparent to-white">
+    <div class="max-w-7xl mx-auto px-6 py-2">
+      <div class="flex xl:justify-center items-center">
+        <div @click="goToMain" class="flex items-center gap-2 w-1/6">
+          <img class="w-8 h-8 object-contain" src="/img/Bar/Tossagun.png" alt="Logo" />
+          <label class="text-black font-bold text-lg leading-none">SLEEPGUN</label>
+        </div>
+
+        <div class="hidden lg:block w-3/6">
+          <div class="flex justify-between text-sm font-semibold">
+            <button @click="goToMain" class="text-stone-600 hover:text-yellow-400">{{ t('MainTossagun') }}</button>
+            <button @click="goToSelectHotel" class="text-stone-600 hover:text-yellow-400">เลือกห้องพัก</button>
+            <button @click="goToDetailHotel" class="text-stone-600 hover:text-yellow-400">เเสดงห้องพัก</button>
+            <button @click="goToPayment" class="text-stone-600 hover:text-yellow-400">ยืนยันการจ่ายเงิน</button>
+            <button @click="goToContact" class="text-stone-600 hover:text-yellow-400">ติดต่อเรา</button>
+          </div>
+        </div>
+
+
+        <div class="hidden lg:block w-2/6  ">
+          <div class="flex items-center justify-end">
+            <div>
+              <FontAndLangSelector />
+            </div>
+            <div class="flex lg:justify-end">
+              <div @click="goToProfile">
+                <Profile />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

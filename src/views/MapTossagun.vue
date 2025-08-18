@@ -83,7 +83,7 @@
 
 <script setup>
 import Bar from "@components/BarHotelTossagun.vue"
-import Footer from "@components/FooterLoneTossagun.vue"
+import Footer from "@components/Footer.vue"
 import { ref, onMounted, } from 'vue'
 
 const isLoading = ref(true)

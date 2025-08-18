@@ -99,7 +99,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import BarProfileMember from "@components/BarProfileMember.vue";
 import Rating from "@/components/element/Rating.vue";
 import { ref } from 'vue'

@@ -326,7 +326,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import BarProfileMember from "@components/BarProfileMember.vue";
 import { useRouter } from 'vue-router';
 

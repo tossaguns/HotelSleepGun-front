@@ -322,7 +322,7 @@
 
 <script setup>
 import Bar from "@components/BarMember.vue";
-import Footer from "@components/FooterLoneTossagun.vue";
+import Footer from "@components/Footer.vue";
 import StepPanel from "@components/element/Stepper.vue";
 import StepperMain from "@components/element/StepperMain.vue";
 import { ref, onMounted } from 'vue';
