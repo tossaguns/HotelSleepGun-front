@@ -14,7 +14,7 @@
               <!-- overlay ครึ่งล่าง + เบลอเนื้อหาข้างหลัง -->
               <div class="absolute bottom-[-80px] left-1/2 transform -translate-x-1/2
               w-full max-w-5xl h-2/3 bg-stone-200/40 backdrop-blur-sm z-40
-              flex justify-center items-center lg:rounded-2xl border-2 border-white/30 shadow-md">
+              flex justify-center items-center lg:rounded-3xl border-2 border-white/30 shadow-md">
                 <div class="flex flex-col justify-center items-center">
                   <label class="font-bold md:text-7xl  text-5xl  text-white">
                     SLEEPGUN
@@ -23,7 +23,7 @@
                     class="mt-8 flex flex-col md:flex-row md:justify-between justify-center items-center md:space-x-2 xl:text-xl lg:text-base text-sm space-y-2 md:space-y-0">
                     <input type="text"
                       class="px-4 md:py-4 py-2 rounded-lg shadow-lg w-[280px] lg:w-[280px] md:w-[230px]"
-                      placeholder="ค้นหา..." />
+                      placeholder="ค้นหาที่ตั้งที่พัก" />
                     <input type="date"
                       class="px-4 md:py-4 py-2 rounded-lg shadow-lg w-[280px] lg:w-[280px] md:w-[230px]" />
                     <input type="text"
@@ -54,8 +54,22 @@
               </div>
             </div>
 
-            <div class="mb-12 mt-20">
-              <div class="overflow-x-auto flex md:gap-4 py-4 md:px-12 scroll-smooth touch-pan-x hide-scrollbar">
+            <div class="relative mb-12 mt-20">
+              <!-- ปุ่มเลื่อนซ้าย -->
+              <button @click="scrollLeft"
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hidden md:flex">
+                ◀
+              </button>
+
+              <!-- ปุ่มเลื่อนขวา -->
+              <button @click="scrollRight"
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hidden md:flex">
+                ▶
+              </button>
+
+              <!-- แถบเลื่อน -->
+              <div ref="scrollContainer"
+                class="overflow-x-auto flex md:gap-4 py-4 md:px-12 scroll-smooth touch-pan-x hide-scrollbar">
                 <div v-for="(item, index) in hotelTypes" :key="index"
                   class="flex-none md:w-32 w-24 flex flex-col items-center cursor-pointer">
                   <button class="flex flex-col items-center">
@@ -68,12 +82,11 @@
               </div>
             </div>
 
-            <div class="mb-12 mt-20">
+            <div class="mb-12">
               <!-- หน้าโปรโมชั่น Hotel -->
-              <div class="p-4">
-                <div class="flex justify-between">
-                  <h2 class="md:text-xl px-6 font-bold">ที่พักรีวิวยอดเยี่ยม</h2>
-                  <label class="underline underline-offset-4 text-stone-400 hover:text-stone-500">ดูเพิ่มเติม</label>
+              <div class="px-4 py-12 bg-stone-100">
+                <div class="flex justify-center items-center my-8">
+                  <h2 class="md:text-2xl px-6 font-bold">TOP 10 ที่พักรีวิวยอดเยี่ยม</h2>
                 </div>
                 <ProductCarousel :products="products" />
               </div>
@@ -112,6 +125,82 @@
                 <ProductCarouselImg :products="province" @navigate="handleNavigate" />
               </div>
             </div>
+
+
+
+
+            <div class="mb-20 relative">
+              <!-- หัวข้อ -->
+              <div class="p-4">
+                <h2 class="md:text-xl px-6 font-bold">ข่าวสาร</h2>
+
+                <!-- ปุ่มซ้าย -->
+                <button @click="scrollLeft"
+                  class="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hidden md:flex">
+                  ◀
+                </button>
+
+                <!-- ปุ่มขวา -->
+                <button @click="scrollRight"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hidden md:flex">
+                  ▶
+                </button>
+
+                <!-- ✅ Container ที่ใช้ ref -->
+                <div ref="scrollContainer"
+                  class="flex overflow-x-auto hide-scrollbar space-x-4 scroll-smooth touch-pan-x px-4">
+                  <!-- การ์ด 1 -->
+                  <div class="flex-none border rounded-2xl w-[800px] h-[260px] shadow-md">
+                    <div class="flex justify-between items-center">
+                      <div class="w-1/2">
+                        <img src="/imgHotel/sea.jpg"
+                          class="[mask-image:radial-gradient(circle_at_left,white_60%,transparent_90%)] [mask-repeat:no-repeat] w-full h-[258px] rounded-2xl" />
+                      </div>
+                      <div class="w-1/2 px-4">
+                        <div class="flex flex-col justify-center items-center ">
+                          <label class="text-xs text-amber-500 bg-amber-100 py-2 px-4 rounded-full font-bold">PARTNER
+                            SLEEPGUN</label>
+                          <label class="text-2xl font-bold pt-2 pb-4">สมัครสมาชิกพาร์ทเนอร์</label>
+                          <label class="text-sm text-center text-stone-400">สมัครสมาชิกพาร์ทเนอร์ รับฟรีระบบคิดเงิน
+                            pos</label>
+                          <div class="pt-8">
+                            <button
+                              class="text-white bg-amber-400 px-4 py-2 rounded-lg hover:bg-amber-500">สมัครสมาชิก</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- การ์ด 2 -->
+                  <div class="flex-none border rounded-2xl w-[800px] h-[260px] shadow-md">
+                    <div class="flex justify-between items-center">
+                      <div class="w-1/2">
+                        <img src="/imgHotel/sea.jpg"
+                          class="[mask-image:radial-gradient(circle_at_left,white_60%,transparent_90%)] [mask-repeat:no-repeat] w-full h-[258px] rounded-2xl" />
+                      </div>
+                      <div class="w-1/2 px-4">
+                        <div class="flex flex-col justify-center items-center ">
+                          <label class="text-xs text-stone-600 bg-stone-100 py-2 px-4 rounded-full font-bold">MEMBER
+                            SLEEPGUN</label>
+                          <label class="text-2xl font-bold pt-2 pb-4">สมัครสมาชิกเมมเบอร์</label>
+                          <label class="text-sm text-center text-stone-400">สมัครสมาชิกเมมเบอร์ ใช้งานสิทธิพิเศษต่างๆ
+                            ได้ทันที</label>
+                          <div class="pt-8">
+                            <button
+                              class="text-white bg-stone-500 px-4 py-2 rounded-lg hover:bg-stone-600">สมัครสมาชิก</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div> <!-- end scroll-container -->
+              </div>
+            </div>
+
+
+
 
             <!-- เดี๋ยวค่อยทำต่อ
             <div>
@@ -161,12 +250,28 @@ const hotelTypes = ref([
 
 
 
+const scrollContainer = ref(null)
 
+const scrollLeft = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({ left: -400, behavior: 'smooth' })
+  }
+}
 
+const scrollRight = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({ left: 400, behavior: 'smooth' })
+  }
+}
 
+const horizontalContainer = ref(null)
 
-
-
+const scrollLeftMenu = () => {
+  horizontalContainer.value?.scrollBy({ left: -200, behavior: 'smooth' })
+}
+const scrollRightMenu = () => {
+  horizontalContainer.value?.scrollBy({ left: 200, behavior: 'smooth' })
+}
 
 
 

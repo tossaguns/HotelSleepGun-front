@@ -30,15 +30,15 @@
           class="flex-none"
           :style="{ width: itemWidth + 'px', marginRight: gap + 'px' }"
         >
-          <div class="border rounded p-4 flex flex-col h-full relative">
+          <div class="border rounded-3xl p-4 flex flex-col h-full relative bg-white drop-shadow-sm">
             <img
               :src="'https://primefaces.org/cdn/primevue/images/product/' + item.image"
               :alt="item.name"
-              class="w-full h-40 object-cover rounded mb-2"
+              class="w-full h-40 object-cover rounded-2xl mb-2"
             />
             <!-- Status -->
             <span
-              class="absolute left-2 top-2 text-xs text-white px-2 py-1 rounded"
+              class="absolute left-6 top-6 text-xs text-white px-2 py-1 rounded-xl"
               :class="statusColor(item.inventoryStatus)"
             >
               {{ item.inventoryStatus }}

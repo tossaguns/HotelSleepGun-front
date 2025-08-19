@@ -1,5 +1,4 @@
-
-/** @type {import('tailwindcss').Config} */ 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   important: true, // ให้ tailwind สำคัญกว่า primevue
@@ -23,10 +22,26 @@ export default {
         },
       },
       screens: {
-        '3xl': '2000px',
-        '4xl': '2500px',  
+        "3xl": "2000px",
+        "4xl": "2500px",
+      },
+      maskImage: {
+        "radial-left":
+          "radial-gradient(circle at left, white 70%, transparent 100%)",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      const newUtilities = {
+        ".mask-radial-left": {
+          "-webkit-mask-image": theme("maskImage.radial-left"),
+          "mask-image": theme("maskImage.radial-left"),
+          "-webkit-mask-repeat": "no-repeat",
+          "mask-repeat": "no-repeat",
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
