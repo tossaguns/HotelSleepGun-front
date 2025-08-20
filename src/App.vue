@@ -7,6 +7,8 @@
 <script setup>
 
 import { onMounted } from 'vue'
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 onMounted(() => {
   const script = document.createElement('script')

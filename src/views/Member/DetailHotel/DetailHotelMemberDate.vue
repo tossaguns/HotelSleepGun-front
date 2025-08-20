@@ -7,115 +7,197 @@
       <div class="max-w-[3000px] mx-auto text-stone-600">
         <div class="mt-8">
 
-          <div class="flex flex-col md:flex-row justify-start md:items-center">
-            <div class=" flex space-x-3 px-4 justify-start items-center">
-              <img src="/images/icon/company_nav.png" class="w-8" />
-              <label class="md:text-2xl text-xl font-bold text-black">{{ hotelName }}</label>
-            </div>
+          <div class="flex flex-col lg:flex-row justify-between items-start px-6 space-x-3">
 
-            <div class="flex justify-end items-end px-4 md:px-0">
-              <div v-for="(item, idx) in reviews" :key="idx" class="flex items-start space-x-4">
-                <div><span v-for="n in 5" :key="n" class="text-xl"
-                    :class="n <= item.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
+            <div class="relative lg:w-4/5 w-full">
+              <!-- ภาพใหญ่ -->
+              <img :src="selectedImage"
+                class="2xl:h-[600px] lg:h-[450px] h-[400px] object-cover w-full md:rounded-2xl rounded-lg" />
+
+              <!-- แถวภาพเล็ก -->
+              <div
+                class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/50 backdrop-blur-sm p-2 rounded-xl w-[90%] max-w-[600px]">
+                <div class="relative">
+                  <!-- ปุ่มเลื่อนซ้าย -->
+                  <button v-if="!isAtStart"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow px-2 py-1 z-10"
+                    @click="scrollLeft">
+                    ‹
+                  </button>
+
+                  <!-- ปุ่มเลื่อนขวา -->
+                  <button v-if="!isAtEnd"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow px-2 py-1 z-10"
+                    @click="scrollRight">
+                    ›
+                  </button>
+
+                  <!-- container ของ thumbnail -->
+                  <div ref="thumbContainer" class="flex overflow-x-auto scrollbar-hide space-x-2 px-6 scroll-smooth"
+                    @scroll="checkScroll">
+                    <img v-for="(img, index) in images" :key="index" :src="img"
+                      class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 flex-shrink-0"
+                      :class="selectedImage === img ? 'border-yellow-500' : 'border-transparent'"
+                      @click="selectedImage = img" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="mb-6 mt-2 px-4">
-            <hr class="border" />
-          </div>
 
-          <!-- <div class="flex flex-col lg:flex-row justify-between items-center space-x-4 px-4">
-            <div>
-              <Gallery />
-            </div>
 
-            <div class="lg:w-1/3 border rounded-lg w-full hidden lg:block">
+
+            <div class="lg:w-2/5 hidden lg:block">
               <div>
-                <iframe class="w-full h-full rounded-t-lg" frameborder="0" style="border:0" loading="lazy"
-                  allowfullscreen referrerpolicy="no-referrer-when-downgrade" :src="mapUrl"></iframe>
-                <div class="flex justify-center mt-2 text-xs space-x-2">
-                  <label>ละติจูด : {{ latitude }}</label>
-                  <label>ลองติจูด : {{ longitude }}</label>
+                <div>
+                  <iframe class="w-full 2xl:h-[200px] lg:h-[170px] rounded-2xl shadow" frameborder="0" style="border:0"
+                    loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" :src="mapUrl">
+                  </iframe>
+                </div>
+
+                <div class="border md:rounded-2xl rounded-lg h-[265px] 2xl:h-[385px] mt-4 shadow px-4">
+                  <div class="flex justify-end item-end mt-2 text-xs space-x-2">
+                    <label>ละติจูด : {{ latitude }}</label>
+                    <label>ลองติจูด : {{ longitude }}</label>
+                  </div>
+
+                  <div class="mt-4">
+                    <div class="hidden 2xl:block">
+                      <div class="flex flex-col md:flex-row justify-between md:items-end 2xl:px-0 px-4 mt-4">
+                        <div class="flex flex-col 2xl:px-0 px-4">
+                          <div class=" flex space-x-3 md:justify-start justify-center items-center">
+                            <img src="/images/icon/company_nav.png" class="w-8" />
+                            <label class="md:text-2xl text-xl font-bold text-black">{{ hotelName }}</label>
+                          </div>
+                          <div class="md:pl-10 flex  justify-center items-center space-x-1">
+                            <img src="/imgHotel/pin.png" class="lg:w-4 lg:h-4 w-3 h-3" />
+                            <div>
+                              <label class="lg:text-base md:text-sm text-xs">อำเภอ {{ subDistrict }}, จังหวัด {{
+                                province
+                              }}</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="flex flex-col justify-center items-center px-4 md:px-0 md:mt-0 mt-6">
+                          <div class="">
+                            <label class="text-xs font-bold text-white bg-amber-500/90 rounded-md px-4 py-1">รีวิว {{
+                              review }}
+                              4.5
+                              ✩</label>
+                          </div>
+
+                          <div class="flex space-x-2 justify-center items-center">
+                            <label class="text-sm text-stone-400">จำนวนรีวิว {{ }}</label>
+                            <div v-for="(item, idx) in reviews" :key="idx" class="flex items-start space-x-4">
+                              <div>
+                                <span v-for="n in 5" :key="n" class="text-xl"
+                                  :class="n <= item.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="4xl:mt-12 2xl:mt-4 flex flex-col 4xl:flex-row 4xl:justify-between justify-start 4xl:items-center items-start px-4">
+                      <div class="flex flex-col 2xl:text-base text-sm">
+                        <div>
+                          <i class="fa-regular fa-clock" style="color: #f2b32c;"></i>
+                          <label class="pl-2 font-bold text-amber-500">เวลาทำการ</label>
+                        </div>
+                        <div class="flex flex-col pl-7 text-sm">
+                          <label> check-in : {{ }}14.00 น.</label>
+                          <label> check-out : {{ }}9.00 น.</label>
+                        </div>
+                      </div>
+
+                      <div class="2xl:mt-4 mt-2  2xl:text-base text-sm">
+                        <div class="space-x-2">
+                          <i class="fa-solid fa-key" style="color: #4173c8;"></i>
+                          <label class="text-blue-700/80 font-bold">นโยบายเก็บค่ามัดจำ</label>
+                        </div>
+                        <div class="flex flex-col pl-7">
+                          <label>ราคา {{ }} THB</label>
+                          <label>รายละเอียดมัดจำ {{ }}</label>
+                        </div>
+                      </div>
+
+
+                      <div class="2xl:mt-4 mt-2 space-x-2  2xl:text-base text-sm">
+                        <i class="fa-solid fa-bed" style="color: #5c5e61;"></i>
+                        <label class="text-stone-600 font-bold">เตียงเสริม</label>
+                        <div class="pl-5">
+                          <div class="flex space-x-3">
+                            <label>เตียงเด็ก</label>
+                            <label>ราคา/คืน {{ }} THB</label>
+                          </div>
+                          <div class="flex space-x-3 ">
+                            <label>เตียงปกติ</label>
+                            <label>ราคา/คืน {{ }} THB</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
-
-              <div class="px-6 py-7">
-                <div>
-                  <label>บ้านเลขที่ : <span class="font-bold">{{ address }}</span></label>
-                </div>
-                <div>
-                  <label>ตำบล : <span class="font-bold">{{ subDistrict }}</span></label>
-                </div>
-                <div>
-                  <label>อำเภอ : <span class="font-bold"> {{ district }}</span></label>
-                </div>
-                <div>
-                  <label>จังหวัด : <span class="font-bold">{{ province }}</span></label>
-                </div>
-                <div>
-                  <label>รหัสไปรษณีย์ : <span class="font-bold">{{ zipcode }}</span></label>
-                </div>
-              </div>
-
             </div>
-          </div> -->
+          </div>
 
-
-          <div class="relative w-full">
-            <img src="/imgHotel/imgprovince/Bangkok.jpg" class="w-full h-[500px] 2xl:h-[800px] object-cover" />
-
-            <!-- ข้อความบนมุมขวาบน -->
-            <label
-              class="absolute 2xl:top-20 top-12 right-12 bg-black/50 text-white px-4 py-6 rounded-3xl text-xl xl:text-3xl 3xl:text-5xl w-[300px] xl:w-[450px] 3xl:w-[680px] text-center hidden md:block">
-              สโลเเกนของโรงเเรม...{{ }}
-            </label>
-
-            <div
-              class="absolute bottom-12 left-20 bg-stone-300/60 rounded-3xl 3xl:h-[700px] 3xl:w-[550px]  2xl:h-[600px] 2xl:w-[450px] lg:h-[330px] lg:w-[250px]">
-
-              <div class=" p-3 hidden lg:block">
-                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
-                  class="3xl:h-[675px] 2xl:h-[575px] lg:h-[305px] object-cover rounded-2xl w-full" />
+          <div class="2xl:hidden">
+            <div class="flex flex-col md:flex-row justify-between md:items-end px-4 mt-4">
+              <div class="flex flex-col px-4">
+                <div class=" flex space-x-3 md:justify-start justify-center items-center">
+                  <img src="/images/icon/company_nav.png" class="w-8" />
+                  <label class="md:text-2xl text-xl font-bold text-black">{{ hotelName }}</label>
+                </div>
+                <div class="md:pl-10 flex  justify-center items-center space-x-1">
+                  <img src="/imgHotel/pin.png" class="lg:w-4 lg:h-4 w-3 h-3" />
+                  <div>
+                    <label class="lg:text-base md:text-sm text-xs">อำเภอ {{ subDistrict }}, จังหวัด {{ province
+                    }}</label>
+                  </div>
+                </div>
               </div>
 
+              <div class="flex flex-col justify-center items-center px-4 md:px-0 md:mt-0 mt-6">
+                <div class="">
+                  <label class="text-xs font-bold text-white bg-amber-500/90 rounded-md px-4 py-1">รีวิว {{ review }}
+                    4.5
+                    ✩</label>
+                </div>
+
+                <div class="flex space-x-2 justify-center items-center">
+                  <label class="text-sm text-stone-400">จำนวนรีวิว {{ }}</label>
+                  <div v-for="(item, idx) in reviews" :key="idx" class="flex items-start space-x-4">
+                    <div>
+                      <span v-for="n in 5" :key="n" class="text-xl"
+                        :class="n <= item.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div
-              class="absolute bottom-12 3xl:left-[650px] 2xl:left-[550px] lg:left-[345px] bg-stone-300/60 rounded-3xl 3xl:h-[300px] 3xl:w-[260px] 2xl:h-[300px] 2xl:w-[250px] lg:h-[180px] lg:w-[150px]">
 
-              <div class="p-3 hidden lg:block">
-                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
-                  class="3xl:h-[275px] 2xl:h-[275px] lg:h-[155px] object-cover rounded-2xl w-full" />
-              </div>
-
-            </div>
-
-            <div
-              class="absolute bottom-12 3xl:left-[930px] 2xl:left-[820px] lg:left-[510px] bg-stone-300/60 rounded-3xl 3xl:h-[300px] 3xl:w-[260px] 2xl:h-[300px] 2xl:w-[250px] lg:h-[180px] lg:w-[150px]">
-
-              <div class="p-3 hidden lg:block">
-                <img src="/imgHotel/imgprovince/ChiangMai.jpg"
-                  class="3xl:h-[275px] 2xl:h-[275px] lg:h-[155px] object-cover rounded-2xl w-full" />
-              </div>
+          <div class="mt-12 mx-6">
+            <div class="border-b flex justify-center items-center space-x-12 py-2">
+              <button class="md:text-sm text-xs text-stone-500 hover:text-yellow-500">หน้าหลักโรงเเรม</button>
+              <button class="md:text-sm text-xs text-stone-500 hover:text-yellow-500">ห้องพัก</button>
+              <button class="md:text-sm text-xs text-stone-500 hover:text-yellow-500">รายละเอียดห้องพัก</button>
             </div>
           </div>
 
 
 
 
-
-
-
-
-
-
-
-
-
-          <div class="mx-4 border mt-4 p-4 rounded-lg">
+          <div class="mx-4 mt-4 p-4 rounded-lg">
             <div class="">
+              <label class="text-lg font-bold">เกี่ยวกับโรงเเรม</label>
               <label class="block mt-2 indent-8 text-stone-400">{{
                 }}ประเภทของห้องพักโรงแรมคือการจำแนกประเภทห้องพักที่มีให้บริการในโรงแรม การแบ่ง ‘ประเภท’
                 ห้องพักจะช่วยให้แขกเข้าใจได้อย่างชัดเจนว่าพวกเขากำลังจองห้องพักลักษณะไหนในขณะวางแผนการท่องเที่ยว
@@ -125,31 +207,68 @@
             </div>
           </div>
 
-          <div class="px-8 mt-20">
-            <div class="flex flex-col justify-center items-center">
-              <label class="font-bold">ช่วงเวลาในการเข้าใช้บริการ</label>
-              <div class="flex items-center">
-                <div class="flex justify-center items-center flex-col md:px-6">
-                  <div class="my-4">
-                    <img src="/imgHotel/checkin.jpg" class="w-14 h-14 object-cover  rounded-full shadow-lg">
+
+          <div class="mt-8 lg:hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start px-6 md:space-x-3">
+              <div
+                class="md:w-[300px] w-full px-8 border rounded-2xl py-4 shadow flex md:flex-col flex-wrap justify-between items-center md:items-start">
+                <div
+                  class="flex flex-col 2xl:text-base text-sm justify-center md:justify-start items-center md:items-start w-full">
+                  <div>
+                    <i class="fa-regular fa-clock" style="color: #f2b32c;"></i>
+                    <label class="pl-2 font-bold text-amber-500">เวลาทำการ</label>
                   </div>
-                  <label>เวลาเช็คอิน</label>
-                  <label>{{ checkinTime }}</label>
+                  <div class="flex flex-col md:pl-7 text-sm">
+                    <label> check-in : {{ }}14.00 น.</label>
+                    <label> check-out : {{ }}9.00 น.</label>
+                  </div>
                 </div>
 
-                <div class="w-px bg-gray-400 mx-4 my-6 self-stretch"></div>
-
-                <div class="flex justify-center items-center flex-col md:px-6">
-                  <div class="my-4">
-                    <img src="/imgHotel/checkout.jpg" class="w-14 h-14 object-cover  rounded-full shadow-lg">
+                <div
+                  class="2xl:mt-4 mt-6 md:mt-2 2xl:text-base text-sm flex flex-col justify-center md:justify-start items-center md:items-start w-full  ">
+                  <div class="space-x-2">
+                    <i class="fa-solid fa-key" style="color: #4173c8;"></i>
+                    <label class="text-blue-700/80 font-bold">นโยบายเก็บค่ามัดจำ</label>
                   </div>
-                  <label>เวลาเช็ค้าท์</label>
-                  <label>{{ checkoutTime }}</label>
+                  <div class="flex flex-col md:pl-7">
+                    <label>ราคา {{ }} THB</label>
+                    <label>รายละเอียดมัดจำ {{ }}</label>
+                  </div>
                 </div>
 
+
+                <div
+                  class="2xl:mt-4 mt-6 md:mt-2 space-x-2  2xl:text-base text-sm flex flex-col justify-center md:justify-start items-center md:items-start w-full">
+                  <div class="space-x-2"> 
+                    <i class="fa-solid fa-bed" style="color: #5c5e61;"></i>
+                    <label class="text-stone-600 font-bold">เตียงเสริม</label>
+                  </div>
+                  <div class="pl-5">
+                    <div class="flex space-x-3">
+                      <label>เตียงเด็ก</label>
+                      <label>ราคา/คืน {{ }} THB</label>
+                    </div>
+                    <div class="flex space-x-3 ">
+                      <label>เตียงปกติ</label>
+                      <label>ราคา/คืน {{ }} THB</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="md:w-2/3 w-full md:mt-0 mt-4">
+                <iframe class="w-full h-[225px] rounded-2xl shadow" frameborder="0" style="border:0" loading="lazy"
+                  allowfullscreen referrerpolicy="no-referrer-when-downgrade" :src="mapUrl">
+                </iframe>
+                <div class="flex justify-center item-center mt-2 text-xs space-x-2">
+                  <label>ละติจูด : {{ latitude }}</label>
+                  <label>ลองติจูด : {{ longitude }}</label>
+                </div>
               </div>
             </div>
           </div>
+
+
 
           <div class="px-4 mt-20">
             <label class="px-4 text-xl font-bold">ห้องพัก</label>
@@ -298,6 +417,49 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router';
 import axios from 'axios'
 const router = useRouter();
+
+
+const images = [
+  "/imgHotel/sea.jpg",
+  "/imgHotel/imgprovince/Bangkok.jpg",
+  "/imgHotel/imgprovince/ChiangMai.jpg",
+  "/imgHotel/imgprovince/Phuket.jpg",
+  "/imgHotel/imgprovince/Bangkok.jpg",
+  "/imgHotel/imgprovince/ChiangMai.jpg",
+  "/imgHotel/imgprovince/Phuket.jpg",
+  "/imgHotel/imgprovince/Bangkok.jpg",
+  "/imgHotel/imgprovince/ChiangMai.jpg",
+  "/imgHotel/imgprovince/Phuket.jpg",
+  "/imgHotel/imgprovince/Bangkok.jpg",
+  "/imgHotel/imgprovince/ChiangMai.jpg",
+  "/imgHotel/imgprovince/Phuket.jpg",
+];
+
+const selectedImage = ref(images[0]);
+const thumbContainer = ref(null);
+
+const isAtStart = ref(true);
+const isAtEnd = ref(false);
+
+const scrollLeft = () => {
+  thumbContainer.value?.scrollBy({ left: -200, behavior: "smooth" });
+};
+const scrollRight = () => {
+  thumbContainer.value?.scrollBy({ left: 200, behavior: "smooth" });
+};
+
+const checkScroll = () => {
+  const el = thumbContainer.value;
+  if (!el) return;
+
+  isAtStart.value = el.scrollLeft <= 0;
+  isAtEnd.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+};
+
+
+
+
+
 
 // ตัวแปรข้อมูลโรงแรม
 const hotelName = ref('BlackListHOtel');
@@ -481,8 +643,22 @@ const mockRooms = [
 ]
 
 onMounted(() => {
+  checkScroll();
   rooms.value = mockRooms
   // หรือดึงจาก backend:
   // axios.get('/api/rooms').then(res => rooms.value = res.data)
 })
 </script>
+
+
+<style>
+/* ซ่อน scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
