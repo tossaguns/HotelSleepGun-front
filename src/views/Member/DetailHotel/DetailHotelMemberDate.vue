@@ -236,7 +236,7 @@
                   </div>
                 </div>
 
-
+                
                 <div
                   class="2xl:mt-4 mt-6 md:mt-2 space-x-2  2xl:text-base text-sm flex flex-col justify-center md:justify-start items-center md:items-start w-full">
                   <div class="space-x-2"> 

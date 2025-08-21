@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // TODO: Lone
+import Test from "../views/test.vue";
+
+
+
 import Main from "../views/Main.vue";
 import MapTossagun from "../views/MapTossagun.vue";
 import SignIn from "../views/SignIn.vue";
@@ -64,6 +68,8 @@ import FormMember from "../views/Member/FormMember.vue";
 
 
 const routes = [
+  { path: "/test", component: Test },
+
   { path: "/", component: Main },
   { path: "/waitforapprove", component: WaitForApprove },
   { path: "/maptossagun", component: MapTossagun },

@@ -27,18 +27,18 @@
       </div>
     </div>
     
-
+4
     <!-- Popup Gallery -->
     <div v-if="showGallery"
       class="fixed inset-0 z-50 bg-black bg-opacity-80 flex flex-col items-center justify-center p-4 mx-">
-      <!-- ปุ่มปิด (กากบาท) อยู่มุมขวาบนสุดของ overlay -->
+     
       <button @click="showGallery = false"
         class="fixed md:top-8 md:right-8 top-3 right-3 bg-white text-black text-xl font-bold md:w-12 md:h-12 w-8 h-8 flex items-center justify-center rounded-full shadow-md hover:bg-gray-200 z-50"
         aria-label="Close gallery">
         X
       </button>
       <div class="relative max-w-[80vw] max-h-[80vh] w-full flex justify-center items-center">
-        <!-- ปุ่มเลื่อนซ้าย/ขวาอยู่นอกกรอบรูป -->
+       
         <button @click="prevImage"
           class="absolute left-[-48px] top-1/2 -translate-y-1/2 text-white text-4xl select-none cursor-pointer user-select-none z-40 md:bg-black bg-opacity-40 rounded-full md:w-10 md:h-10 flex items-center justify-center hover:bg-opacity-70 ml-6 md:ml-0"
           aria-label="Previous image">
