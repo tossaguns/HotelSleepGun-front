@@ -3,8 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 // TODO: Lone
 import Test from "../views/test.vue";
 
-
-
 import Main from "../views/Main.vue";
 import MapTossagun from "../views/MapTossagun.vue";
 import SignIn from "../views/SignIn.vue";
@@ -42,7 +40,7 @@ import EditPromotion from "../views/Admin/Promotion/EditPromotion.vue";
 import MainManageApprovePartner from "../views/Admin/ManageApprovePartner/MainManageApprovePartner.vue";
 import DetailWaitForApprove from "../views/Admin/ManageApprovePartner/DetailWaitForApprove.vue";
 import MainManageMember from "../views/Admin/ManageMember/MainManageMember.vue";
-import SleepGunData from "../views/Admin/SleepGun/SleepGunData.vue"
+import SleepGunData from "../views/Admin/SleepGun/SleepGunData.vue";
 // Employee
 import ProfileEmployee from "../views/Partner/Employee/ProfileEmployee.vue";
 import ManageSleepGunWeb from "../views/Partner/Employee/ManageSleepGun/ManageSleepGunWeb.vue";
@@ -56,16 +54,11 @@ import HistoryByeMember from "../views/Member/Profile/HistoryByeMember.vue";
 import PaymentMember from "../views/Member/Profile/PaymentMember.vue";
 import ReviewMember from "../views/Member/Profile/ReviewMember.vue";
 import CollectionMember from "../views/Member/Profile/CollectionMember.vue";
+import ServiceCleaner from "../views/Member/Profile/ServiceCleaner.vue";
 import DetailHotelMember from "../views/Member/DetailHotel/DetailHotelMember.vue";
 import DetailHotelMemberDate from "../views/Member/DetailHotel/DetailHotelMemberDate.vue";
 import SelectHotel from "../views/Member/SelectHotel/SelectHotel.vue";
 import FormMember from "../views/Member/FormMember.vue";
-
-
-
-
-
-
 
 const routes = [
   { path: "/test", component: Test },
@@ -107,7 +100,8 @@ const routes = [
   { path: "/mainmanageapprovepartner", component: MainManageApprovePartner },
   { path: "/detailwaitforapprove/:id", component: DetailWaitForApprove },
   { path: "/mainmanagemember", component: MainManageMember },
-  { path: "/sleepgundata", component: SleepGunData},
+  { path: "/sleepgundata", component: SleepGunData },
+
   //Employee
   { path: "/profileemployee", component: ProfileEmployee },
   { path: "/managesleepgunWeb", component: ManageSleepGunWeb },
@@ -115,16 +109,17 @@ const routes = [
   { path: "/mainpos", component: MainPOS },
   //Member
   { path: "/mainmemberpage", component: MainMemberPage },
-  { path: "/datamember", component: DataMember},
-  { path: "/dataprofilemember", component: DataProfileMember},
-  { path: "/historybyemember", component: HistoryByeMember},
-  { path: "/paymentmember", component: PaymentMember},
-  { path: "/reviewmember", component: ReviewMember},
-  { path: "/collectionmember", component: CollectionMember},
-  { path: "/detailhotelmember", component: DetailHotelMember},
-  { path: "/detailhotelmemberdate", component: DetailHotelMemberDate},
-  { path: "/selecthotel", component: SelectHotel},
-  { path: "/formmember", component: FormMember},
+  { path: "/datamember", component: DataMember },
+  { path: "/dataprofilemember", component: DataProfileMember },
+  { path: "/historybyemember", component: HistoryByeMember },
+  { path: "/paymentmember", component: PaymentMember },
+  { path: "/reviewmember", component: ReviewMember },
+  { path: "/collectionmember", component: CollectionMember },
+  { path: "/detailhotelmember", component: DetailHotelMember },
+  { path: "/detailhotelmemberdate", component: DetailHotelMemberDate },
+  { path: "/servicecleaner", component: ServiceCleaner },
+  { path: "/selecthotel", component: SelectHotel },
+  { path: "/formmember", component: FormMember },
 ];
 
 const router = createRouter({
