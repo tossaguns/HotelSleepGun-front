@@ -12,7 +12,7 @@
 
           <div class="md:pl-6 px-6 mt-12 w-full">
             <label class="text-lg font-semibold"
-              >เซอร์วิสเเม่บ้าน / ห้องพักปัจุบัน</label
+              >เซอร์วิสเแม่บ้าน / ห้องพักปัจุบัน</label
             >
 
             <div class="mt-12">
@@ -23,6 +23,7 @@
                   <label>หมายเลขห้องพัก {{}}</label>
                   <button
                     class="border p-2 rounded-lg shadow-md bg-blue-500 text-white hover:bg-blue-600"
+                    @click="callMaid"
                   >
                     เรียกเเม่บ้าน
                   </button>
@@ -134,27 +135,49 @@
                 </div>
               </div>
 
-              <div class="border p-4 rounded-b-lg shadow mx-3">
+              <!-- เงื่อนไขแสดงบริการแม่บ้าน -->
+              <div
+                v-if="showServiceSection"
+                class="border p-4 rounded-b-lg shadow mx-3"
+              >
                 <label class="font-bold text-stone-400"
                   >บริการเเม่บ้าน/ทำความทสะอาด</label
                 >
                 <div class="mt-12 flex justify-center items-stretch space-x-4">
                   <button
-                    class="border border-blue-400 hover:bg-blue-100 px-4 py-2 rounded-lg"
+                    class="border px-4 py-2 rounded-lg
+      font-bold
+      border-blue-400
+      hover:bg-blue-100
+      text-blue-400
+      transition
+      "
+                    :class=" [
+      cleaningMode === 'now' ? 'bg-blue-500 text-white shadow' : '',
+      isStepLocked ? 'opacity-60 cursor-not-allowed' : ''
+    ]"
                     @click="cleaningMode = 'now'"
+                    :disabled="isStepLocked"
                   >
                     <div class="flex flex-col">
-                      <label class="font-bold text-blue-400"
-                        >ทำความสะอาดตอนนี้</label
-                      >
-                      <label class="text-xs text-amber-400"
-                        >ใช้เวลาอย่างน้อย 30 นาที</label
-                      >
+                      <label class="font-bold">ทำความสะอาดตอนนี้</label>
+                      <label class="text-xs text-amber-400">ใช้เวลาอย่างน้อย 30 นาที</label>
                     </div>
                   </button>
                   <button
-                    class="border rounded-lg px-4 hover:bg-blue-200 font-bold text-blue-400 border-blue-400"
+                    class="border px-4 py-2 rounded-lg
+      font-bold
+      border-blue-400
+      hover:bg-blue-200
+      text-blue-400
+      transition
+      "
+                    :class=" [
+      cleaningMode === 'schedule' ? 'bg-blue-500 text-white shadow' : '',
+      isStepLocked ? 'opacity-60 cursor-not-allowed' : ''
+    ]"
                     @click="cleaningMode = 'schedule'"
+                    :disabled="isStepLocked"
                   >
                     ตั้งเวลาทำความสะอาด
                   </button>
@@ -168,104 +191,123 @@
                       <!-- TODO: เเสดงข้อมูลตามสเต็ป เมื่อกด ทำความสะอาดตอนนี้ -->
                       <!-- ...ขั้นตอนทำความสะอาดตอนนี้... -->
                       <!-- (คัดลอกส่วนเดิมที่อยู่ใน TODO: เเสดงข้อมูลตามสเต็ป เมื่อกด ทำความสะอาดตอนนี้) -->
-                      <!-- ขั้นตอนที่ 1-4 ตามที่คุณมีอยู่ -->
-                      <!-- 1 กำลังเรียกเเม่บ้าน(Assign เเจ้งเตือนไปยังเเม่บ้าน) -->
-                      <div class="flex justify-center items-center">
-                        <div
-                          class="flex flex-col items-center bg-yellow-200/80 px-6 py-4 rounded-full"
-                        >
-                          <label class="text-sm pb-3">ขั้นตอนที่ 1</label>
-                          <label class="text-xl font-bold"
-                            >กำลังเรียกเเม่บ้าน . . .</label
-                          >
-                          <label class="text-yellow-600"
-                            >กำลังรอเเม่บ้านตอบรับ</label
-                          >
-                        </div>
-                      </div>
 
-                      <!-- 2 เเม่บ้านกำลังเดินทางมาทำความสะอาด(Assign เเม่บ้านกดตอบรับ) -->
-                      <div>
-                        <div
-                          class="mt-10 flex flex-col justify-center items-center"
+                      <div
+                        v-if="maidNowStep === 0"
+                        class="flex justify-center items-center"
+                      >
+                        <button
+                          class="px-6 py-4 rounded-lg text-white bg-green-500 font-bold hover:bg-green-600"
+                          @click="handleCallMaidNow"
+                          :disabled="isStepLocked"
                         >
+                          เรียกเเม่บ้าน
+                        </button>
+                      </div>
+                      <!-- ขั้นตอนที่ 1-4 ตามที่คุณมีอยู่ -->
+                      <!-- 1 กำลังเรียกเเม่บ้าน(Assign เแจ้งเตือนไปยังเเม่บ้าน) -->
+                      <div v-else>
+                        <div class="mt-10 flex justify-center items-center">
                           <div
-                            class="flex flex-col items-center bg-blue-200/80 px-6 py-4 rounded-full"
+                            class="flex flex-col items-center bg-yellow-200/80 px-6 py-4 rounded-full"
                           >
-                            <label class="text-sm pb-3">ขั้นตอนที่ 2</label>
+                            <label class="text-sm pb-3">ขั้นตอนที่ 1</label>
                             <label class="text-xl font-bold"
-                              >เเม่บ้านกำลังเดินทาง</label
+                              >กำลังเรียกเเม่บ้าน . . .</label
                             >
-                            <label class="text-blue-600"
-                              >กรุณารอเเม่บ้านมาถึง</label
+                            <label class="text-yellow-600"
+                              >กำลังรอเเม่บ้านตอบรับ</label
                             >
                           </div>
+                        </div>
+
+                        <!-- 2 เเม่บ้านกำลังเดินทางมาทำความสะอาด(Assign เแม่บ้านกดตอบรับ) -->
+                        <div>
                           <div
-                            class="mt-6 flex flex-col justify-center items-center"
+                            class="mt-10 flex flex-col justify-center items-center"
                           >
-                            <img
-                              src="/imgHotel/employee.jpg"
-                              alt="รูปเเม่บ้าน"
-                              class="w-[120px] h-[120px] object-cover rounded-lg shadow-md"
-                            />
-                            <div class="mt-4 flex flex-col text-sm text-center">
-                              <label>
-                                เเม่บ้าน:
-                                <span class="font-bold">{{}} สมหญิง ipkk</span>
-                              </label>
-                              <label>
-                                ตำเเหน่ง:
-                                <span class="font-bold">{{}} เเม่บ้าน</span>
-                              </label>
-                              <label>
-                                เบอร์โทร:
-                                <span class="font-bold">{{}} 9879362357</span>
-                              </label>
+                            <div
+                              class="flex flex-col items-center bg-blue-200/80 px-6 py-4 rounded-full"
+                            >
+                              <label class="text-sm pb-3">ขั้นตอนที่ 2</label>
+                              <label class="text-xl font-bold"
+                                >เเม่บ้านกำลังเดินทาง</label
+                              >
+                              <label class="text-blue-600"
+                                >กรุณารอเแม่บ้านมาถึง</label
+                              >
+                            </div>
+                            <div
+                              class="mt-6 flex flex-col justify-center items-center"
+                            >
+                              <img
+                                src="/imgHotel/employee.jpg"
+                                alt="รูปเเม่บ้าน"
+                                class="w-[120px] h-[120px] object-cover rounded-lg shadow-md"
+                              />
+                              <div
+                                class="mt-4 flex flex-col text-sm text-center"
+                              >
+                                <label>
+                                  เเม่บ้าน:
+                                  <span class="font-bold"
+                                    >{{}} สมหญิง ipkk</span
+                                  >
+                                </label>
+                                <label>
+                                  ตำเเหน่ง:
+                                  <span class="font-bold">{{}} เแม่บ้าน</span>
+                                </label>
+                                <label>
+                                  เบอร์โทร:
+                                  <span class="font-bold">{{}} 9879362357</span>
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <!-- 3 เเม่บ้านมาถึงเเล้ว กำลังทำความสะอาด(เเม่บ้านกด เริ่มต้นทำความสะอาด) -->
-                      <div>
-                        <div
-                          class="mt-10 flex flex-col justify-center items-center"
-                        >
+                        <!-- 3 เเม่บ้านมาถึงเเล้ว กำลังทำความสะอาด(เแม่บ้านกด เริ่มต้นทำความสะอาด) -->
+                        <div>
                           <div
-                            class="flex flex-col items-center bg-rose-200/80 px-6 py-4 rounded-full"
+                            class="mt-10 flex flex-col justify-center items-center"
                           >
-                            <label class="text-sm pb-3">ขั้นตอนที่ 3</label>
-                            <label class="text-xl font-bold"
-                              >เเม่บ้านมาถึงเเล้ว กำลังทำความสะอาด</label
+                            <div
+                              class="flex flex-col items-center bg-rose-200/80 px-6 py-4 rounded-full"
                             >
-                            <label class="text-rose-600"
-                              >กรุณารอเเม่บ้านทำความสะอาด</label
-                            >
+                              <label class="text-sm pb-3">ขั้นตอนที่ 3</label>
+                              <label class="text-xl font-bold"
+                                >เเม่บ้านมาถึงเเล้ว กำลังทำความสะอาด</label
+                              >
+                              <label class="text-rose-600"
+                                >กรุณารอเแมบ้านทำความสะอาด</label
+                              >
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <!-- 4.เเม่บ้านทำความสะอาดเสร็จสิ้น (เเม่บ้านกด
+                        <!-- 4.เเม่บ้านทำความสะอาดเสร็จสิ้น (เแม่บ้านกด
                   เสร็จสิ้นการทำความสะอาด) -->
-                      <div>
-                        <div
-                          class="mt-10 flex flex-col justify-center items-center"
-                        >
+                        <div>
                           <div
-                            class="flex flex-col items-center bg-green-200/80 px-6 py-4 rounded-full"
+                            class="mt-10 flex flex-col justify-center items-center"
                           >
-                            <label class="text-sm pb-3">ขั้นตอนที่ 4</label>
-                            <label class="text-xl font-bold"
-                              >เเม่บ้านทำความสะอาดเสร็จสิ้น</label
+                            <div
+                              class="flex flex-col items-center bg-green-200/80 px-6 py-4 rounded-full"
                             >
-                            <label class="text-sm"
-                              >เวลาเริ่มงาน
-                              {{}} - เวลาทำความสะอาดเสร็จ {{
-                              }}</label
-                            >
-                            <label class="text-green-600"
-                              >ขอบคุณที่ใช้บริการค่ะ</label
-                            >
+                              <label class="text-sm pb-3">ขั้นตอนที่ 4</label>
+                              <label class="text-xl font-bold"
+                                >เเม่บ้านทำความสะอาดเสร็จสิ้น</label
+                              >
+                              <label class="text-sm"
+                                >เวลาเริ่มงาน
+                                {{}} - เวลาทำความสะอาดเสร็จ {{
+                                }}</label
+                              >
+                              <label class="text-green-600"
+                                >ขอบคุณที่ใช้บริการค่ะ</label
+                              >
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -275,7 +317,7 @@
                     <div v-else-if="cleaningMode === 'schedule'">
                       <!-- ถ้ายังไม่ได้บันทึกเวลา -->
                       <div v-if="!savedTime">
-                        <!-- 1 ตั้งเวลาให้เเม่บ้านมาทำความสะอาด -->
+                        <!-- 1 ตั้งเวลาให้เแม่บ้านมาทำความสะอาด -->
                         <div class="flex justify-center items-center">
                           <div class="p-6 max-w-md mx-auto space-y-6">
                             <h2 class="text-xl font-bold text-gray-700">
@@ -309,7 +351,7 @@
                               <button
                                 @click="saveCleaningTime"
                                 class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 disabled:opacity-50"
-                                :disabled="!cleaningTime"
+                                :disabled="!cleaningTime || isStepLocked"
                               >
                                 บันทึกเวลา
                               </button>
@@ -329,21 +371,21 @@
                           </h3>
                         </div>
                         <!-- ขั้นตอนที่ 2-5 -->
-                        <!-- 2 กำลังเรียกเเม่บ้าน -->
+                        <!-- 2 กำลังเรียกเแม่บ้าน -->
                         <div class="mt-10 flex justify-center items-center">
                           <div
                             class="flex flex-col items-center bg-yellow-200/80 px-6 py-4 rounded-full"
                           >
                             <label class="text-sm pb-3">ขั้นตอนที่ 2</label>
                             <label class="text-xl font-bold"
-                              >กำลังเรียกเเม่บ้าน . . .</label
+                              >กำลังเรียกเแม่บ้าน . . .</label
                             >
                             <label class="text-yellow-600"
-                              >กำลังรอเเม่บ้านตอบรับ</label
+                              >กำลังรอเแม่บ้านตอบรับ</label
                             >
                           </div>
                         </div>
-                        <!-- 3 เเม่บ้านกำลังเดินทาง -->
+                        <!-- 3 เแม่บ้านกำลังเดินทาง -->
                         <div>
                           <div
                             class="mt-10 flex flex-col justify-center items-center"
@@ -353,10 +395,10 @@
                             >
                               <label class="text-sm pb-3">ขั้นตอนที่ 3</label>
                               <label class="text-xl font-bold"
-                                >เเม่บ้านกำลังเดินทาง</label
+                                >เแม่บ้านกำลังเดินทาง</label
                               >
                               <label class="text-blue-600"
-                                >กรุณารอเเม่บ้านมาถึง</label
+                                >กรุณารอเแม่บ้านมาถึง</label
                               >
                             </div>
                             <div
@@ -364,7 +406,7 @@
                             >
                               <img
                                 src="/imgHotel/employee.jpg"
-                                alt="รูปเเม่บ้าน"
+                                alt="รูปเแม่บ้าน"
                                 class="w-[120px] h-[120px] object-cover rounded-lg shadow-md"
                               />
                               <div
@@ -378,7 +420,7 @@
                                 </label>
                                 <label>
                                   ตำเเหน่ง:
-                                  <span class="font-bold">{{}} เเม่บ้าน</span>
+                                  <span class="font-bold">{{}} เแม่บ้าน</span>
                                 </label>
                                 <label>
                                   เบอร์โทร:
@@ -398,15 +440,15 @@
                             >
                               <label class="text-sm pb-3">ขั้นตอนที่ 4</label>
                               <label class="text-xl font-bold"
-                                >เเม่บ้านมาถึงเเล้ว กำลังทำความสะอาด</label
+                                >เแม่บ้านมาถึงเเล้ว กำลังทำความสะอาด</label
                               >
                               <label class="text-rose-600"
-                                >กรุณารอเเม่บ้านทำความสะอาด</label
+                                >กรุณารอเแม่บ้านทำความสะอาด</label
                               >
                             </div>
                           </div>
                         </div>
-                        <!-- 5 เเม่บ้านทำความสะอาดเสร็จสิ้น -->
+                        <!-- 5 เแม่บ้านทำความสะอาดเสร็จสิ้น -->
                         <div>
                           <div
                             class="mt-10 flex flex-col justify-center items-center"
@@ -416,7 +458,7 @@
                             >
                               <label class="text-sm pb-3">ขั้นตอนที่ 5</label>
                               <label class="text-xl font-bold"
-                                >เเม่บ้านทำความสะอาดเสร็จสิ้น</label
+                                >เแม่บ้านทำความสะอาดเสร็จสิ้น</label
                               >
                               <label class="text-sm"
                                 >เวลาเริ่มงาน
@@ -441,42 +483,10 @@
                     <button
                       class="border border-red-400 text-red-400 px-4 py-2 rounded-lg hover:bg-red-400 hover:text-white"
                       @click="openCancelPopup"
+                      :disabled="!isStepLocked"
                     >
                       ยกเลิกบริการทำความสะอาด
                     </button>
-                  </div>
-
-                  <!-- Popup Modal สำหรับยกเลิก -->
-                  <div
-                    v-if="showCancelPopup"
-                    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-                  >
-                    <div class="bg-white rounded-lg shadow-lg p-6 w-[350px]">
-                      <h2 class="font-bold text-lg mb-4">
-                        เหตุผลที่ยกเลิกบริการ
-                      </h2>
-                      <textarea
-                        v-model="cancelReason"
-                        rows="4"
-                        class="w-full border rounded px-3 py-2 mb-4"
-                        placeholder="กรุณาเขียนเหตุผลที่ต้องการยกเลิกบริการ"
-                      ></textarea>
-                      <div class="flex justify-end space-x-2">
-                        <button
-                          class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                          @click="closeCancelPopup"
-                        >
-                          ยกเลิก
-                        </button>
-                        <button
-                          class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
-                          :disabled="!cancelReason"
-                          @click="confirmCancel"
-                        >
-                          ยืนยันการยกเลิก
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -486,6 +496,38 @@
       </div>
       <Footer />
     </div>
+
+    <!-- ...existing code... -->
+    <div
+      v-if="showCancelPopup"
+      class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-6 w-[350px]">
+        <h2 class="font-bold text-lg mb-4">เหตุผลที่ยกเลิกบริการ</h2>
+        <textarea
+          v-model="cancelReason"
+          rows="4"
+          class="w-full border rounded px-3 py-2 mb-4"
+          placeholder="กรุณาเขียนเหตุผลที่ต้องการยกเลิกบริการ"
+        ></textarea>
+        <div class="flex justify-end space-x-2">
+          <button
+            class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+            @click="closeCancelPopup"
+          >
+            ยกเลิก
+          </button>
+          <button
+            class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
+            :disabled="!cancelReason"
+            @click="confirmCancel"
+          >
+            ยืนยันการยกเลิก
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ...existing code... -->
   </div>
 </template>
 
@@ -497,11 +539,36 @@ import { useRouter } from "vue-router";
 import FloatInput from "@/components/element/FloatInput.vue";
 const router = useRouter();
 
+const showCancelPopup = ref(false);
+const cancelReason = ref("");
 import { ref } from "vue";
 
+const maidNowStep = ref(0);
 const cleaningTime = ref("");
 const savedTime = ref("");
-const cleaningMode = ref(""); // เพิ่ม state สำหรับโหมด
+const cleaningMode = ref(""); // now | schedule | ""
+const showServiceSection = ref(false);
+
+const isStepLocked = ref(false); // <--- เพิ่มตัวแปรนี้
+
+const openCancelPopup = () => {
+  showCancelPopup.value = true;
+};
+
+const closeCancelPopup = () => {
+  showCancelPopup.value = false;
+  cancelReason.value = "";
+};
+
+const confirmCancel = () => {
+  closeCancelPopup();
+  showServiceSection.value = false;
+  cleaningMode.value = "";
+  maidNowStep.value = 0;
+  savedTime.value = "";
+  cleaningTime.value = "";
+  isStepLocked.value = false; // <--- ปลดล็อกปุ่ม
+};
 
 // สร้างช่วงเวลาเฉพาะ 09:00-12:00 และ 13:00-17:00
 const generateTimeSlots = (startHour, endHour) => {
@@ -522,24 +589,20 @@ const timeSlots = [...generateTimeSlots(9, 11), ...generateTimeSlots(13, 16)];
 const saveCleaningTime = () => {
   savedTime.value = cleaningTime.value;
   cleaningTime.value = "";
-  cleaningMode.value = "schedule"; // เมื่อบันทึกให้เปลี่ยนโหมด
+  cleaningMode.value = "schedule";
+  isStepLocked.value = true; // <--- ล็อกปุ่ม
 };
 
-const showCancelPopup = ref(false);
-const cancelReason = ref("");
-
-const openCancelPopup = () => {
-  showCancelPopup.value = true;
+const callMaid = () => {
+  showServiceSection.value = true;
+  cleaningMode.value = "";
+  maidNowStep.value = 0;
+  savedTime.value = "";
+  isStepLocked.value = false;
 };
 
-const closeCancelPopup = () => {
-  showCancelPopup.value = false;
-  cancelReason.value = "";
-};
-
-const confirmCancel = () => {
-  // ส่งเหตุผลไป backend หรือจัดการตามต้องการ
-  // ตัวอย่าง: console.log(cancelReason.value);
-  closeCancelPopup();
+const handleCallMaidNow = () => {
+  maidNowStep.value = 1;
+  isStepLocked.value = true; // <--- ล็อกปุ่ม
 };
 </script>
